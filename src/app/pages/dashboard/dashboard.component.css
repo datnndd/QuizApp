@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #fbfbfc;
+}
+
+.btn-tactile {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-tactile:active {
+  transform: translateY(1.5px);
+}
+
+.card-bento {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.card-bento:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -6px rgba(49, 46, 129, 0.09);
+}

@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  private readonly router = inject(Router);
+
   protected readonly firstName = signal<string>('Alex');
   protected readonly lastName = signal<string>('Rider');
   protected readonly username = signal<string>('quiz_champion_99');
@@ -39,5 +41,6 @@ export class RegisterComponent {
       email: this.email(),
       agreeTerms: this.agreeTerms()
     });
+    this.router.navigate(['/dashboard']);
   }
 }
