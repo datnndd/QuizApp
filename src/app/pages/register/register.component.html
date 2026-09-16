@@ -1,0 +1,326 @@
+<div class="bg-[#fdf6ee] text-stone-900 min-h-screen flex flex-col justify-between font-pop selection:bg-amber-300 selection:text-stone-900 relative overflow-x-hidden">
+  <!-- Halftone Pattern Background -->
+  <div class="comic-halftone fixed inset-0 pointer-events-none z-0"></div>
+
+  <!-- Floating Comic Action Callouts & Ambient Decor -->
+  <div class="fixed top-8 left-8 hidden lg:block z-0 pointer-events-none select-none -rotate-12">
+    <div class="bg-amber-400 border-[3px] border-[#292524] font-action text-2xl tracking-wider text-stone-900 px-4 py-1.5 rounded-2xl comic-shadow-badge animate-pulse">
+      ⚡ KAPOW!
+    </div>
+  </div>
+  <div class="fixed bottom-12 left-10 hidden lg:block z-0 pointer-events-none select-none rotate-6">
+    <div class="bg-amber-200 border-[3px] border-[#292524] font-action text-xl tracking-wider text-stone-900 px-3.5 py-1 rounded-xl comic-shadow-badge">
+      ★ 100% FREE!
+    </div>
+  </div>
+  <div class="fixed top-14 right-10 hidden lg:block z-0 pointer-events-none select-none rotate-12">
+    <div class="bg-orange-600 border-[3px] border-[#292524] font-action text-xl tracking-wider text-white px-4 py-1.5 rounded-2xl comic-shadow-badge">
+      🔥 BRAIN POWER!
+    </div>
+  </div>
+  <div class="fixed bottom-16 right-12 hidden lg:block z-0 pointer-events-none select-none -rotate-6">
+    <div class="bg-amber-600 border-[3px] border-[#292524] font-action text-lg tracking-wider text-white px-3.5 py-1 rounded-xl comic-shadow-badge">
+      🏆 TOP RANKED
+    </div>
+  </div>
+
+  <!-- Top Navigation / Brand Tagline -->
+  <header class="w-full z-20 pt-4 pb-2 px-4 flex justify-between items-center max-w-2xl mx-auto">
+    <a routerLink="/" class="inline-flex items-center gap-1.5 bg-[#fffcf7] px-3.5 py-1.5 rounded-xl border-2 border-[#292524] comic-shadow-btn font-comic font-bold text-xs sm:text-sm text-stone-900 hover:bg-amber-50 transition cursor-pointer">
+      <span class="material-symbols-outlined text-base">arrow_back</span>
+      <span>Home</span>
+    </a>
+    <div class="flex items-center gap-2">
+      <span class="font-action text-2xl text-stone-900 tracking-wide">QUIZZO HEROES</span>
+      <span class="text-lg">⭐</span>
+    </div>
+  </header>
+
+  <main class="w-full flex-1 flex items-center justify-center px-4 sm:px-6 py-6 lg:py-8 z-10 relative">
+    <!-- CENTERED COMIC HERO REGISTER CARD -->
+    <div class="w-full max-w-2xl bg-[#fffdfa] rounded-3xl border-[3.5px] border-[#292524] comic-shadow-box relative pt-12 sm:pt-14 pb-8 px-5 sm:px-8 md:px-10 mt-10 sm:mt-12">
+      <!-- PEEKING COMIC MASCOT + SPEECH BUBBLE -->
+      <div class="absolute -top-14 sm:-top-16 left-1/2 -translate-x-1/2 flex items-end gap-3 pointer-events-none select-none z-30">
+        <!-- Mascot Speech Bubble -->
+        <div class="mascot-bubble relative bg-amber-50 border-[2.5px] border-[#292524] rounded-xl px-3 py-1.5 comic-shadow-badge mb-8 sm:mb-9 -rotate-3 pointer-events-auto">
+          <span class="font-action text-xs sm:text-sm tracking-wide text-amber-700 whitespace-nowrap">
+            WELCOME, FUTURE CHAMPION! ⚡
+          </span>
+        </div>
+        <!-- Cute Comic Superhero Study Orb Mascot -->
+        <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white border-[3.5px] border-[#292524] comic-shadow-badge flex items-center justify-center pointer-events-auto group hover:scale-105 transition-transform duration-200">
+          <div class="w-full h-full rounded-full bg-gradient-to-br from-amber-700 via-stone-800 to-stone-950 flex flex-col items-center justify-center relative overflow-hidden border-2 border-white">
+            <!-- Mascot Action Eyes -->
+            <div class="flex items-center gap-2 mb-0.5 z-10">
+              <div class="w-3 h-3 rounded-full bg-white flex items-center justify-center border border-[#292524]">
+                <div class="w-1.5 h-1.5 rounded-full bg-stone-900"></div>
+              </div>
+              <div class="w-3 h-3 rounded-full bg-white flex items-center justify-center border border-[#292524]">
+                <div class="w-1.5 h-1.5 rounded-full bg-stone-900"></div>
+              </div>
+            </div>
+            <!-- Big Comic 'Q' Mascot Monogram -->
+            <span class="text-amber-200 font-action text-3xl sm:text-4xl tracking-tight leading-none drop-shadow-[2px_2px_0px_#292524] select-none">
+              Q
+            </span>
+            <!-- Mini Speed Rays in Badge -->
+            <div class="absolute -right-1 top-1 text-amber-400/40 font-action text-[10px] rotate-45 select-none">///</div>
+          </div>
+          <!-- Super Cape Accent Badge -->
+          <div class="absolute -bottom-1 -right-2 bg-amber-400 border-2 border-[#292524] text-stone-900 text-[9px] font-action px-1.5 py-0.5 rounded shadow-[1.5px_1.5px_0px_#292524] rotate-12 select-none">
+            NEW!
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD HEADER TITLE -->
+      <div class="text-center mt-2 mb-5">
+        <h1 class="font-action text-3xl sm:text-4xl md:text-5xl text-stone-900 tracking-wide leading-tight drop-shadow-[2px_2px_0px_#fed7aa]">
+          CREATE YOUR ACCOUNT
+        </h1>
+        <p class="font-comic font-bold text-xs sm:text-sm text-stone-600 max-w-md mx-auto mt-0.5">
+          Begin your quiz master quest!
+        </p>
+      </div>
+
+      <!-- SOCIAL QUICK SIGN-UP -->
+      <div class="mb-5">
+        <button
+          class="w-full h-12 py-2 px-4 rounded-2xl border-[3px] border-[#292524] bg-[#fffcf7] hover:bg-amber-50 active:bg-amber-100 text-stone-900 font-comic font-bold text-sm sm:text-base flex items-center justify-center gap-3 comic-shadow-btn transition-all group cursor-pointer"
+          type="button"
+        >
+          <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
+            <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.66-5.17 3.66-9.12z" fill="#4285F4"></path>
+            <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.26 21.39 7.33 24 12 24z" fill="#34A853"></path>
+            <path d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.25C.45 8.17 0 9.99 0 12s.45 3.83 1.25 5.42l4.03-3.13z" fill="#FBBC05"></path>
+            <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.61 1.25 6.58l4.03 3.13c.95-2.83 3.6-4.96 6.72-4.96z" fill="#EA4335"></path>
+          </svg>
+          <span class="group-hover:text-amber-700 transition-colors">Sign up with Google</span>
+        </button>
+
+        <!-- COMIC SECTION DIVIDER -->
+        <div class="relative my-4 text-center">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t-[2.5px] border-dashed border-amber-200"></div>
+          </div>
+          <span class="relative bg-[#fffdfa] px-3 font-action text-xs sm:text-sm tracking-wider text-amber-800 uppercase">
+            ★ OR ENTER RECRUIT DETAILS ★
+          </span>
+        </div>
+      </div>
+
+      <!-- REGISTRATION FORM (HIGH DENSITY 7 FIELDS) -->
+      <form class="space-y-3.5 bg-[#faf8f5] border-[2.5px] border-[#292524] rounded-2xl p-4 sm:p-5 comic-card-shadow" (ngSubmit)="onSubmit()">
+        <!-- ROW 1: FIRST NAME & LAST NAME -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Field 1: First Name -->
+          <div>
+            <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="firstName">
+              First Name <span class="text-orange-600 font-bold">*</span>
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">badge</span>
+              <input
+                class="w-full h-10 pl-9 pr-3 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+                id="firstName"
+                name="firstName"
+                placeholder="Alex"
+                required
+                type="text"
+                [value]="firstName()"
+                (input)="firstName.set($any($event.target).value)"
+              />
+            </div>
+          </div>
+          <!-- Field 2: Last Name -->
+          <div>
+            <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="lastName">
+              Last Name <span class="text-orange-600 font-bold">*</span>
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">person</span>
+              <input
+                class="w-full h-10 pl-9 pr-3 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+                id="lastName"
+                name="lastName"
+                placeholder="Rider"
+                required
+                type="text"
+                [value]="lastName()"
+                (input)="lastName.set($any($event.target).value)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2: USERNAME & PHONE NUMBER -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Field 3: Username -->
+          <div>
+            <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="username">
+              Username <span class="text-orange-600 font-bold">*</span>
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">alternate_email</span>
+              <input
+                class="w-full h-10 pl-9 pr-3 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+                id="username"
+                name="username"
+                placeholder="quiz_champion_99"
+                required
+                type="text"
+                [value]="username()"
+                (input)="username.set($any($event.target).value)"
+              />
+            </div>
+          </div>
+          <!-- Field 4: Phone Number -->
+          <div>
+            <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="phone">
+              Phone Number <span class="text-orange-600 font-bold">*</span>
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">call</span>
+              <input
+                class="w-full h-10 pl-9 pr-3 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+                id="phone"
+                name="phone"
+                placeholder="+1 (555) 019-2834"
+                required
+                type="tel"
+                [value]="phone()"
+                (input)="phone.set($any($event.target).value)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 3: EMAIL ADDRESS -->
+        <div>
+          <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="email">
+            Email Address <span class="text-orange-600 font-bold">*</span>
+          </label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">mail</span>
+            <input
+              class="w-full h-10 pl-9 pr-3 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+              id="email"
+              name="email"
+              placeholder="alex.rider@heroacademy.edu"
+              required
+              type="email"
+              [value]="email()"
+              (input)="email.set($any($event.target).value)"
+            />
+          </div>
+        </div>
+
+        <!-- ROW 4: PASSWORD & CONFIRM PASSWORD -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- Field 6: Password -->
+          <div>
+            <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="regPassword">
+              Password <span class="text-orange-600 font-bold">*</span>
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">lock</span>
+              <input
+                class="w-full h-10 pl-9 pr-9 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+                id="regPassword"
+                name="password"
+                placeholder="••••••••••••"
+                required
+                [type]="showPassword() ? 'text' : 'password'"
+                [value]="password()"
+                (input)="password.set($any($event.target).value)"
+              />
+              <button
+                aria-label="Toggle password visibility"
+                class="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-700 transition-colors cursor-pointer"
+                type="button"
+                (click)="togglePassword()"
+              >
+                <span class="material-symbols-outlined text-[17px]">
+                  {{ showPassword() ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </div>
+          <!-- Field 7: Confirm Password -->
+          <div>
+            <label class="block font-comic font-bold text-xs uppercase tracking-wide text-[#292524] mb-1" for="confirmPassword">
+              Confirm Password <span class="text-orange-600 font-bold">*</span>
+            </label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-[18px]">lock_reset</span>
+              <input
+                class="w-full h-10 pl-9 pr-9 rounded-xl bg-white border-[2px] border-[#292524] text-stone-900 placeholder:text-stone-400 font-comic text-sm transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-inner"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="••••••••••••"
+                required
+                [type]="showConfirmPassword() ? 'text' : 'password'"
+                [value]="confirmPassword()"
+                (input)="confirmPassword.set($any($event.target).value)"
+              />
+              <button
+                aria-label="Toggle confirm password visibility"
+                class="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-700 transition-colors cursor-pointer"
+                type="button"
+                (click)="toggleConfirmPassword()"
+              >
+                <span class="material-symbols-outlined text-[17px]">
+                  {{ showConfirmPassword() ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TERMS & CONDITIONS CHECKBOX -->
+        <div class="pt-1.5 flex items-start gap-2.5">
+          <input
+            class="mt-0.5 w-4 h-4 rounded-md border-2 border-[#292524] text-amber-600 focus:ring-amber-500 cursor-pointer accent-[#d97706]"
+            id="terms"
+            name="terms"
+            required
+            type="checkbox"
+            [checked]="agreeTerms()"
+            (change)="agreeTerms.set($any($event.target).checked)"
+          />
+          <label class="font-comic text-xs text-stone-900 leading-snug cursor-pointer select-none" for="terms">
+            I agree to the <a class="font-bold underline text-amber-700 hover:text-amber-900 transition-colors" href="#">Privacy Policy</a>.
+          </label>
+        </div>
+
+        <!-- PUNCHY CTA SUBMIT BUTTON -->
+        <button
+          class="w-full h-13 mt-2 py-3 px-4 rounded-2xl bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 text-white font-action tracking-wider text-lg sm:text-xl flex items-center justify-center gap-2 border-[3px] border-[#292524] comic-shadow-btn transition-all cursor-pointer group"
+          type="submit"
+        >
+          <span class="drop-shadow-[1px_1px_0px_#292524]">REGISTER</span>
+          <span class="text-2xl group-hover:scale-125 group-hover:rotate-12 transition-transform">💥</span>
+        </button>
+      </form>
+
+      <!-- CARD FOOTER: ALREADY A MEMBER LOGIN LINK -->
+      <div class="mt-5 pt-4 text-center border-t-[2px] border-dashed border-[#292524]/20">
+        <p class="font-comic font-bold text-xs sm:text-sm text-stone-900 flex items-center justify-center gap-1.5 flex-wrap">
+          <span>★ Already a member of the Quizzo?</span>
+          <a
+            class="inline-flex items-center gap-1 bg-amber-100 hover:bg-amber-200 text-amber-950 border-[2px] border-[#292524] px-2.5 py-0.5 rounded-xl font-action tracking-wide text-xs sm:text-sm shadow-[2px_2px_0px_#292524] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            routerLink="/login"
+          >
+            <span>Log In here</span>
+            <span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+          </a>
+          <span>★</span>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="relative z-10 text-center pb-2 font-pop text-xs text-stone-500 font-semibold">
+    <span>© 2025 Quizzo Hero League. All recruit records secured.</span>
+  </footer>
+</div>

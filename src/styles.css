@@ -1,1 +1,153 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global tactile and comic pop aesthetic styles - Warm Amber & Spiced Terracotta */
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    background-color: #faf8f5;
+  }
+}
+
+/* Halftone Dot Patterns */
+.halftone-bg {
+  background-color: #faf8f5;
+  background-image: radial-gradient(#d97706 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+.comic-halftone-bg {
+  background-color: #fdf6ee;
+  background-image: radial-gradient(#e6c7a8 1.6px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+.comic-halftone {
+  background-image: radial-gradient(#292524 18%, transparent 19%), radial-gradient(#292524 18%, transparent 19%);
+  background-size: 16px 16px;
+  background-position: 0 0, 8px 8px;
+  opacity: 0.08;
+}
+
+/* Tactile Comic Hard Shadows - Deep Espresso #1c1917 */
+.shadow-comic-sm {
+  box-shadow: 3px 3px 0px #1c1917;
+}
+
+.shadow-comic {
+  box-shadow: 5px 5px 0px #1c1917;
+}
+
+.shadow-comic-lg {
+  box-shadow: 8px 8px 0px #1c1917;
+}
+
+/* Bold Spiced Terracotta #ea580c Hero Box Shadow */
+.comic-box-shadow,
+.comic-shadow-box {
+  box-shadow: 8px 8px 0px #ea580c;
+}
+
+.comic-card-shadow {
+  box-shadow: 5px 5px 0px #292524;
+}
+
+.comic-badge-shadow,
+.comic-shadow-badge {
+  box-shadow: 4.5px 4.5px 0px #292524;
+}
+
+.comic-btn-shadow,
+.comic-shadow-btn {
+  box-shadow: 0px 5px 0px #292524;
+  transition: all 0.15s ease-in-out;
+}
+
+.comic-btn-shadow:hover,
+.comic-shadow-btn:hover {
+  transform: translateY(2px);
+  box-shadow: 0px 3px 0px #292524;
+}
+
+.comic-btn-shadow:active,
+.comic-shadow-btn:active {
+  transform: translateY(5px);
+  box-shadow: 0px 0px 0px #292524;
+}
+
+/* Interactive Tactile States */
+.btn-tactile {
+  transition: all 0.14s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-tactile:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1c1917;
+}
+
+.btn-tactile:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1c1917;
+}
+
+.card-tactile {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-tactile:hover {
+  transform: translateY(-4px);
+  box-shadow: 8px 8px 0px #1c1917;
+}
+
+/* Comic Borders & Speech Tails */
+.comic-border-thick {
+  border: 3.5px solid #292524;
+}
+
+.comic-border-input {
+  border: 2.5px solid #292524;
+}
+
+.comic-speech-tail::after {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  right: 28px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 14px solid #fffbeb;
+  filter: drop-shadow(0 3px 0 #292524);
+  z-index: 10;
+}
+
+.mascot-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 28px;
+  border-width: 12px 12px 0 0;
+  border-style: solid;
+  border-color: #fffbeb transparent transparent transparent;
+  display: block;
+  width: 0;
+}
+
+.mascot-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 26px;
+  border-width: 15px 15px 0 0;
+  border-style: solid;
+  border-color: #292524 transparent transparent transparent;
+  display: block;
+  width: 0;
+}
+
+.comic-title-shadow {
+  text-shadow: 2px 2px 0px #fed7aa, 4px 4px 0px #292524;
+  letter-spacing: 0.05em;
+}
+

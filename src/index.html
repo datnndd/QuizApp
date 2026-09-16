@@ -2,10 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>QuizFE</title>
+  <title>Quizzo - Smarter Daily Practice & Active Recall</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,700&family=Fredoka:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "ink": "#1c1917",
+            "ink-dark": "#0c0a09",
+            "primary": "#d97706",
+            "primary-container": "#b45309",
+            "primary-light": "#fef3c7",
+            "primary-subtle": "#fffbeb",
+            "surface": "#faf8f5",
+            "surface-card": "#ffffff",
+            "surface-alt": "#fef7ee",
+            "surface-low": "#fbf9f4",
+            "surface-container": "#fef7ee",
+            "surface-container-low": "#fffbeb",
+            "surface-container-lowest": "#fffdfa",
+            "border-line": "#1c1917",
+            "comicInk": "#292524",
+            "heroIndigo": "#78350f",
+            "heroBlue": "#d97706",
+            "comicYellow": "#f59e0b",
+            "comicPink": "#ea580c",
+            "comicPurple": "#9a3412",
+            "comicCyan": "#d97706",
+            "outline": "#a8a29e",
+            "outline-variant": "#d6d3d1",
+            "error": "#ea580c"
+          },
+          borderWidth: {
+            '2.5': '2.5px',
+            '3': '3px',
+            '3.5': '3.5px'
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "comic": ['"Comic Neue"', "cursive", "sans-serif"],
+            "display": ["Bangers", "cursive", "system-ui"],
+            "action": ["Bangers", "cursive", "system-ui"],
+            "pill": ["Fredoka", '"Plus Jakarta Sans"', "sans-serif"],
+            "pop": ["Fredoka", "sans-serif"],
+            "sans": ['"Plus Jakarta Sans"', "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
 </head>
 <body>
   <app-root></app-root>

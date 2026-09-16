@@ -1,0 +1,588 @@
+<div class="halftone-bg font-body text-ink antialiased selection:bg-primary-light selection:text-primary min-h-screen">
+  <!-- 1. STICKY TOP NAVBAR -->
+  <header class="sticky top-4 z-50 w-full px-4 sm:px-8 mb-6">
+    <div class="max-w-7xl mx-auto bg-surface-card border-2 border-ink rounded-2xl px-6 py-3.5 shadow-comic-sm flex items-center justify-between transition-all">
+      <a class="flex items-center gap-2.5 group" routerLink="/">
+        <div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-headline font-black text-lg border-2 border-ink shadow-comic-sm group-hover:scale-105 transition-transform">
+          Q
+        </div>
+        <div class="flex flex-col">
+          <span class="font-headline text-xl font-extrabold tracking-tight text-ink leading-none">Quizzo</span>
+          <span class="text-[10px] uppercase tracking-widest font-bold text-ink/70 mt-0.5">Daily Trivia</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 font-headline font-semibold text-sm text-ink/80">
+        <a class="hover:text-primary transition-colors" href="#starter-quizzes">Explore Quizzes</a>
+        <a class="hover:text-primary transition-colors" href="#superpowers">Why Quizzo</a>
+        <a class="hover:text-primary transition-colors" href="#how-it-works">How It Works</a>
+        <a class="hover:text-primary transition-colors" href="#starter-quizzes">Decks</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a class="px-4 py-2 font-headline font-bold text-sm text-ink hover:text-primary transition-colors cursor-pointer" routerLink="/login">Log In</a>
+        <a class="btn-tactile inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-headline font-bold text-sm bg-primary text-white border-2 border-ink shadow-comic-sm hover:bg-primary-container cursor-pointer" routerLink="/register">
+          <span>Get Started</span>
+          <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full">
+    <!-- 2. SPLIT HERO WITH FLOATING METRIC ACCENTS -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-4 pb-14 sm:pb-20 relative">
+      <div class="flex items-center justify-center mb-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-card border-2 border-ink shadow-comic-sm font-headline font-semibold text-xs text-ink">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span>Quick 5-minute daily practice sessions</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <!-- Left Hero Column: Editorial High Impact Copy -->
+        <div class="lg:col-span-6 flex flex-col items-start text-left">
+          <h1 class="font-headline text-4xl sm:text-5xl lg:text-[54px] font-black text-ink tracking-tight leading-[1.12] mb-5">
+            Smarter daily practice. <br class="hidden sm:inline" />Deeper
+            <span class="text-primary underline decoration-primary/40 decoration-wavy underline-offset-8">long-term recall</span>.
+          </h1>
+          <p class="font-body text-base sm:text-lg text-ink/80 font-normal max-w-xl mb-8 leading-relaxed">
+            Bite-sized interactive quizzes built on verified cognitive science. Learn topics that matter in 5-minute daily sprints without study burnout.
+          </p>
+          <div class="flex flex-wrap items-center gap-3.5 w-full sm:w-auto mb-8">
+            <a class="btn-tactile inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-primary text-white font-headline font-bold text-base border-2 border-ink shadow-comic hover:bg-primary-container cursor-pointer" routerLink="/register">
+              <span>Start learning free</span>
+              <span class="material-symbols-outlined text-xl">arrow_forward</span>
+            </a>
+            <a class="btn-tactile inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-surface-card text-ink font-headline font-bold text-base border-2 border-ink shadow-comic-sm hover:bg-surface-alt cursor-pointer" href="#starter-quizzes">
+              <span>Browse decks</span>
+            </a>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm font-headline font-semibold text-ink/70">
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+              <span>100% Free Forever</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[18px]">credit_card_off</span>
+              <span>No credit card</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-primary text-[18px]">bolt</span>
+              <span>Instant feedback</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Column: Interactive Card + Floating Telemetry Accents -->
+        <div class="lg:col-span-6 relative mt-4 lg:mt-0">
+          <!-- Floating Telemetry Badge Top-Left -->
+          <div class="absolute -top-4 -left-3 sm:-left-6 z-20 bg-surface-card border-2 border-ink px-3 py-1.5 rounded-xl shadow-comic-sm flex items-center gap-2 transform -rotate-2">
+            <div class="w-6 h-6 rounded-lg bg-primary-light text-primary flex items-center justify-center font-bold text-xs">
+              <span class="material-symbols-outlined text-sm">bolt</span>
+            </div>
+            <div>
+              <div class="text-[11px] font-headline font-black text-ink uppercase tracking-wider leading-none">98.4% Retention Rate</div>
+              <div class="text-[9px] font-headline font-semibold text-ink/60 leading-tight">Active Spaced Repetition</div>
+            </div>
+          </div>
+
+          <!-- Floating Telemetry Badge Bottom-Right -->
+          <div class="absolute -bottom-4 -right-2 sm:-right-4 z-20 bg-surface-card border-2 border-ink px-3.5 py-2 rounded-xl shadow-comic-sm flex items-center gap-2.5 transform rotate-1">
+            <div class="w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs">
+              <span class="material-symbols-outlined text-sm">track_changes</span>
+            </div>
+            <div>
+              <div class="text-[11px] font-headline font-black text-ink leading-none">5-Min Daily Goal</div>
+              <div class="text-[9px] font-headline font-semibold text-primary mt-0.5">Achieved (+150 XP)</div>
+            </div>
+          </div>
+
+          <!-- Interactive Quiz Container -->
+          <div class="bg-surface-card border-2 border-ink rounded-2xl p-6 sm:p-7 shadow-comic-lg relative z-10" id="hero-interactive-card">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-ink/10">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface-alt text-primary font-headline font-bold text-xs border border-ink/20">
+                <span class="material-symbols-outlined text-[16px]">school</span>
+                <span>Astrophysics • Question 3 of 5</span>
+              </div>
+              <div class="flex items-center gap-1.5 text-ink/80 font-headline font-semibold text-xs">
+                <span class="material-symbols-outlined text-base text-ink/60">timer</span>
+                <span class="tabular-nums font-bold text-ink">{{ timerDisplay() }}</span>
+              </div>
+            </div>
+
+            <h2 class="font-headline text-lg sm:text-xl font-extrabold text-ink mb-4 leading-snug">
+              Which planet in our solar system has the greatest number of confirmed moons?
+            </h2>
+
+            <div class="space-y-2.5 mb-5" id="hero-quiz-options">
+              <!-- Option A -->
+              <button
+                type="button"
+                (click)="selectOption('A')"
+                [ngClass]="selectedOption() === 'A' ? 'bg-primary-light border-primary shadow-comic-sm' : 'bg-surface-card hover:bg-surface-alt border-ink/25'"
+                class="quiz-option-btn w-full flex items-center justify-between p-3.5 rounded-xl border-2 text-left font-headline font-bold text-ink cursor-pointer transition-all"
+              >
+                <div class="flex items-center gap-3">
+                  <span
+                    [ngClass]="selectedOption() === 'A' ? 'bg-primary text-white border-ink' : 'bg-surface-alt text-ink/80 border-ink/20'"
+                    class="opt-badge flex items-center justify-center w-7 h-7 rounded-lg font-headline font-black text-xs border"
+                  >A</span>
+                  <span class="opt-label text-sm sm:text-base font-bold text-ink">Saturn</span>
+                </div>
+                @if (selectedOption() === 'A') {
+                  <span class="opt-icon flex items-center justify-center w-6 h-6 rounded-lg bg-primary text-white">
+                    <span class="material-symbols-outlined text-sm font-black">check</span>
+                  </span>
+                } @else {
+                  <span class="opt-icon w-5 h-5 rounded-full border border-ink/30"></span>
+                }
+              </button>
+
+              <!-- Option B -->
+              <button
+                type="button"
+                (click)="selectOption('B')"
+                [ngClass]="selectedOption() === 'B' ? 'bg-surface-alt border-ink shadow-comic-sm' : 'bg-surface-card hover:bg-surface-alt border-ink/25'"
+                class="quiz-option-btn w-full flex items-center justify-between p-3.5 rounded-xl border-2 text-left font-headline font-medium text-ink cursor-pointer transition-all"
+              >
+                <div class="flex items-center gap-3">
+                  <span
+                    [ngClass]="selectedOption() === 'B' ? 'bg-ink text-white border-ink' : 'bg-surface-alt text-ink/80 border-ink/20'"
+                    class="opt-badge flex items-center justify-center w-7 h-7 rounded-lg font-headline font-bold text-xs border"
+                  >B</span>
+                  <span class="opt-label text-sm sm:text-base text-ink font-semibold">Jupiter</span>
+                </div>
+                @if (selectedOption() === 'B') {
+                  <span class="opt-icon flex items-center justify-center w-6 h-6 rounded-lg bg-ink text-white">
+                    <span class="material-symbols-outlined text-sm font-black">close</span>
+                  </span>
+                } @else {
+                  <span class="opt-icon w-5 h-5 rounded-full border border-ink/30"></span>
+                }
+              </button>
+
+              <!-- Option C -->
+              <button
+                type="button"
+                (click)="selectOption('C')"
+                [ngClass]="selectedOption() === 'C' ? 'bg-surface-alt border-ink shadow-comic-sm' : 'bg-surface-card hover:bg-surface-alt border-ink/25'"
+                class="quiz-option-btn w-full flex items-center justify-between p-3.5 rounded-xl border-2 text-left font-headline font-medium text-ink cursor-pointer transition-all"
+              >
+                <div class="flex items-center gap-3">
+                  <span
+                    [ngClass]="selectedOption() === 'C' ? 'bg-ink text-white border-ink' : 'bg-surface-alt text-ink/80 border-ink/20'"
+                    class="opt-badge flex items-center justify-center w-7 h-7 rounded-lg font-headline font-bold text-xs border"
+                  >C</span>
+                  <span class="opt-label text-sm sm:text-base text-ink font-semibold">Neptune</span>
+                </div>
+                @if (selectedOption() === 'C') {
+                  <span class="opt-icon flex items-center justify-center w-6 h-6 rounded-lg bg-ink text-white">
+                    <span class="material-symbols-outlined text-sm font-black">close</span>
+                  </span>
+                } @else {
+                  <span class="opt-icon w-5 h-5 rounded-full border border-ink/30"></span>
+                }
+              </button>
+
+              <!-- Option D -->
+              <button
+                type="button"
+                (click)="selectOption('D')"
+                [ngClass]="selectedOption() === 'D' ? 'bg-surface-alt border-ink shadow-comic-sm' : 'bg-surface-card hover:bg-surface-alt border-ink/25'"
+                class="quiz-option-btn w-full flex items-center justify-between p-3.5 rounded-xl border-2 text-left font-headline font-medium text-ink cursor-pointer transition-all"
+              >
+                <div class="flex items-center gap-3">
+                  <span
+                    [ngClass]="selectedOption() === 'D' ? 'bg-ink text-white border-ink' : 'bg-surface-alt text-ink/80 border-ink/20'"
+                    class="opt-badge flex items-center justify-center w-7 h-7 rounded-lg font-headline font-bold text-xs border"
+                  >D</span>
+                  <span class="opt-label text-sm sm:text-base text-ink font-semibold">Mars</span>
+                </div>
+                @if (selectedOption() === 'D') {
+                  <span class="opt-icon flex items-center justify-center w-6 h-6 rounded-lg bg-ink text-white">
+                    <span class="material-symbols-outlined text-sm font-black">close</span>
+                  </span>
+                } @else {
+                  <span class="opt-icon w-5 h-5 rounded-full border border-ink/30"></span>
+                }
+              </button>
+            </div>
+
+            <!-- Feedback Callout -->
+            <div class="p-3.5 rounded-xl bg-surface-alt border border-ink/20 flex items-start gap-3 transition-all" id="feedback-callout">
+              <div
+                [ngClass]="currentFeedback().correct ? 'bg-primary text-white' : 'bg-ink text-white'"
+                class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+              >
+                <span class="material-symbols-outlined text-base font-bold">{{ currentFeedback().icon }}</span>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <p class="font-headline text-xs sm:text-sm text-ink font-bold">{{ currentFeedback().title }}</p>
+                  <span
+                    [ngClass]="currentFeedback().correct ? 'bg-primary text-white' : 'bg-ink text-white'"
+                    class="text-[10px] px-2 py-0.5 rounded font-bold border border-ink/30"
+                  >{{ currentFeedback().badge }}</span>
+                </div>
+                <p class="font-body text-xs sm:text-sm text-ink/80 mt-1 font-normal leading-relaxed">
+                  {{ currentFeedback().text }}
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 flex items-center justify-between border-t border-ink/10 font-headline text-xs text-ink/70">
+              <span class="inline-flex items-center gap-1.5 font-bold text-primary">
+                <span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+                <span>{{ currentFeedback().streak }}</span>
+              </span>
+              <span class="inline-flex items-center gap-1.5 font-bold text-ink">
+                <span class="material-symbols-outlined text-[16px] text-primary">stars</span>
+                <span>{{ currentFeedback().xp }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. WHY QUIZZO WORKS: 4 Clean Bento Columns with Micro-Indicators -->
+    <section class="w-full py-16 sm:py-20 bg-surface-alt border-y-4 border-ink relative" id="superpowers">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-primary font-headline">Cognitive Precision</span>
+          <h2 class="font-headline text-3xl sm:text-4xl font-extrabold text-ink tracking-tight mt-1">Designed for maximum retention.</h2>
+          <p class="font-body text-base text-ink/70 mt-2 font-normal">Engineered around spaced retrieval practice and active cognitive reinforcement.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Card 1 -->
+          <div class="card-tactile bg-surface-card p-6 rounded-2xl border-2 border-ink shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-surface-alt border border-ink/25 flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-2xl">timer</span>
+                </div>
+                <span class="text-[10px] font-headline font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary-light text-primary border border-ink/10">Sprint</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Bite-Sized Sprints</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Fast, focused 5-minute quizzes designed to fit between meetings, commutes, and study breaks without mental fatigue.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 flex items-center justify-between text-xs font-headline font-bold text-primary">
+              <span>Metric</span>
+              <span class="text-ink">&lt; 4 mins avg</span>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="card-tactile bg-surface-card p-6 rounded-2xl border-2 border-ink shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-surface-alt border border-ink/25 flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-2xl">psychology</span>
+                </div>
+                <span class="text-[10px] font-headline font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary-light text-primary border border-ink/10">Factual</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Instant Explanations</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Understand the core reasoning immediately after submitting each prompt with concise, verified academic rationale.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 flex items-center justify-between text-xs font-headline font-bold text-primary">
+              <span>Context</span>
+              <span class="text-ink">100% verified rationale</span>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="card-tactile bg-surface-card p-6 rounded-2xl border-2 border-ink shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-surface-alt border border-ink/25 flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-2xl">insights</span>
+                </div>
+                <span class="text-[10px] font-headline font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary-light text-primary border border-ink/10">Recall</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Streaks &amp; Mastery</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Consistent daily practice compounds your retention metrics and unlocks level tiers with weekly streak boosts.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 flex items-center justify-between text-xs font-headline font-bold text-primary">
+              <span>Boosts</span>
+              <span class="text-ink">Weekly streak multipliers</span>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="card-tactile bg-surface-card p-6 rounded-2xl border-2 border-ink shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-surface-alt border border-ink/25 flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-2xl">groups</span>
+                </div>
+                <span class="text-[10px] font-headline font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-primary-light text-primary border border-ink/10">Social</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Friendly Challenges</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Test knowledge with colleagues or study groups in live sync lobbies with synchronous score tracking.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 flex items-center justify-between text-xs font-headline font-bold text-primary">
+              <span>Format</span>
+              <span class="text-ink">Classroom/peer challenges</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. POPULAR STARTER QUIZZES: Tactile Decks with Dual Actions -->
+    <section class="w-full py-16 sm:py-20 relative" id="starter-quizzes">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div>
+            <span class="text-xs uppercase font-extrabold tracking-widest text-primary font-headline">Featured Curations</span>
+            <h2 class="font-headline text-3xl sm:text-4xl font-extrabold text-ink tracking-tight mt-1">Popular Starter Decks</h2>
+            <p class="font-body text-base text-ink/75 mt-1 font-normal">Select any topic to begin right away — no registration or login required.</p>
+          </div>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-card rounded-xl border-2 border-ink shadow-comic-sm font-headline font-bold text-xs text-ink">
+            <span class="material-symbols-outlined text-base text-primary">verified</span>
+            <span>Free Unlocked Quizzes</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          @for (deck of decks; track deck.title) {
+            <div class="card-tactile bg-surface-card rounded-2xl border-2 border-ink shadow-comic-sm p-5 flex flex-col justify-between group">
+              <div>
+                <div class="h-44 w-full rounded-xl border-2 border-ink/20 overflow-hidden mb-4 relative bg-surface-alt">
+                  <img [alt]="deck.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" [src]="deck.imageUrl" />
+                  <div class="absolute bottom-2.5 right-2.5 px-2.5 py-0.5 rounded-lg bg-surface-card border border-ink/30 font-headline font-bold text-xs text-ink shadow-sm">
+                    ★ {{ deck.rating }}
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-surface-alt border border-ink/15 text-primary font-headline font-bold text-xs mb-2">
+                  {{ deck.category }}
+                </div>
+                <h3 class="font-headline text-xl font-bold text-ink mb-1 group-hover:text-primary transition-colors">
+                  {{ deck.title }}
+                </h3>
+                <p class="font-body text-xs sm:text-sm text-ink/75 font-normal leading-relaxed">
+                  {{ deck.description }}
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-ink/10">
+                <div class="flex items-center justify-between text-xs font-headline font-semibold text-ink/70 mb-3">
+                  <span>{{ deck.questionsCount }} Questions</span>
+                  <span>{{ deck.duration }}</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    (click)="openPreview(deck)"
+                    class="btn-tactile w-full py-2.5 rounded-xl bg-surface-card text-ink font-headline font-bold text-xs sm:text-sm border-2 border-ink shadow-comic-sm hover:bg-surface-alt text-center cursor-pointer"
+                  >
+                    Preview
+                  </button>
+                  <a
+                    class="btn-tactile w-full flex items-center justify-center gap-1 py-2.5 rounded-xl bg-primary text-white font-headline font-bold text-xs sm:text-sm border-2 border-ink shadow-comic-sm hover:bg-primary-container cursor-pointer"
+                    routerLink="/register"
+                  >
+                    <span>Start Quiz</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. HOW IT WORKS: Structured 3-Step Card Grid -->
+    <section class="w-full py-16 sm:py-20 bg-surface-alt border-y-4 border-ink relative" id="how-it-works">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-primary font-headline">Methodology</span>
+          <h2 class="font-headline text-3xl sm:text-4xl font-extrabold text-ink tracking-tight mt-1">Simple 3-step workflow</h2>
+          <p class="font-body text-base text-ink/70 mt-2 font-normal">Quick to start, designed to stick, with zero friction.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Step 1 -->
+          <div class="card-tactile bg-surface-card rounded-2xl border-2 border-ink p-6 shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-headline font-black text-base border-2 border-ink shadow-comic-sm">
+                  1
+                </div>
+                <span class="material-symbols-outlined text-ink/40">category</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Pick your topic</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Choose from 200+ specialized decks spanning science, tech architecture, history, and spatial reasoning.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 text-xs font-bold text-primary font-headline flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>Outcome: Targeted topic focus</span>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="card-tactile bg-surface-card rounded-2xl border-2 border-ink p-6 shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-headline font-black text-base border-2 border-ink shadow-comic-sm">
+                  2
+                </div>
+                <span class="material-symbols-outlined text-ink/40">quiz</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Practice &amp; recall</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Answer active recall prompts with immediate verified reasoning and zero guesswork.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 text-xs font-bold text-primary font-headline flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>Outcome: Factual error correction</span>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="card-tactile bg-surface-card rounded-2xl border-2 border-ink p-6 shadow-comic-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-headline font-black text-base border-2 border-ink shadow-comic-sm">
+                  3
+                </div>
+                <span class="material-symbols-outlined text-ink/40">trending_up</span>
+              </div>
+              <h3 class="font-headline text-lg font-bold text-ink mb-1.5">Track your mastery</h3>
+              <p class="font-body text-sm text-ink/75 font-normal leading-relaxed">Build consistent weekly streaks, track accuracy analytics over time, and revisit weak topics.</p>
+            </div>
+            <div class="mt-6 pt-3.5 border-t border-ink/10 text-xs font-bold text-primary font-headline flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm">check_circle</span>
+              <span>Outcome: Permanent recall strength</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. HIGH-ENERGY CALL TO ACTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-8 py-16 sm:py-24">
+      <div class="relative bg-ink text-white rounded-3xl border-2 border-ink p-8 sm:p-14 shadow-comic-lg text-center overflow-hidden">
+        <!-- Subtle warm obsidian/espresso gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#1c1917] via-[#292524] to-[#1c1917] opacity-95 pointer-events-none"></div>
+        <div class="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-primary-light font-headline text-xs font-bold mb-4">
+            <span class="material-symbols-outlined text-sm">rocket_launch</span>
+            <span>Zero onboarding friction</span>
+          </div>
+          <h2 class="font-headline text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-3 text-white">
+            Ready to test your knowledge?
+          </h2>
+          <p class="font-body text-base sm:text-lg text-primary-light font-normal mb-8 leading-relaxed max-w-lg">
+            Pick a deck and test your memory right now. No sign-up, apps, or credit card required.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mb-8">
+            <a class="btn-tactile w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-headline font-bold text-base border-2 border-white/30 shadow-comic-sm hover:bg-primary-container cursor-pointer" routerLink="/register">
+              <span>Start a free quiz</span>
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
+          <!-- Institutional & User Proof Row -->
+          <div class="w-full pt-6 border-t border-white/15 flex flex-col items-center">
+            <p class="text-xs font-headline font-semibold text-white/80 uppercase tracking-wider mb-3">
+              Used by learners from leading universities &amp; teams
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 opacity-75 text-xs sm:text-sm font-headline font-bold tracking-tight">
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base">school</span> Oxford Guild</span>
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base">terminal</span> MIT DevLab</span>
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base">biotech</span> Stanford Bio</span>
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-base">corporate_fare</span> Tech Sprint</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 7. FOOTER -->
+  <footer class="w-full bg-surface-card border-t-4 border-ink pt-14 pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-10">
+        <div class="md:col-span-2 flex flex-col items-start gap-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-headline font-black text-base border-2 border-ink shadow-comic-sm">Q</div>
+            <span class="font-headline text-xl font-bold text-ink">Quizzo</span>
+          </div>
+          <p class="font-body text-sm text-ink/75 font-normal max-w-sm leading-relaxed">
+            A clean, bite-sized quiz platform for focused daily knowledge retention and active spaced practice.
+          </p>
+        </div>
+        <div class="flex flex-col gap-2.5">
+          <span class="font-headline text-xs font-bold text-ink uppercase tracking-wider">Categories</span>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#starter-quizzes">Science</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#starter-quizzes">Technology</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#starter-quizzes">Geography</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#starter-quizzes">World History</a>
+        </div>
+        <div class="flex flex-col gap-2.5">
+          <span class="font-headline text-xs font-bold text-ink uppercase tracking-wider">Platform</span>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#superpowers">Why Quizzo</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#how-it-works">How It Works</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#starter-quizzes">Explore Decks</a>
+        </div>
+        <div class="flex flex-col gap-2.5">
+          <span class="font-headline text-xs font-bold text-ink uppercase tracking-wider">Legal</span>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#">Privacy Policy</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#">Terms of Service</a>
+          <a class="font-headline text-sm text-ink/75 hover:text-primary transition-colors font-medium" href="#">Contact</a>
+        </div>
+      </div>
+      <div class="pt-6 border-t border-ink/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-headline text-xs text-ink/65">
+        <p>© 2025 Quizzo. All rights reserved.</p>
+        <div class="flex items-center gap-4 font-medium">
+          <a class="hover:text-ink transition-colors" href="#">Privacy</a>
+          <span>•</span>
+          <a class="hover:text-ink transition-colors" href="#">Terms</a>
+          <span>•</span>
+          <a class="hover:text-ink transition-colors" href="#">Support</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PREVIEW QUESTIONS MODAL -->
+  @if (previewModalOpen() && previewDeck()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 backdrop-blur-sm p-4" id="preview-modal">
+      <div class="bg-surface-card border-2 border-ink rounded-2xl max-w-lg w-full p-6 shadow-comic-lg">
+        <div class="flex items-start justify-between pb-3 border-b border-ink/10 mb-4">
+          <div>
+            <h3 class="font-headline text-xl font-bold text-ink" id="modal-deck-title">{{ previewDeck()?.title }}</h3>
+            <p class="font-body text-xs text-ink/70 font-medium mt-0.5" id="modal-deck-subtitle">
+              {{ previewDeck()?.questionsCount }} Questions • {{ previewDeck()?.duration }} • Free Guest Access
+            </p>
+          </div>
+          <button
+            type="button"
+            class="w-8 h-8 rounded-lg bg-surface-alt border border-ink/20 flex items-center justify-center text-ink hover:bg-ink hover:text-white transition-colors cursor-pointer"
+            (click)="closePreview()"
+          >
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+        <p class="text-xs font-headline font-bold uppercase tracking-wider text-primary mb-2.5">Sample Questions in Deck</p>
+        <div class="space-y-2 mb-6" id="modal-questions-list">
+          @for (q of previewDeck()?.sampleQuestions; track $index) {
+            <div class="p-3 rounded-xl bg-surface-alt border border-ink/15 text-xs font-headline font-semibold text-ink flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded bg-primary text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
+                {{ $index + 1 }}
+              </span>
+              <span>{{ q }}</span>
+            </div>
+          }
+        </div>
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-ink/10">
+          <button
+            type="button"
+            class="px-4 py-2 rounded-xl border border-ink/30 font-headline font-bold text-xs text-ink hover:bg-surface-alt cursor-pointer"
+            (click)="closePreview()"
+          >
+            Close
+          </button>
+          <a
+            class="btn-tactile px-5 py-2 rounded-xl bg-primary text-white border-2 border-ink shadow-comic-sm font-headline font-bold text-xs hover:bg-primary-container cursor-pointer"
+            routerLink="/register"
+            (click)="closePreview()"
+          >
+            Start This Deck
+          </a>
+        </div>
+      </div>
+    </div>
+  }
+</div>
