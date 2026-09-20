@@ -1,0 +1,603 @@
+<div class="bg-[#faf8ff] font-sans text-sm text-[#131b2e] antialiased min-h-screen">
+  <!-- 1. FIXED LEFT SIDEBAR -->
+  <aside class="fixed left-0 top-0 h-full w-72 bg-[#f2f3ff] z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="flex flex-col">
+      <!-- Brand Header -->
+      <div class="h-16 px-6 flex items-center gap-2.5 border-b border-[#eaedff]">
+        <div class="w-9 h-9 rounded-xl bg-[#3525cd] flex items-center justify-center shadow-md shadow-[#3525cd]/25">
+          <span class="material-symbols-outlined text-white text-[20px]">school</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg text-[#131b2e] tracking-tight">Quizzo</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#e2dfff] text-[#3323cc] tracking-wider uppercase">Admin Suite</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex flex-col gap-1 px-4 mt-4">
+        <a aria-current="page" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all bg-[#4f46e5] text-white font-semibold shadow-sm cursor-pointer" routerLink="/admin">
+          <span class="material-symbols-outlined text-[20px]">grid_view</span>
+          <span class="text-sm font-semibold">Overview</span>
+        </a>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/admin">
+          <span class="material-symbols-outlined text-[20px]">group</span>
+          <span class="text-sm font-medium">User Management</span>
+        </a>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/admin">
+          <span class="material-symbols-outlined text-[20px]">auto_stories</span>
+          <span class="text-sm font-medium">Quiz &amp; Deck Studio</span>
+        </a>
+        <div class="my-3 border-t border-[#eaedff]"></div>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/dashboard">
+          <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+          <span class="text-sm font-medium">Student Dashboard</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Production Node Info -->
+    <div class="p-4">
+      <div class="bg-white rounded-xl p-4 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] flex items-center justify-between border border-[#eaedff]">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0058be] opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0058be]"></span>
+          </span>
+          <span class="text-xs text-[#464555] font-medium">Production Node</span>
+        </div>
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-[#eaedff] text-[#464555]">v2.4.0-prod</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. MAIN CONTAINER (OFFSET BY SIDEBAR) -->
+  <div class="pl-72">
+    <!-- Fixed Top Header -->
+    <header class="fixed top-0 left-72 right-0 h-16 bg-[#faf8ff]/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-8 border-b border-[#eaedff]">
+      <div class="flex items-center gap-4 flex-1 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777587] text-[20px]">search</span>
+          <input
+            class="w-full h-10 pl-10 pr-12 rounded-xl bg-white text-[#131b2e] placeholder:text-[#777587] text-sm shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] focus:outline-none focus:ring-2 focus:ring-[#3525cd]/20 transition-all"
+            placeholder="Search quizzes, learners, moderation flags..."
+            type="text"
+          />
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-[#464555] bg-[#eaedff] px-1.5 py-0.5 rounded">⌘K</span>
+        </div>
+      </div>
+
+      <!-- Right Header Profile & Controls -->
+      <div class="flex items-center gap-4">
+        <div class="hidden xl:flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff]">
+          <span class="w-2 h-2 rounded-full bg-[#0058be]"></span>
+          <span class="text-xs font-semibold text-[#464555]">All Systems Operational</span>
+        </div>
+
+        <button aria-label="Notifications" class="relative p-2 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-colors cursor-pointer" type="button">
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+          <span class="absolute top-2 right-2 w-2 h-2 bg-[#ba1a1a] rounded-full"></span>
+        </button>
+
+        <div class="flex items-center gap-3 pl-3 border-l border-[#eaedff]">
+          <div class="flex flex-col text-right hidden sm:flex">
+            <span class="text-sm font-bold text-[#131b2e] leading-tight">{{ adminName() }}</span>
+            <span class="text-[11px] font-medium text-[#464555]">{{ adminRole() }}</span>
+          </div>
+          <div class="w-9 h-9 rounded-full bg-[#3525cd] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            {{ adminInitials() }}
+          </div>
+          <button (click)="logout()" class="text-xs font-bold text-[#ba1a1a] hover:underline cursor-pointer ml-1" title="Sign Out" type="button">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="w-full pt-16 bg-[#faf8ff] min-h-screen">
+      <div class="flex flex-col w-full p-8 gap-8">
+        <!-- Command Center Header & Filter Controls -->
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#ffddb8] text-[#2a1700] text-[11px] font-bold uppercase tracking-wider">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#684000] animate-pulse"></span>
+                Command Center · Live Telemetry
+              </span>
+              <span class="text-[11px] font-bold text-[#777587]">US-EAST-1 INSTANCE</span>
+            </div>
+            <div class="flex items-baseline gap-3">
+              <h1 class="text-3xl font-extrabold text-[#131b2e] tracking-tight">Admin Overview</h1>
+              <span class="text-xs text-[#777587]">Real-time educational platform throughput</span>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Date Filter Suite -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Timeframe Toggle Pill -->
+            <div class="flex items-center bg-[#eaedff] rounded-xl p-1 shadow-sm">
+              <button
+                (click)="setTimeframe('today')"
+                [class]="timeframe() === 'today' ? 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-[#3525cd] shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg text-xs text-[#464555] hover:text-[#131b2e] transition-all cursor-pointer'"
+                type="button">
+                Today
+              </button>
+              <button
+                (click)="setTimeframe('7days')"
+                [class]="timeframe() === '7days' ? 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-[#3525cd] shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg text-xs text-[#464555] hover:text-[#131b2e] transition-all cursor-pointer'"
+                type="button">
+                Last 7 Days
+              </button>
+              <button
+                (click)="setTimeframe('month')"
+                [class]="timeframe() === 'month' ? 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-white text-[#3525cd] shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg text-xs text-[#464555] hover:text-[#131b2e] transition-all cursor-pointer'"
+                type="button">
+                This Month
+              </button>
+            </div>
+
+            <div class="h-6 w-px bg-[#e2e7ff] hidden sm:block mx-1"></div>
+
+            <button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] shadow-sm transition-all text-xs font-semibold border border-[#eaedff] cursor-pointer" type="button">
+              <span class="material-symbols-outlined text-[18px]">file_download</span>
+              Export Overview
+            </button>
+
+            <button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white text-[#131b2e] hover:bg-[#e2e7ff] shadow-sm transition-all text-xs font-semibold border border-[#eaedff] cursor-pointer" type="button">
+              <span class="material-symbols-outlined text-[18px] text-[#0058be]">person_add</span>
+              + Add New User
+            </button>
+
+            <button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#3525cd] to-[#4f46e5] text-white text-xs font-bold shadow-md shadow-[#3525cd]/20 hover:shadow-lg hover:shadow-[#3525cd]/30 active:scale-[0.98] transition-all cursor-pointer" type="button">
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              + Create Quiz Deck
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. BENTO KPI ROW (4 Structured Analytical Panels) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <!-- Metric 1: Total Registered Users -->
+          <div class="admin-card bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col justify-between group">
+            <div class="flex items-start justify-between">
+              <div class="flex flex-col">
+                <span class="text-xs font-semibold text-[#464555] uppercase tracking-wider">Total Registered Users</span>
+                <span class="text-4xl font-extrabold text-[#131b2e] tracking-tight mt-1">54,820</span>
+              </div>
+              <div class="w-11 h-11 rounded-xl bg-[#e2dfff] flex items-center justify-center text-[#3525cd] shadow-inner">
+                <span class="material-symbols-outlined text-[24px]">group</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 flex flex-col gap-2">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex items-center text-[#0058be] text-[11px] font-bold bg-[#d8e2ff] px-2 py-0.5 rounded-full">
+                  <span class="material-symbols-outlined text-[14px]">arrow_upward</span> +312 today
+                </span>
+                <span class="text-xs text-[#777587]">+8.4% month</span>
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-[#464555] bg-[#f2f3ff] px-2.5 py-1 rounded-lg">
+                <span>Learners: <strong class="text-[#131b2e]">48.2k</strong></span>
+                <span class="text-[#c7c4d8]">·</span>
+                <span>Educators: <strong class="text-[#131b2e]">4.9k</strong></span>
+                <span class="text-[#c7c4d8]">·</span>
+                <span>Staff: <strong class="text-[#131b2e]">1.7k</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Metric 2: Active Curated Decks -->
+          <div class="admin-card bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col justify-between group">
+            <div class="flex items-start justify-between">
+              <div class="flex flex-col">
+                <span class="text-xs font-semibold text-[#464555] uppercase tracking-wider">Active Curated Decks</span>
+                <span class="text-4xl font-extrabold text-[#131b2e] tracking-tight mt-1">3,420</span>
+              </div>
+              <div class="w-11 h-11 rounded-xl bg-[#e2e7ff] flex items-center justify-center text-[#2170e4] shadow-inner">
+                <span class="material-symbols-outlined text-[24px]">collections_bookmark</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-[#464555]">Disciplinary Domains</span>
+                <span class="font-semibold text-[#131b2e]">18 Sub-disciplines</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-full bg-[#eaedff] rounded-full h-2 overflow-hidden">
+                  <div class="bg-gradient-to-r from-[#0058be] to-[#3525cd] h-2 rounded-full" style="width: 98.4%"></div>
+                </div>
+                <span class="text-[11px] text-[#0058be] font-bold shrink-0">98.4%</span>
+              </div>
+              <span class="text-xs text-[#777587]">Verified live status across production nodes</span>
+            </div>
+          </div>
+
+          <!-- Metric 3: Daily Quiz Sprints -->
+          <div class="admin-card bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col justify-between group">
+            <div class="flex items-start justify-between">
+              <div class="flex flex-col">
+                <span class="text-xs font-semibold text-[#464555] uppercase tracking-wider">Daily Quiz Sprints</span>
+                <span class="text-4xl font-extrabold text-[#131b2e] tracking-tight mt-1">18,940</span>
+              </div>
+              <div class="w-11 h-11 rounded-xl bg-[#ffddb8] flex items-center justify-center text-[#684000] shadow-inner">
+                <span class="material-symbols-outlined text-[24px]">bolt</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-[#464555]">Daily Peak Target (25k)</span>
+                <span class="font-semibold text-[#684000]">76% of Max</span>
+              </div>
+              <!-- Mini Sparkline visual -->
+              <svg class="w-full h-6 text-[#885500]" fill="none" preserveAspectRatio="none" viewBox="0 0 100 20">
+                <path d="M0,18 L12,14 L24,16 L36,9 L48,11 L60,5 L72,8 L84,3 L100,4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+                <path d="M0,18 L12,14 L24,16 L36,9 L48,11 L60,5 L72,8 L84,3 L100,4 L100,20 L0,20 Z" fill="currentColor" opacity="0.12"></path>
+              </svg>
+              <span class="text-xs text-[#777587]">Median completion time: 3m 42s</span>
+            </div>
+          </div>
+
+          <!-- Metric 4: Verification Queue -->
+          <div class="admin-card bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col justify-between group">
+            <div class="flex items-start justify-between">
+              <div class="flex flex-col">
+                <span class="text-xs font-semibold text-[#464555] uppercase tracking-wider">Verification Queue</span>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-4xl font-extrabold text-[#131b2e] tracking-tight">14</span>
+                  <span class="px-2 py-0.5 rounded-md bg-[#ffddb8] text-[#653e00] text-[11px] font-bold animate-pulse">
+                    Action Required
+                  </span>
+                </div>
+              </div>
+              <div class="w-11 h-11 rounded-xl bg-[#ffdad6] flex items-center justify-center text-[#ba1a1a] shadow-inner">
+                <span class="material-symbols-outlined text-[24px]">gavel</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 flex flex-col gap-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-[#464555]">Moderator Sign-off</span>
+                <span class="font-semibold text-[#ba1a1a]">9 Decks · 5 Claims</span>
+              </div>
+              <div class="flex items-center gap-1.5 text-xs text-[#464555] bg-[#f2f3ff] p-2 rounded-lg">
+                <span class="material-symbols-outlined text-[16px] text-[#684000]">schedule</span>
+                <span>Oldest waiting item: <strong>4.2 hrs ago</strong></span>
+              </div>
+              <a class="text-xs text-[#3525cd] font-bold hover:underline flex items-center gap-1 cursor-pointer" routerLink="/admin">
+                Review Moderation Backlog <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. PRIMARY OPERATIONS SECTION (Master Desktop Split 7 cols + 5 cols) -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+          <!-- Hub A: User Directory & Quick Governance (7 cols) -->
+          <div class="xl:col-span-7 bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-[#e2e7ff] flex items-center justify-center text-[#3525cd]">
+                  <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-[#131b2e]">User Directory &amp; Governance</h2>
+                  <p class="text-xs text-[#777587]">Direct roster oversight, identity verifications, and permission controls</p>
+                </div>
+              </div>
+              <span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#eaedff] text-[#464555] self-start sm:self-auto">
+                {{ filteredUsers().length }} of 54,820 Total
+              </span>
+            </div>
+
+            <!-- Search & Filters -->
+            <div class="flex flex-col md:flex-row items-stretch md:items-center gap-2 pt-1">
+              <div class="relative flex-1">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777587] text-[18px]">search</span>
+                <input
+                  class="w-full h-9 pl-9 pr-4 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] placeholder:text-[#777587] focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3525cd]/20 transition-all border border-transparent focus:border-[#eaedff]"
+                  placeholder="Search by user name, handle, academic email..."
+                  type="text"
+                  [value]="userSearchQuery()"
+                  (input)="userSearchQuery.set($any($event.target).value)"
+                />
+              </div>
+              <div class="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0">
+                <button
+                  (click)="setUserFilter('all')"
+                  [class]="userFilter() === 'all' ? 'px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white font-semibold text-xs whitespace-nowrap shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg bg-[#f2f3ff] text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] text-xs whitespace-nowrap transition-all cursor-pointer'"
+                  type="button">
+                  All (54.8k)
+                </button>
+                <button
+                  (click)="setUserFilter('students')"
+                  [class]="userFilter() === 'students' ? 'px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white font-semibold text-xs whitespace-nowrap shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg bg-[#f2f3ff] text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] text-xs whitespace-nowrap transition-all cursor-pointer'"
+                  type="button">
+                  Students (48.2k)
+                </button>
+                <button
+                  (click)="setUserFilter('educators')"
+                  [class]="userFilter() === 'educators' ? 'px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white font-semibold text-xs whitespace-nowrap shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg bg-[#f2f3ff] text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] text-xs whitespace-nowrap transition-all cursor-pointer'"
+                  type="button">
+                  Educators (4.9k)
+                </button>
+                <button
+                  (click)="setUserFilter('admins')"
+                  [class]="userFilter() === 'admins' ? 'px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white font-semibold text-xs whitespace-nowrap shadow-xs cursor-pointer' : 'px-3 py-1.5 rounded-lg bg-[#f2f3ff] text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] text-xs whitespace-nowrap transition-all cursor-pointer'"
+                  type="button">
+                  Admins (1.6k)
+                </button>
+              </div>
+            </div>
+
+            <!-- Governance Table -->
+            <div class="overflow-x-auto -mx-6 px-6 mt-1">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-[#f2f3ff]/70 text-[#777587] text-[11px] font-bold uppercase tracking-wider">
+                    <th class="py-2.5 px-3 rounded-l-xl">User Identifier</th>
+                    <th class="py-2.5 px-3">Role / Academy</th>
+                    <th class="py-2.5 px-3">Mastery &amp; Metrics</th>
+                    <th class="py-2.5 px-3">Access State</th>
+                    <th class="py-2.5 px-3 text-right rounded-r-xl">Quick Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#eaedff]/60">
+                  @for (usr of filteredUsers(); track usr.id) {
+                    <tr class="hover:bg-[#f2f3ff]/40 transition-colors group">
+                      <td class="py-3 px-3">
+                        <div class="flex items-center gap-3">
+                          <div [class]="'relative w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs ' + usr.avatarBg + ' ' + usr.avatarColor">
+                            {{ usr.initials }}
+                            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#0058be] ring-2 ring-white"></span>
+                          </div>
+                          <div class="flex flex-col min-w-0">
+                            <span class="text-sm font-bold text-[#131b2e] group-hover:text-[#3525cd] transition-colors truncate">{{ usr.name }}</span>
+                            <span class="text-xs text-[#777587] truncate">{{ usr.email }}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="py-3 px-3">
+                        <div class="flex flex-col">
+                          <span class="inline-flex items-center gap-1 text-xs font-semibold text-[#0058be]">
+                            <span class="material-symbols-outlined text-[14px]">school</span> {{ usr.role }}
+                          </span>
+                          <span class="text-xs text-[#777587]">{{ usr.academy }}</span>
+                        </div>
+                      </td>
+                      <td class="py-3 px-3">
+                        <div class="flex flex-col gap-1">
+                          <span class="text-xs font-medium text-[#131b2e]">{{ usr.metricLabel }}</span>
+                          @if (usr.progressPercent) {
+                            <div class="flex items-center gap-1.5">
+                              <div class="w-16 bg-[#eaedff] rounded-full h-1.5">
+                                <div class="bg-[#0058be] h-1.5 rounded-full" [style.width.%]="usr.progressPercent"></div>
+                              </div>
+                              <span class="text-[11px] text-[#777587]">{{ usr.metricDetail }}</span>
+                            </div>
+                          } @else if (usr.metricDetail) {
+                            <span class="text-xs text-[#777587]">{{ usr.metricDetail }}</span>
+                          }
+                        </div>
+                      </td>
+                      <td class="py-3 px-3">
+                        <span [class]="'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ' + usr.accessBadgeClass">
+                          <span class="w-1.5 h-1.5 rounded-full bg-current"></span> {{ usr.accessState }}
+                        </span>
+                      </td>
+                      <td class="py-3 px-3 text-right">
+                        <div class="flex items-center justify-end gap-1">
+                          <button class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#3525cd] transition-colors cursor-pointer" title="View Profile" type="button">
+                            <span class="material-symbols-outlined text-[18px]">visibility</span>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-colors cursor-pointer" title="Permissions" type="button">
+                            <span class="material-symbols-outlined text-[18px]">key</span>
+                          </button>
+                          <button class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-colors cursor-pointer" title="Options" type="button">
+                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Bottom Navigation Anchor -->
+            <div class="pt-2 flex items-center justify-between border-t border-[#eaedff]">
+              <span class="text-xs text-[#777587]">Showing recent prominent cohort profiles</span>
+              <a class="text-xs text-[#3525cd] font-bold hover:gap-2 flex items-center gap-1 transition-all group cursor-pointer" routerLink="/admin">
+                View All 54,820 Users in User Management
+                <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hub B: Curriculum & Quiz Management Studio (5 cols) -->
+          <div class="xl:col-span-5 bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-[#e2e7ff] flex items-center justify-center text-[#3525cd]">
+                  <span class="material-symbols-outlined text-[20px]">auto_stories</span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-[#131b2e]">Quiz Studio &amp; Curriculum</h2>
+                  <p class="text-xs text-[#777587]">Editorial pipeline &amp; deck quality verification</p>
+                </div>
+              </div>
+              <button class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-colors cursor-pointer" title="Filter Settings" type="button">
+                <span class="material-symbols-outlined text-[20px]">tune</span>
+              </button>
+            </div>
+
+            <!-- Search & Chips Filter -->
+            <div class="flex flex-col gap-2 pt-1">
+              <div class="relative w-full">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777587] text-[18px]">search</span>
+                <input
+                  class="w-full h-9 pl-9 pr-3 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] placeholder:text-[#777587] focus:outline-none focus:bg-white focus:ring-2 focus:ring-[#3525cd]/20 transition-all border border-transparent focus:border-[#eaedff]"
+                  placeholder="Filter quizzes by title, discipline..."
+                  type="text"
+                  [value]="quizSearchQuery()"
+                  (input)="quizSearchQuery.set($any($event.target).value)"
+                />
+              </div>
+              <div class="flex items-center gap-1.5 overflow-x-auto py-1">
+                <button
+                  (click)="setQuizDomain('all')"
+                  [class]="quizDomain() === 'all' ? 'px-2.5 py-1 rounded-full bg-[#e2dfff] text-[#3323cc] text-[11px] font-bold whitespace-nowrap cursor-pointer' : 'px-2.5 py-1 rounded-full bg-[#eaedff] text-[#464555] hover:bg-[#e2e7ff] text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer'"
+                  type="button">
+                  All Domains
+                </button>
+                <button
+                  (click)="setQuizDomain('astrophysics')"
+                  [class]="quizDomain() === 'astrophysics' ? 'px-2.5 py-1 rounded-full bg-[#e2dfff] text-[#3323cc] text-[11px] font-bold whitespace-nowrap cursor-pointer' : 'px-2.5 py-1 rounded-full bg-[#eaedff] text-[#464555] hover:bg-[#e2e7ff] text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer'"
+                  type="button">
+                  Astrophysics
+                </button>
+                <button
+                  (click)="setQuizDomain('cs')"
+                  [class]="quizDomain() === 'cs' ? 'px-2.5 py-1 rounded-full bg-[#e2dfff] text-[#3323cc] text-[11px] font-bold whitespace-nowrap cursor-pointer' : 'px-2.5 py-1 rounded-full bg-[#eaedff] text-[#464555] hover:bg-[#e2e7ff] text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer'"
+                  type="button">
+                  Computer Science
+                </button>
+                <button
+                  (click)="setQuizDomain('medicine')"
+                  [class]="quizDomain() === 'medicine' ? 'px-2.5 py-1 rounded-full bg-[#e2dfff] text-[#3323cc] text-[11px] font-bold whitespace-nowrap cursor-pointer' : 'px-2.5 py-1 rounded-full bg-[#eaedff] text-[#464555] hover:bg-[#e2e7ff] text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer'"
+                  type="button">
+                  Medicine
+                </button>
+                <button
+                  (click)="setQuizDomain('geography')"
+                  [class]="quizDomain() === 'geography' ? 'px-2.5 py-1 rounded-full bg-[#e2dfff] text-[#3323cc] text-[11px] font-bold whitespace-nowrap cursor-pointer' : 'px-2.5 py-1 rounded-full bg-[#eaedff] text-[#464555] hover:bg-[#e2e7ff] text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer'"
+                  type="button">
+                  Geography
+                </button>
+              </div>
+            </div>
+
+            <!-- Active Quiz Modular Cards -->
+            <div class="flex flex-col gap-3 mt-1">
+              @for (quiz of filteredQuizzes(); track quiz.id) {
+                <div class="p-4 rounded-xl bg-[#f2f3ff] hover:bg-[#e2e7ff]/60 transition-all flex flex-col gap-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.8)] border border-[#eaedff]">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="flex flex-col">
+                      <div class="flex items-center gap-2">
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#ffddb8] text-[#2a1700]">{{ quiz.domainLabel }}</span>
+                        <span class="text-xs text-[#777587]">{{ quiz.questionsCount }} Questions</span>
+                      </div>
+                      <h3 class="text-base font-bold text-[#131b2e] mt-1">{{ quiz.title }}</h3>
+                    </div>
+                    <span [class]="'inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-bold shrink-0 ' + quiz.statusBadgeClass">
+                      @if (quiz.statusIcon) {
+                        <span class="material-symbols-outlined text-[14px]">{{ quiz.statusIcon }}</span>
+                      }
+                      {{ quiz.statusBadge }}
+                    </span>
+                  </div>
+
+                  <div class="flex items-center justify-between text-xs text-[#464555] pt-1">
+                    <span class="flex items-center gap-1 font-medium">
+                      <span class="material-symbols-outlined text-[16px] text-[#0058be]">play_circle</span> {{ quiz.runsText }}
+                    </span>
+                    <span class="text-[#777587]">{{ quiz.subDetail }}</span>
+                  </div>
+
+                  <div class="flex items-center justify-between pt-2 border-t border-[#eaedff]">
+                    @if (quiz.isPendingApproval) {
+                      <div class="flex items-center gap-2 w-full">
+                        <button
+                          (click)="approveDeck(quiz.id)"
+                          class="flex-1 py-1.5 px-3 rounded-lg bg-[#3525cd] text-white text-xs font-bold shadow-xs hover:bg-[#4f46e5] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                          type="button">
+                          <span class="material-symbols-outlined text-[16px]">check_circle</span> Inspect &amp; Approve
+                        </button>
+                        <button class="py-1.5 px-3 rounded-lg bg-white text-[#131b2e] text-xs font-semibold hover:bg-[#eaedff] transition-all border border-[#eaedff] cursor-pointer" type="button">
+                          Edit
+                        </button>
+                        <button class="p-1.5 rounded-lg text-[#777587] hover:text-[#ba1a1a] hover:bg-white transition-colors cursor-pointer" title="Decline Deck" type="button">
+                          <span class="material-symbols-outlined text-[18px]">close</span>
+                        </button>
+                      </div>
+                    } @else {
+                      <div class="flex items-center gap-2">
+                        <button class="py-1 px-2.5 rounded-lg bg-white text-[#131b2e] text-xs font-semibold hover:bg-[#eaedff] transition-all flex items-center gap-1 border border-[#eaedff] cursor-pointer" type="button">
+                          <span class="material-symbols-outlined text-[14px]">edit</span> Edit Questions
+                        </button>
+                        <button class="py-1 px-2.5 rounded-lg bg-white text-[#131b2e] text-xs font-semibold hover:bg-[#eaedff] transition-all flex items-center gap-1 border border-[#eaedff] cursor-pointer" type="button">
+                          <span class="material-symbols-outlined text-[14px]">analytics</span> Telemetry
+                        </button>
+                      </div>
+                      <button class="text-[#ba1a1a] text-xs font-semibold hover:underline cursor-pointer" type="button">
+                        Deactivate
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Studio CTA Footer -->
+            <div class="pt-2 border-t border-[#eaedff]">
+              <a class="text-xs text-[#3525cd] font-bold hover:gap-2 flex items-center justify-between p-2.5 rounded-xl bg-[#f2f3ff] hover:bg-[#eaedff] transition-all group cursor-pointer" routerLink="/admin">
+                <span>Open Full Curriculum Studio (3,420 Decks)</span>
+                <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. OPERATIONAL HEALTH & LIVE AUDIT SNIPPET -->
+        <div class="bg-white rounded-2xl p-6 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] border border-[#eaedff] flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <!-- System Vitals (Horizontal Strip) -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-[#0058be] animate-ping"></div>
+              <span class="text-sm font-bold text-[#131b2e]">Platform Telemetry</span>
+            </div>
+            <div class="grid grid-cols-3 gap-4 sm:gap-6">
+              <div class="flex flex-col">
+                <span class="text-xs text-[#777587]">Postgres Response</span>
+                <div class="flex items-center gap-1 mt-0.5">
+                  <span class="text-sm font-bold text-[#131b2e]">24ms</span>
+                  <span class="text-[11px] text-[#0058be] font-semibold">Latency</span>
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs text-[#777587]">Spaced Repetition</span>
+                <div class="flex items-center gap-1 mt-0.5">
+                  <span class="text-sm font-bold text-[#131b2e]">98.4%</span>
+                  <span class="text-[11px] text-[#0058be] font-semibold">Stable</span>
+                </div>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs text-[#777587]">Global Edge CDN</span>
+                <div class="flex items-center gap-1 mt-0.5">
+                  <span class="text-sm font-bold text-[#0058be]">Optimal</span>
+                  <span class="text-[11px] text-[#777587]">0 Failures</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini Live Audit Trail -->
+          <div class="flex flex-col gap-1.5 lg:border-l lg:border-[#eaedff] lg:pl-6">
+            <div class="flex items-center justify-between gap-4">
+              <span class="text-[11px] font-bold text-[#777587] uppercase tracking-wider">Live Audit Stream</span>
+              <span class="text-xs text-[#0058be] font-medium">Auto-syncing</span>
+            </div>
+            <div class="flex flex-col gap-1">
+              @for (item of auditStream(); track item.id) {
+                <div class="flex items-center gap-2 text-xs text-[#464555]">
+                  <span [class]="'w-1.5 h-1.5 rounded-full ' + item.dotColorClass"></span>
+                  <span>{{ item.message }}</span>
+                  <span class="text-[#777587] text-[11px] ml-auto">{{ item.timestamp }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

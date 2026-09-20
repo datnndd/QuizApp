@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 export interface DeckQueue {
@@ -35,6 +35,12 @@ export interface DeckQueue {
 })
 export class DashboardComponent {
   private readonly authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute);
+
+  readonly isAdmin = this.authService.isAdmin;
+  readonly showUnauthorizedAlert = signal<boolean>(
+    this.route.snapshot.queryParamMap.get('unauthorized') === 'true'
+  );
 
   protected readonly currentUser = this.authService.currentUser;
   protected readonly userName = computed(() => this.currentUser()?.displayName || 'Alex Morgan');
@@ -163,5 +169,9 @@ export class DashboardComponent {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  dismissUnauthorizedAlert(): void {
+    this.showUnauthorizedAlert.set(false);
   }
 }
