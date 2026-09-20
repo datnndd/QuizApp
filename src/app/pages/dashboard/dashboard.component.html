@@ -423,9 +423,9 @@
       <div class="pt-3.5 flex flex-col sm:flex-row items-center justify-between gap-2 font-headline text-xs text-ink-muted">
         <p>© 2025 Quizzo Inc. Engineered for scientific knowledge retention.</p>
         <div class="flex items-center gap-3">
-          <span>Logged in as <strong>alex.morgan&#64;university.edu</strong></span>
+          <span>Logged in as <strong>{{ userEmail() }}</strong></span>
           <span>•</span>
-          <a class="hover:text-indigo-deep font-bold transition-colors cursor-pointer" routerLink="/login">Sign Out</a>
+          <button (click)="logout()" class="hover:text-indigo-deep font-bold transition-colors cursor-pointer bg-transparent border-0 p-0 text-inherit text-xs" type="button">Sign Out</button>
         </div>
       </div>
     </div>

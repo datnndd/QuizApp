@@ -132,6 +132,13 @@
 
       <!-- BEGIN: LoginForm -->
       <form class="space-y-5" (ngSubmit)="onSubmit()">
+        @if (errorMessage()) {
+          <div class="p-3.5 bg-orange-50 border-2 border-orange-500 rounded-xl text-orange-900 font-sans text-xs font-bold flex items-center gap-2 shadow-xs">
+            <span class="text-base">⚠️</span>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
         <!-- Username or Email Field -->
         <div>
           <label class="block font-pill font-bold text-xs sm:text-sm uppercase tracking-wider text-stone-900 mb-1.5"
@@ -198,10 +205,15 @@
         <!-- Primary Action Submit Button -->
         <div class="pt-2">
           <button
-            class="w-full py-4 px-6 rounded-2xl comic-border-thick comic-shadow-btn bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 text-white font-display text-xl sm:text-2xl tracking-wider uppercase flex items-center justify-center gap-2.5 cursor-pointer"
+            class="w-full py-4 px-6 rounded-2xl comic-border-thick comic-shadow-btn bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 text-white font-display text-xl sm:text-2xl tracking-wider uppercase flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            [disabled]="isLoading()"
             type="submit">
-            <span>ENTER THE QUIZZO ARENA</span>
-            <span class="text-xl">💥</span>
+            @if (isLoading()) {
+              <span>AUTHENTICATING...</span>
+            } @else {
+              <span>ENTER THE QUIZZO ARENA</span>
+              <span class="text-xl">💥</span>
+            }
           </button>
         </div>
       </form>

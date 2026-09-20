@@ -1,6 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 export interface DeckQueue {
   id: string;
@@ -33,9 +34,19 @@ export interface DeckQueue {
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  protected readonly userName = signal<string>('Alex Morgan');
+  private readonly authService = inject(AuthService);
+
+  protected readonly currentUser = this.authService.currentUser;
+  protected readonly userName = computed(() => this.currentUser()?.displayName || 'Alex Morgan');
+  protected readonly userEmail = computed(() => this.currentUser()?.email || 'alex.morgan@university.edu');
   protected readonly userTitle = signal<string>('Level 14 Scholar');
-  protected readonly userInitials = signal<string>('AM');
+  protected readonly userInitials = computed(() => {
+    const user = this.currentUser();
+    if (user && user.firstName && user.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    return 'AM';
+  });
   protected readonly currentStreak = signal<number>(5);
   protected readonly longestStreak = signal<number>(14);
   protected readonly streakFreezesAvailable = signal<number>(1);
@@ -148,5 +159,9 @@ export class DashboardComponent {
 
   startSprint(): void {
     this.sprintActive.set(true);
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

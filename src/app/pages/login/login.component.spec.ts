@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideHttpClient()]
     }).compileComponents();
   });
 
@@ -26,5 +27,15 @@ describe('LoginComponent', () => {
 
     component.togglePassword();
     expect(component['showPassword']()).toBe(false);
+  });
+
+  it('should show error when identifier or password is empty on submit', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    const component = fixture.componentInstance;
+    component['identifier'].set('');
+    component['password'].set('');
+
+    component.onSubmit();
+    expect(component['errorMessage']()).toContain('Please enter both your identifier and password.');
   });
 });
