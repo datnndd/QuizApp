@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AdminOverviewComponent } from './pages/admin/admin-overview.component';
+import { UserManagementComponent } from './pages/admin/user-management.component';
 import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
@@ -17,7 +18,7 @@ export const routes: Routes = [
     children: [
       { path: '', component: AdminOverviewComponent, pathMatch: 'full' },
       { path: 'overview', redirectTo: '', pathMatch: 'full' },
-      { path: 'user-management', component: AdminOverviewComponent },
+      { path: 'user-management', component: UserManagementComponent },
       { path: 'quiz-and-deck-studio', component: AdminOverviewComponent }
     ]
   },

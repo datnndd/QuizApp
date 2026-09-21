@@ -1,0 +1,940 @@
+<div class="bg-[#faf8ff] font-sans text-sm text-[#131b2e] antialiased min-h-screen">
+  <!-- 1. FIXED LEFT SIDEBAR -->
+  <aside class="fixed left-0 top-0 h-full w-72 bg-[#f2f3ff] z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-r border-[#eaedff]">
+    <div class="flex flex-col">
+      <!-- Brand Header -->
+      <div class="h-16 px-6 flex items-center gap-2.5 border-b border-[#eaedff]">
+        <div class="w-9 h-9 rounded-xl bg-[#3525cd] flex items-center justify-center shadow-md shadow-[#3525cd]/25">
+          <span class="material-symbols-outlined text-white text-[20px]">school</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg text-[#131b2e] tracking-tight">Quizzo</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#e2dfff] text-[#3323cc] tracking-wider uppercase">Admin Suite</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex flex-col gap-1 px-4 mt-4">
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/admin">
+          <span class="material-symbols-outlined text-[20px]">grid_view</span>
+          <span class="text-sm font-medium">Overview</span>
+        </a>
+        <a aria-current="page" class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all bg-[#4f46e5] text-white font-semibold shadow-sm cursor-pointer" routerLink="/admin/user-management">
+          <span class="material-symbols-outlined text-[20px]">group</span>
+          <span class="text-sm font-semibold">User Management</span>
+        </a>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/admin/quiz-and-deck-studio">
+          <span class="material-symbols-outlined text-[20px]">auto_stories</span>
+          <span class="text-sm font-medium">Quiz &amp; Deck Studio</span>
+        </a>
+        <div class="my-3 border-t border-[#eaedff]"></div>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/dashboard">
+          <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+          <span class="text-sm font-medium">Student Dashboard</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Cluster Status Widget -->
+    <div class="p-4 border-t border-[#eaedff]">
+      <div class="bg-white rounded-xl p-3 border border-[#eaedff] shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+          </span>
+          <span class="text-xs font-medium text-[#464555]">Cluster: us-east-1</span>
+        </div>
+        <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#eaedff] text-[#464555] font-semibold">v2.4.9-ee</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. MAIN CONTAINER -->
+  <div class="pl-72 min-h-screen flex flex-col bg-[#faf8ff]">
+    <!-- Top Universal Navigation Bar -->
+    <header class="h-16 border-b border-[#eaedff] bg-white/90 backdrop-blur sticky top-0 z-40 flex items-center justify-between px-8">
+      <div class="flex items-center gap-4 flex-1 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777587] text-[18px]">search</span>
+          <input
+            [ngModel]="searchQuery()"
+            (ngModelChange)="onSearch($event)"
+            class="w-full h-9 pl-9 pr-12 rounded-lg bg-[#f2f3ff] text-[#131b2e] placeholder:text-[#777587] text-xs border border-transparent focus:border-[#3525cd]/40 focus:bg-white focus:outline-none transition-all"
+            placeholder="Search directory by name, email, or username..."
+            type="text"
+          />
+          <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-[#464555] bg-[#eaedff] px-1.5 py-0.5 rounded font-mono">⌘K</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <!-- Telemetry Pill -->
+        <div class="hidden md:flex items-center gap-2 bg-[#f2f3ff] px-3 py-1 rounded-full text-xs font-medium text-[#464555]">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>Sync Engine Active</span>
+          <span class="text-[#c7c4d8]">|</span>
+          <span class="font-mono text-[11px] text-[#3525cd] font-semibold">99.98% SLA</span>
+        </div>
+        <button class="relative p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] transition-colors" title="Notifications" type="button">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-[#ba1a1a] rounded-full ring-2 ring-white"></span>
+        </button>
+        <div class="h-4 w-px bg-[#eaedff]"></div>
+        <div class="flex items-center gap-2.5 pl-1">
+          <div class="w-8 h-8 rounded-full bg-[#3525cd] flex items-center justify-center text-white font-bold text-xs shadow-sm">
+            {{ adminInitials() }}
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="text-xs font-bold text-[#131b2e] leading-tight">{{ adminName() }}</span>
+            <span class="text-[10px] text-[#3525cd] font-semibold leading-tight">{{ adminRole() }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Console Main Content -->
+    <main class="flex-1 p-6 space-y-4 max-w-[1720px] w-full mx-auto">
+      <!-- Toast Message -->
+      @if (toastMessage(); as toast) {
+        <div
+          class="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl shadow-lg text-xs font-semibold flex items-center gap-2 border transition-all animate-bounce"
+          [ngClass]="{
+            'bg-emerald-50 text-emerald-800 border-emerald-300': toast.type === 'success',
+            'bg-rose-50 text-rose-800 border-rose-300': toast.type === 'error',
+            'bg-indigo-50 text-indigo-800 border-indigo-300': toast.type === 'info'
+          }"
+        >
+          <span class="material-symbols-outlined text-[18px]">
+            {{ toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info' }}
+          </span>
+          <span>{{ toast.text }}</span>
+        </div>
+      }
+
+      <!-- Compact Executive Header & Telemetry Ribbon -->
+      <div class="bg-white rounded-xl p-4 border border-[#eaedff] shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
+        <!-- Title & Subtitle -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-[#131b2e] tracking-tight">Identity Directory &amp; Ledger Console</span>
+            <span class="px-2 py-0.5 rounded-full bg-[#3525cd]/10 text-[#3525cd] text-[11px] font-bold">Consortium Tier 1</span>
+          </div>
+          <p class="text-xs text-[#464555] mt-0.5">High-frequency distributed ledger management for academic cohorts, permissions, and cognitive progress records.</p>
+        </div>
+
+        <!-- Real-Time Telemetry Metrics Ribbon -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-3 bg-[#f2f3ff] px-3 py-1.5 rounded-lg border border-[#eaedff]">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-[#464555] font-bold uppercase tracking-wider">Total Records</span>
+              <span class="text-sm font-bold text-[#131b2e]">{{ statistics()?.totalUsers ?? totalCount() }}</span>
+            </div>
+            <div class="h-6 w-px bg-[#eaedff]"></div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-[#464555] font-bold uppercase tracking-wider">Active Rate</span>
+              <span class="text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+                {{ statistics()?.activeRate ?? 0 }}%
+                <span class="material-symbols-outlined text-[13px]">north_east</span>
+              </span>
+            </div>
+            <div class="h-6 w-px bg-[#eaedff]"></div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-[#464555] font-bold uppercase tracking-wider">Inactive / Pending</span>
+              <span class="text-sm font-bold text-amber-600 flex items-center gap-1">
+                {{ statistics()?.inactiveUsers ?? 0 }}
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+              </span>
+            </div>
+            <div class="h-6 w-px bg-[#eaedff]"></div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-[#464555] font-bold uppercase tracking-wider">Soft Deleted</span>
+              <span class="text-sm font-bold text-rose-600 flex items-center gap-1">
+                {{ statistics()?.deletedUsers ?? 0 }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Primary Actions -->
+          <div class="flex items-center gap-2">
+            <button
+              (click)="openCreateModal()"
+              class="h-9 px-3.5 rounded-lg bg-[#3525cd] hover:bg-[#3525cd]/90 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[16px]">person_add</span>
+              + Add User
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter & Search Power Bar -->
+      <div class="bg-white rounded-xl border border-[#eaedff] p-3 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] space-y-2.5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-12 gap-2">
+          <!-- Universal Search Input -->
+          <div class="xl:col-span-5 relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777587] text-[17px]">manage_search</span>
+            <input
+              [ngModel]="searchQuery()"
+              (ngModelChange)="onSearch($event)"
+              class="w-full h-9 pl-9 pr-3 rounded-lg bg-[#f2f3ff] border border-[#eaedff] text-xs placeholder:text-[#777587] focus:bg-white focus:border-[#3525cd] focus:outline-none transition-all"
+              placeholder="Search by name, institutional email, username, or phone..."
+              type="text"
+            />
+          </div>
+
+          <!-- Role Dropdown Filter -->
+          <div class="xl:col-span-3 relative">
+            <select
+              [ngModel]="roleFilter()"
+              (ngModelChange)="onRoleChange($event)"
+              class="w-full h-9 pl-2.5 pr-8 rounded-lg bg-[#f2f3ff] border border-[#eaedff] text-xs font-medium text-[#131b2e] focus:outline-none focus:border-[#3525cd] appearance-none cursor-pointer"
+            >
+              <option value="all">Role: All Roles (Admin &amp; User)</option>
+              <option value="Admin">Role: Admin</option>
+              <option value="User">Role: User (Student / Learner)</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#777587] pointer-events-none text-[18px]">expand_more</span>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="xl:col-span-3 relative">
+            <select
+              [ngModel]="statusFilter()"
+              (ngModelChange)="onStatusChange($event)"
+              class="w-full h-9 pl-2.5 pr-8 rounded-lg bg-[#f2f3ff] border border-[#eaedff] text-xs font-medium text-[#131b2e] focus:outline-none focus:border-[#3525cd] appearance-none cursor-pointer"
+            >
+              <option value="all">Status: All Statuses</option>
+              <option value="active">Active Accounts</option>
+              <option value="inactive">Inactive / Suspended</option>
+              <option value="deleted">Soft Deleted Records</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#777587] pointer-events-none text-[18px]">tune</span>
+          </div>
+
+          <!-- Reset Filter Button -->
+          <div class="xl:col-span-1 flex items-center">
+            <button
+              (click)="onSearch(''); onRoleChange('all'); onStatusChange('all')"
+              class="w-full h-9 px-2 rounded-lg bg-[#f2f3ff] hover:bg-[#eaedff] text-[#464555] hover:text-[#131b2e] text-xs font-semibold flex items-center justify-center gap-1 transition-all cursor-pointer"
+              title="Reset all filters"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Batch Action Bar & Selection Status -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#eaedff] bg-[#f2f3ff]/40 px-2.5 py-1.5 rounded-lg">
+          <!-- Selection Counter & Select All -->
+          <div class="flex items-center gap-2.5 text-xs">
+            <span class="font-semibold text-[#3525cd] flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-[#3525cd]"></span>
+              {{ selectedCount() }} accounts selected
+            </span>
+            <span class="text-[#c7c4d8]">|</span>
+            <button (click)="selectAllVisible()" class="text-[#0058be] hover:underline font-semibold cursor-pointer" type="button">
+              Select all {{ users().length }} visible on page
+            </button>
+            <span class="text-[#c7c4d8]">•</span>
+            <button (click)="clearSelection()" class="text-[#464555] hover:text-[#131b2e] cursor-pointer" type="button">
+              Clear selection
+            </button>
+          </div>
+
+          <!-- Action Buttons Strip -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button
+              (click)="exportCsv()"
+              class="h-7 px-2.5 rounded bg-white border border-[#eaedff] hover:bg-[#f2f3ff] text-[#131b2e] text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[14px] text-[#3525cd]">download</span>
+              Export CSV
+            </button>
+            <button
+              (click)="showToast('Bulk notification feature triggered for ' + selectedCount() + ' accounts.', 'info')"
+              class="h-7 px-2.5 rounded bg-white border border-[#eaedff] hover:bg-[#f2f3ff] text-[#131b2e] text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+              type="button"
+            >
+              <span class="material-symbols-outlined text-[14px] text-[#0058be]">mail</span>
+              Bulk Notify
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Ledger Table Container -->
+      <div class="bg-white rounded-xl border border-[#eaedff] shadow-sm overflow-hidden flex flex-col">
+        <div class="overflow-x-auto w-full">
+          <table class="w-full text-left border-collapse min-w-[1080px]">
+            <!-- Ledger Header with Sorting Controls -->
+            <thead>
+              <tr class="bg-[#f2f3ff] text-[#464555] text-[11px] uppercase tracking-wider border-b border-[#eaedff] select-none">
+                <th class="py-2.5 pl-4 pr-2 w-9 text-center">
+                  <input
+                    [checked]="isAllSelected()"
+                    (change)="toggleSelectAllCurrentPage()"
+                    class="rounded w-3.5 h-3.5 text-[#3525cd] accent-[#3525cd] cursor-pointer"
+                    type="checkbox"
+                  />
+                </th>
+                <th (click)="onSort('name')" class="py-2.5 px-3 font-bold group cursor-pointer hover:text-[#131b2e] transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>User &amp; Details</span>
+                    <span class="material-symbols-outlined text-[14px]" [ngClass]="sortBy() === 'name' ? 'text-[#3525cd]' : 'text-[#777587]/60'">
+                      {{ sortBy() === 'name' && sortDirection() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                  </div>
+                </th>
+                <th (click)="onSort('email')" class="py-2.5 px-3 font-bold group cursor-pointer hover:text-[#131b2e] transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>Institutional Email / ID</span>
+                    <span class="material-symbols-outlined text-[14px]" [ngClass]="sortBy() === 'email' ? 'text-[#3525cd]' : 'text-[#777587]/60'">
+                      {{ sortBy() === 'email' && sortDirection() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                  </div>
+                </th>
+                <th (click)="onSort('role')" class="py-2.5 px-3 font-bold group cursor-pointer hover:text-[#131b2e] transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>Role &amp; Tier</span>
+                    <span class="material-symbols-outlined text-[14px]" [ngClass]="sortBy() === 'role' ? 'text-[#3525cd]' : 'text-[#777587]/60'">
+                      {{ sortBy() === 'role' && sortDirection() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                  </div>
+                </th>
+                <th (click)="onSort('status')" class="py-2.5 px-3 font-bold group cursor-pointer hover:text-[#131b2e] transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>Verification Status</span>
+                    <span class="material-symbols-outlined text-[14px]" [ngClass]="sortBy() === 'status' ? 'text-[#3525cd]' : 'text-[#777587]/60'">
+                      {{ sortBy() === 'status' && sortDirection() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                  </div>
+                </th>
+                <th (click)="onSort('createdat')" class="py-2.5 px-3 font-bold group cursor-pointer hover:text-[#131b2e] transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>Created Date</span>
+                    <span class="material-symbols-outlined text-[14px]" [ngClass]="sortBy() === 'createdat' ? 'text-[#3525cd]' : 'text-[#777587]/60'">
+                      {{ sortBy() === 'createdat' && sortDirection() === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                    </span>
+                  </div>
+                </th>
+                <th class="py-2.5 pr-4 pl-2 text-right font-bold">Actions</th>
+              </tr>
+            </thead>
+
+            <!-- Ledger Body -->
+            <tbody class="divide-y divide-[#eaedff] text-xs text-[#131b2e]">
+              @if (isLoading()) {
+                <tr>
+                  <td colspan="7" class="py-12 text-center text-[#464555]">
+                    <div class="flex flex-col items-center justify-center gap-2">
+                      <span class="material-symbols-outlined text-[32px] text-[#3525cd] animate-spin">refresh</span>
+                      <span class="font-medium">Querying ledger records...</span>
+                    </div>
+                  </td>
+                </tr>
+              } @else if (users().length === 0) {
+                <tr>
+                  <td colspan="7" class="py-12 text-center text-[#464555]">
+                    <div class="flex flex-col items-center justify-center gap-2">
+                      <span class="material-symbols-outlined text-[36px] text-[#777587]">person_off</span>
+                      <span class="font-bold text-sm text-[#131b2e]">No user accounts found</span>
+                      <span class="text-xs text-[#777587]">Try adjusting your search criteria or filter options.</span>
+                    </div>
+                  </td>
+                </tr>
+              } @else {
+                @for (user of users(); track user.id) {
+                  <tr
+                    class="hover:bg-[#f2f3ff]/60 transition-colors"
+                    [ngClass]="{
+                      'bg-[#3525cd]/5': selectedUserIds().has(user.id),
+                      'bg-rose-50/20': user.isDeleted
+                    }"
+                  >
+                    <!-- Checkbox -->
+                    <td class="py-2.5 pl-4 pr-2 text-center">
+                      <input
+                        [checked]="selectedUserIds().has(user.id)"
+                        (change)="toggleSelectUser(user.id)"
+                        class="rounded w-3.5 h-3.5 text-[#3525cd] accent-[#3525cd] cursor-pointer"
+                        type="checkbox"
+                      />
+                    </td>
+
+                    <!-- User & Affiliation -->
+                    <td class="py-2.5 px-3">
+                      <div class="flex items-center gap-2.5">
+                        <div class="relative flex-shrink-0">
+                          <div
+                            class="w-8 h-8 rounded-full font-bold text-[11px] flex items-center justify-center ring-1"
+                            [ngClass]="[
+                              getAvatarColor(user.role).bg,
+                              getAvatarColor(user.role).text,
+                              user.role === 'Admin' ? 'ring-[#3525cd]/25' : 'ring-[#0058be]/25'
+                            ]"
+                          >
+                            {{ getUserInitials(user) }}
+                          </div>
+                          <span
+                            class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white"
+                            [ngClass]="{
+                              'bg-emerald-500': user.isActive && !user.isDeleted,
+                              'bg-amber-500': !user.isActive && !user.isDeleted,
+                              'bg-rose-500': user.isDeleted
+                            }"
+                          ></span>
+                        </div>
+                        <div class="flex flex-col min-w-0">
+                          <div class="flex items-center gap-1.5">
+                            <span
+                              class="font-bold text-[#131b2e] truncate text-[13px]"
+                              [ngClass]="{ 'line-through text-[#777587]': user.isDeleted }"
+                            >
+                              {{ user.displayName || (user.firstName + ' ' + user.lastName) }}
+                            </span>
+                            <span class="px-1 py-0.2 rounded bg-[#eaedff] text-[#464555] font-mono text-[10px]">
+                              @{{ user.userName }}
+                            </span>
+                          </div>
+                          <span class="text-[11px] text-[#464555] truncate">
+                            {{ user.phoneNumber ? user.phoneNumber : 'No phone linked' }}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- Institutional Email / ID -->
+                    <td class="py-2.5 px-3 font-mono text-[11px] text-[#464555]">
+                      <div class="flex items-center gap-1">
+                        <span class="text-[#131b2e]">{{ user.email }}</span>
+                        <button
+                          (click)="copyToClipboard(user.email)"
+                          class="material-symbols-outlined text-[13px] text-[#777587] hover:text-[#3525cd] cursor-pointer"
+                          title="Copy Email"
+                        >
+                          content_copy
+                        </button>
+                      </div>
+                      <span class="text-[10px] text-[#777587]">ID-{{ user.id | number: '4.0-0' }}</span>
+                    </td>
+
+                    <!-- Role & Tier -->
+                    <td class="py-2.5 px-3">
+                      @if (user.role === 'Admin') {
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#e2dfff] text-[#3323cc] font-semibold text-[11px]">
+                          <span class="material-symbols-outlined text-[13px]">admin_panel_settings</span>
+                          Admin
+                        </span>
+                      } @else {
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#d8e2ff] text-[#004395] font-semibold text-[11px]">
+                          <span class="material-symbols-outlined text-[13px]">school</span>
+                          User
+                        </span>
+                      }
+                    </td>
+
+                    <!-- Verification / Status -->
+                    <td class="py-2.5 px-3">
+                      @if (user.isDeleted) {
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-[11px] font-semibold border border-rose-200">
+                          <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                          Soft Deleted
+                        </span>
+                      } @else if (user.isActive) {
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+                          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                          Active
+                        </span>
+                      } @else {
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[11px] font-semibold border border-amber-300">
+                          <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                          Inactive
+                        </span>
+                      }
+                    </td>
+
+                    <!-- Created Date -->
+                    <td class="py-2.5 px-3 text-[11px] text-[#464555] font-mono">
+                      <span>{{ user.createdAt | date: 'mediumDate' }}</span>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="py-2.5 pr-4 pl-2 text-right">
+                      <div class="inline-flex items-center justify-end gap-1">
+                        <!-- Edit -->
+                        <button
+                          (click)="openEditModal(user)"
+                          class="p-1 rounded hover:bg-[#eaedff] text-[#464555] hover:text-[#3525cd] transition-colors cursor-pointer"
+                          title="Edit user info &amp; role"
+                        >
+                          <span class="material-symbols-outlined text-[16px]">edit</span>
+                        </button>
+
+                        <!-- Soft Delete or Restore -->
+                        @if (user.isDeleted) {
+                          <button
+                            (click)="restoreUser(user)"
+                            class="p-1 rounded hover:bg-emerald-100 text-emerald-700 transition-colors cursor-pointer"
+                            title="Restore soft-deleted user"
+                          >
+                            <span class="material-symbols-outlined text-[16px]">restore</span>
+                          </button>
+                        } @else {
+                          <button
+                            (click)="openDeleteModal(user)"
+                            class="p-1 rounded hover:bg-rose-100 text-[#464555] hover:text-[#ba1a1a] transition-colors cursor-pointer"
+                            title="Soft delete user account"
+                          >
+                            <span class="material-symbols-outlined text-[16px]">delete</span>
+                          </button>
+                        }
+
+                        <!-- Toggle Active Status -->
+                        @if (!user.isDeleted) {
+                          <button
+                            (click)="toggleUserStatus(user)"
+                            class="p-1 rounded hover:bg-[#eaedff] text-[#464555] hover:text-[#0058be] transition-colors cursor-pointer"
+                            [title]="user.isActive ? 'Mark Inactive' : 'Mark Active'"
+                          >
+                            <span class="material-symbols-outlined text-[16px]">
+                              {{ user.isActive ? 'pause_circle' : 'play_circle' }}
+                            </span>
+                          </button>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- High-Density Pagination Console Footer -->
+        <div class="px-4 py-3 bg-[#f2f3ff]/70 border-t border-[#eaedff] flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
+          <!-- Left Status & Page Size Selector -->
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-[#464555] font-medium">
+              Showing
+              <strong class="text-[#131b2e] font-bold">
+                {{ users().length === 0 ? 0 : (page() - 1) * pageSize() + 1 }}–{{ (page() - 1) * pageSize() + users().length }}
+              </strong>
+              of
+              <strong class="text-[#131b2e] font-bold">{{ totalCount() }}</strong>
+              records
+            </span>
+            <span class="text-[#c7c4d8]">•</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[#464555]">Rows per page:</span>
+              <select
+                [ngModel]="pageSize()"
+                (ngModelChange)="onPageSizeChange($event)"
+                class="h-7 px-2 rounded bg-white border border-[#eaedff] text-[#131b2e] font-semibold text-[11px] focus:outline-none cursor-pointer"
+              >
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+              </select>
+            </div>
+            <span class="text-[#c7c4d8] hidden sm:inline">•</span>
+            <span class="text-[11px] text-[#777587] font-mono hidden sm:inline">Query took {{ queryDurationMs() }}ms</span>
+          </div>
+
+          <!-- Right Pagination & Page Jump Controls -->
+          <div class="flex items-center gap-2">
+            <!-- Jump to Page Input -->
+            <div class="hidden lg:flex items-center gap-1.5 text-[#464555] mr-2">
+              <span>Go to:</span>
+              <input
+                [(ngModel)]="jumpToPageInput"
+                (keyup.enter)="jumpToPage()"
+                class="w-12 h-7 px-1.5 rounded bg-white border border-[#eaedff] text-center font-mono text-[11px] font-semibold text-[#131b2e] focus:outline-none focus:border-[#3525cd]"
+                type="number"
+                min="1"
+                [max]="totalPages() || 1"
+              />
+            </div>
+
+            <!-- Page Buttons -->
+            <div class="flex items-center gap-1">
+              <button
+                [disabled]="page() <= 1"
+                (click)="onPageChange(1)"
+                class="h-7 px-2 rounded bg-white border border-[#eaedff] text-[#464555] hover:text-[#131b2e] disabled:opacity-40 flex items-center gap-0.5 text-[11px] font-semibold transition-colors cursor-pointer"
+                title="First Page"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[15px]">first_page</span>
+              </button>
+              <button
+                [disabled]="page() <= 1"
+                (click)="onPageChange(page() - 1)"
+                class="h-7 px-2 rounded bg-white border border-[#eaedff] text-[#464555] hover:text-[#131b2e] disabled:opacity-40 flex items-center gap-0.5 text-[11px] font-semibold transition-colors cursor-pointer"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[15px]">chevron_left</span>
+                Prev
+              </button>
+
+              <span class="h-7 px-2.5 rounded bg-[#3525cd] text-white font-bold text-[11px] flex items-center justify-center shadow-xs">
+                {{ page() }} / {{ totalPages() || 1 }}
+              </span>
+
+              <button
+                [disabled]="page() >= totalPages()"
+                (click)="onPageChange(page() + 1)"
+                class="h-7 px-2 rounded bg-white border border-[#eaedff] text-[#464555] hover:text-[#131b2e] disabled:opacity-40 flex items-center gap-0.5 text-[11px] font-semibold transition-colors cursor-pointer"
+                type="button"
+              >
+                Next
+                <span class="material-symbols-outlined text-[15px]">chevron_right</span>
+              </button>
+              <button
+                [disabled]="page() >= totalPages()"
+                (click)="onPageChange(totalPages())"
+                class="h-7 px-2 rounded bg-white border border-[#eaedff] text-[#464555] hover:text-[#131b2e] disabled:opacity-40 flex items-center gap-0.5 text-[11px] font-semibold transition-colors cursor-pointer"
+                title="Last Page"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-[15px]">last_page</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 3. MODALS -->
+  <!-- CREATE USER MODAL -->
+  @if (isCreateModalOpen()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl border border-[#eaedff] max-w-lg w-full overflow-hidden">
+        <div class="px-6 py-4 border-b border-[#eaedff] flex items-center justify-between bg-[#f2f3ff]">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#3525cd]">person_add</span>
+            <h3 class="font-bold text-base text-[#131b2e]">Add New User Account</h3>
+          </div>
+          <button (click)="closeCreateModal()" class="text-[#777587] hover:text-[#131b2e] cursor-pointer">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <form (ngSubmit)="submitCreateUser()" class="p-6 space-y-4">
+          @if (modalError()) {
+            <div class="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg text-xs font-semibold flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">error</span>
+              <span>{{ modalError() }}</span>
+            </div>
+          }
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">First Name *</label>
+              <input
+                [(ngModel)]="createForm.firstName"
+                name="firstName"
+                required
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="e.g. Sarah"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Last Name *</label>
+              <input
+                [(ngModel)]="createForm.lastName"
+                name="lastName"
+                required
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="e.g. Jenkins"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#464555] mb-1">Display Name</label>
+            <input
+              [(ngModel)]="createForm.displayName"
+              name="displayName"
+              class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+              placeholder="e.g. Sarah Jenkins (Optional)"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Username *</label>
+              <input
+                [(ngModel)]="createForm.userName"
+                name="userName"
+                required
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="e.g. sjenkins"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Email Address *</label>
+              <input
+                [(ngModel)]="createForm.email"
+                name="email"
+                type="email"
+                required
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="e.g. s.jenkins@oxford.ac.uk"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Role *</label>
+              <select
+                [(ngModel)]="createForm.role"
+                name="role"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none cursor-pointer"
+              >
+                <option value="User">User (Student / Learner)</option>
+                <option value="Admin">Admin (Full Privileges)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Status</label>
+              <select
+                [(ngModel)]="createForm.isActive"
+                name="isActive"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none cursor-pointer"
+              >
+                <option [ngValue]="true">Active</option>
+                <option [ngValue]="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Password (Optional)</label>
+              <input
+                [(ngModel)]="createForm.password"
+                name="password"
+                type="password"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="Defaults to User@123456"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Phone Number</label>
+              <input
+                [(ngModel)]="createForm.phoneNumber"
+                name="phoneNumber"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="e.g. +1 (555) 000-1234"
+              />
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-[#eaedff] flex items-center justify-end gap-2">
+            <button
+              (click)="closeCreateModal()"
+              type="button"
+              class="px-4 py-2 rounded-lg border border-[#eaedff] text-xs font-semibold text-[#464555] hover:bg-[#f2f3ff] transition-all cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="isSubmitting()"
+              type="submit"
+              class="px-4 py-2 rounded-lg bg-[#3525cd] hover:bg-[#3525cd]/90 text-white text-xs font-bold shadow-sm transition-all disabled:opacity-50 cursor-pointer flex items-center gap-1.5"
+            >
+              @if (isSubmitting()) {
+                <span class="material-symbols-outlined text-[16px] animate-spin">refresh</span>
+              }
+              Create User
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- EDIT USER MODAL -->
+  @if (isEditModalOpen()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl border border-[#eaedff] max-w-lg w-full overflow-hidden">
+        <div class="px-6 py-4 border-b border-[#eaedff] flex items-center justify-between bg-[#f2f3ff]">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[#3525cd]">edit</span>
+            <h3 class="font-bold text-base text-[#131b2e]">Edit User: {{ editForm.userName }}</h3>
+          </div>
+          <button (click)="closeEditModal()" class="text-[#777587] hover:text-[#131b2e] cursor-pointer">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <form (ngSubmit)="submitEditUser()" class="p-6 space-y-4">
+          @if (modalError()) {
+            <div class="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-lg text-xs font-semibold flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]">error</span>
+              <span>{{ modalError() }}</span>
+            </div>
+          }
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">First Name *</label>
+              <input
+                [(ngModel)]="editForm.firstName"
+                name="editFirstName"
+                required
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Last Name *</label>
+              <input
+                [(ngModel)]="editForm.lastName"
+                name="editLastName"
+                required
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#464555] mb-1">Display Name</label>
+            <input
+              [(ngModel)]="editForm.displayName"
+              name="editDisplayName"
+              class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#464555] mb-1">Email Address *</label>
+            <input
+              [(ngModel)]="editForm.email"
+              name="editEmail"
+              type="email"
+              required
+              class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Role *</label>
+              <select
+                [(ngModel)]="editForm.role"
+                name="editRole"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none cursor-pointer"
+              >
+                <option value="User">User (Student / Learner)</option>
+                <option value="Admin">Admin (Full Privileges)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Status</label>
+              <select
+                [(ngModel)]="editForm.isActive"
+                name="editIsActive"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none cursor-pointer"
+              >
+                <option [ngValue]="true">Active</option>
+                <option [ngValue]="false">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Reset Password</label>
+              <input
+                [(ngModel)]="editForm.password"
+                name="editPassword"
+                type="password"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+                placeholder="Leave blank to keep current"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-[#464555] mb-1">Phone Number</label>
+              <input
+                [(ngModel)]="editForm.phoneNumber"
+                name="editPhoneNumber"
+                class="w-full h-9 px-3 rounded-lg border border-[#eaedff] text-xs focus:border-[#3525cd] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-[#eaedff] flex items-center justify-end gap-2">
+            <button
+              (click)="closeEditModal()"
+              type="button"
+              class="px-4 py-2 rounded-lg border border-[#eaedff] text-xs font-semibold text-[#464555] hover:bg-[#f2f3ff] transition-all cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="isSubmitting()"
+              type="submit"
+              class="px-4 py-2 rounded-lg bg-[#3525cd] hover:bg-[#3525cd]/90 text-white text-xs font-bold shadow-sm transition-all disabled:opacity-50 cursor-pointer flex items-center gap-1.5"
+            >
+              @if (isSubmitting()) {
+                <span class="material-symbols-outlined text-[16px] animate-spin">refresh</span>
+              }
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- SOFT DELETE CONFIRMATION MODAL -->
+  @if (isDeleteModalOpen()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-fade-in">
+      <div class="bg-white rounded-2xl shadow-2xl border border-[#eaedff] max-w-md w-full overflow-hidden">
+        <div class="p-6 flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-full bg-rose-100 text-[#ba1a1a] flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-[28px]">warning</span>
+          </div>
+          <h3 class="text-base font-bold text-[#131b2e] mb-1">Soft Delete User Account?</h3>
+          <p class="text-xs text-[#464555] mb-4">
+            Are you sure you want to soft delete
+            <strong class="text-[#131b2e]">{{ selectedUserForDelete()?.displayName }}</strong>
+            ({{ selectedUserForDelete()?.email }})?
+            <br />
+            <span class="text-[#3525cd] font-semibold mt-1 inline-block">
+              Data is preserved in the database and can be restored at any time.
+            </span>
+          </p>
+          <div class="flex items-center gap-3 w-full">
+            <button
+              (click)="closeDeleteModal()"
+              type="button"
+              class="flex-1 py-2 rounded-lg border border-[#eaedff] text-xs font-semibold text-[#464555] hover:bg-[#f2f3ff] transition-all cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="isSubmitting()"
+              (click)="confirmSoftDelete()"
+              type="button"
+              class="flex-1 py-2 rounded-lg bg-[#ba1a1a] hover:bg-[#ba1a1a]/90 text-white text-xs font-bold shadow-sm transition-all disabled:opacity-50 cursor-pointer flex items-center justify-center gap-1"
+            >
+              @if (isSubmitting()) {
+                <span class="material-symbols-outlined text-[16px] animate-spin">refresh</span>
+              }
+              Soft Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
