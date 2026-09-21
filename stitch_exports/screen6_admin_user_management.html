@@ -1,0 +1,884 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f2f3ff; }
+    ::-webkit-scrollbar-thumb { background: #c7c4d8; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #777587; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-bright": "#faf8ff",
+            "inverse-primary": "#c3c0ff",
+            "on-tertiary-container": "#ffd4a4",
+            "secondary": "#0058be",
+            "outline-variant": "#c7c4d8",
+            "on-primary-fixed-variant": "#3323cc",
+            "on-tertiary-fixed": "#2a1700",
+            "on-secondary-fixed": "#001a42",
+            "inverse-on-surface": "#eef0ff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "secondary-fixed-dim": "#adc6ff",
+            "on-secondary-fixed-variant": "#004395",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "on-background": "#131b2e",
+            "on-error-container": "#93000a",
+            "primary": "#3525cd",
+            "surface-container-highest": "#dae2fd",
+            "primary-fixed-dim": "#c3c0ff",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "surface-tint": "#4d44e3",
+            "tertiary-fixed": "#ffddb8",
+            "primary-container": "#4f46e5",
+            "on-primary-container": "#dad7ff",
+            "surface": "#faf8ff",
+            "surface-variant": "#dae2fd",
+            "tertiary-container": "#885500",
+            "surface-dim": "#d2d9f4",
+            "tertiary": "#684000",
+            "outline": "#777587",
+            "error": "#ba1a1a",
+            "on-secondary-container": "#fefcff",
+            "background": "#faf8ff",
+            "on-surface": "#131b2e",
+            "on-surface-variant": "#464555",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e2e7ff",
+            "primary-fixed": "#e2dfff",
+            "on-primary": "#ffffff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "inverse-surface": "#283044",
+            "on-primary-fixed": "#0f0069",
+            "secondary-fixed": "#d8e2ff",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#eaedff",
+            "secondary-container": "#2170e4"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "label-sm": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "label-lg": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "display-hero": ["Plus Jakarta Sans"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased">
+<!-- Persistent Left Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between border-r border-outline-variant/30 shadow-sm">
+<div class="flex flex-col">
+<!-- Logo Branding -->
+<div class="h-16 px-5 flex items-center gap-3 border-b border-surface-container">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary text-[19px]">school</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm font-bold text-on-surface tracking-tight text-[17px]">Quizzo</span>
+<span class="font-label-sm text-[10px] px-1.5 py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed-variant font-bold uppercase tracking-wider">Enterprise</span>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1 px-3 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-label-md text-[13px]" href="#">
+<span class="material-symbols-outlined text-[19px]">grid_view</span>
+<span class="">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-on-primary font-semibold shadow-sm transition-all font-label-md text-[13px]" href="#">
+<span class="material-symbols-outlined text-[19px]">group</span>
+<span class="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all font-label-md text-[13px]" href="#">
+<span class="material-symbols-outlined text-[19px]">auto_stories</span>
+<span class="">Quiz &amp; Deck Studio</span>
+</a>
+
+
+</nav>
+</div>
+<!-- Sidebar Bottom Status Widget -->
+<div class="p-3 border-t border-surface-container">
+<div class="bg-surface-container-lowest rounded-lg p-2.5 border border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+</span>
+<span class="text-[11px] font-medium text-on-surface-variant">Cluster: us-east-1</span>
+</div>
+<span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-semibold">v2.4.9-ee</span>
+</div>
+</div>
+</aside>
+<!-- Main Canvas Container with pl-64 -->
+<div class="pl-64 min-h-screen flex flex-col bg-surface">
+<!-- Top Universal Navigation Bar -->
+<header class="h-14 border-b border-outline-variant/30 bg-surface-container-lowest/90 backdrop-blur sticky top-0 z-40 flex items-center justify-between px-6">
+<div class="flex items-center gap-4 flex-1 max-w-lg">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full h-8 pl-8 pr-12 rounded-lg bg-surface-container-low text-on-surface placeholder:text-outline text-[13px] border border-transparent focus:border-primary/40 focus:bg-surface-container-lowest focus:outline-none transition-all" placeholder="Search directory by command or query..." type="text">
+<span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-on-surface-variant bg-surface-container px-1.5 py-0.2 rounded font-mono">⌘K</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Telemetry Pill -->
+<div class="hidden md:flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded-full text-[12px] font-medium text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="">Sync Engine Active</span>
+<span class="text-outline-variant">|</span>
+<span class="font-mono text-[11px] text-primary font-semibold">99.98% SLA</span>
+</div>
+<button class="relative p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" title="Notifications" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full ring-2 ring-surface-container-lowest"></span>
+</button>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<div class="flex items-center gap-2.5 pl-1">
+<div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-[12px] shadow-sm">
+            AM
+          </div>
+<div class="flex flex-col text-left">
+<span class="text-[12px] font-bold text-on-surface leading-tight">Alex Morgan</span>
+<span class="text-[10px] text-primary font-semibold leading-tight">Super Admin</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Console Main Content -->
+<main class="flex-1 p-5 space-y-4 max-w-[1720px] w-full mx-auto">
+<!-- Compact Executive Header & Telemetry Ribbon -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-4">
+<!-- Title & Subtitle -->
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-[20px] font-bold text-on-surface tracking-tight">Identity Directory &amp; Ledger Console</span>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold">Consortium Tier 1</span>
+</div>
+<p class="text-[12px] text-on-surface-variant mt-0.5">High-frequency distributed ledger management for academic cohorts, permissions, and cognitive progress records.</p>
+</div>
+<!-- Real-Time Telemetry Metrics Ribbon -->
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex items-center gap-3 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/20">
+<div class="flex flex-col">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Total Records</span>
+<span class="font-headline-sm text-[15px] font-bold text-on-surface">54,820</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<div class="flex flex-col">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Active Rate</span>
+<span class="font-headline-sm text-[15px] font-bold text-emerald-600 flex items-center gap-0.5">
+                98.2%
+                <span class="material-symbols-outlined text-[13px]">north_east</span>
+</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<div class="flex flex-col">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Flagged</span>
+<span class="font-headline-sm text-[15px] font-bold text-amber-600 flex items-center gap-1">
+                14
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/40"></div>
+<div class="flex flex-col">
+
+
+</div>
+</div>
+<!-- Primary Actions -->
+<div class="flex items-center gap-2">
+
+<button class="h-9 px-3.5 rounded-lg bg-primary hover:bg-primary/90 text-on-primary text-[12px] font-bold flex items-center gap-1.5 shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+              + Add User
+            </button>
+</div>
+</div>
+</div>
+<!-- Filter & Search Power Bar -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 p-3 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] space-y-2.5">
+<!-- Advanced Multi-Filter Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-12 gap-2">
+<!-- Universal Search Input -->
+<div class="xl:col-span-4 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[17px]">manage_search</span>
+<input class="w-full h-9 pl-9 pr-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-[12px] placeholder:text-outline focus:bg-surface-container-lowest focus:border-primary focus:outline-none transition-all" placeholder="Search by name, institutional email, domain, or ID..." type="text">
+</div>
+<!-- Role Dropdown -->
+<div class="xl:col-span-2 relative">
+<select class="w-full h-9 pl-2.5 pr-8 rounded-lg bg-surface-container-low border border-outline-variant/30 text-[12px] font-medium text-on-surface focus:outline-none focus:border-primary appearance-none cursor-pointer">
+<option value="">Role: All Roles</option>
+<option>Students</option>
+<option>Faculty &amp; Educators</option>
+<option>Curator Leads</option>
+<option>Super Admins</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<!-- Institution Filter -->
+
+<!-- Status Filter -->
+<div class="xl:col-span-1.5 relative">
+<select class="w-full h-9 pl-2.5 pr-8 rounded-lg bg-surface-container-low border border-outline-variant/30 text-[12px] font-medium text-on-surface focus:outline-none focus:border-primary appearance-none cursor-pointer">
+<option value="">Status: All</option>
+<option>Active</option>
+<option>Pending Verification</option>
+<option>Flagged Review</option>
+<option>Suspended</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">tune</span>
+</div>
+<!-- Activity Date Range Picker Button -->
+<div class="xl:col-span-1.5">
+
+</div>
+<!-- Column Visibility Toggle -->
+<div class="xl:col-span-1">
+
+</div>
+</div>
+<!-- Batch Action Bar & Selection Status -->
+<div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-surface-container bg-surface-container-low/40 px-2.5 py-1.5 rounded-lg">
+<!-- Selection Counter & Select All -->
+<div class="flex items-center gap-2.5 text-[12px]">
+<span class="font-semibold text-primary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+              8 accounts selected
+            </span>
+<span class="text-outline-variant">|</span>
+<button class="text-secondary hover:underline font-semibold" type="button">Select all 54,820 accounts in ledger</button>
+<span class="text-outline-variant">•</span>
+<button class="text-on-surface-variant hover:text-on-surface" type="button">Clear selection</button>
+</div>
+<!-- Action Buttons Strip -->
+<div class="flex flex-wrap items-center gap-1.5">
+<button class="h-7 px-2.5 rounded bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container text-on-surface text-[11px] font-semibold flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px] text-primary">mail</span>
+              Bulk Email
+            </button>
+<button class="h-7 px-2.5 rounded bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container text-on-surface text-[11px] font-semibold flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px] text-secondary">assignment_ind</span>
+              Assign Role
+            </button>
+<button class="h-7 px-2.5 rounded bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container text-on-surface text-[11px] font-semibold flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px] text-amber-600">lock_reset</span>
+              Reset Passwords
+            </button>
+<div class="h-4 w-px bg-outline-variant/50 mx-0.5"></div>
+<!-- Export Options Split -->
+<div class="inline-flex rounded shadow-xs">
+<button class="h-7 px-2.5 rounded-l bg-surface-container-lowest border border-outline-variant/40 hover:bg-surface-container text-on-surface text-[11px] font-semibold flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">download</span>
+                Export CSV
+              </button>
+<button class="h-7 px-1.5 rounded-r bg-surface-container-lowest border-t border-b border-r border-outline-variant/40 hover:bg-surface-container text-on-surface text-[11px] transition-colors" title="Export as JSON or PDF" type="button">
+<span class="material-symbols-outlined text-[14px]">arrow_drop_down</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Ledger Table Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[1080px]">
+<!-- Ledger Header with Sorting Controls -->
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-[11px] uppercase tracking-wider border-b border-surface-container select-none">
+<th class="py-2.5 pl-4 pr-2 w-9 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</th>
+<th class="py-2.5 px-3 font-bold group cursor-pointer hover:text-on-surface transition-colors">
+<div class="flex items-center gap-1">
+<span class="">User &amp; Affiliation</span>
+<span class="material-symbols-outlined text-[14px] text-primary">arrow_downward</span>
+</div>
+</th>
+<th class="py-2.5 px-3 font-bold group cursor-pointer hover:text-on-surface transition-colors">
+<div class="flex items-center gap-1">
+<span class="">Institutional Email / ID</span>
+<span class="material-symbols-outlined text-[14px] text-outline/60 group-hover:text-on-surface">unfold_more</span>
+</div>
+</th>
+<th class="py-2.5 px-3 font-bold group cursor-pointer hover:text-on-surface transition-colors">
+<div class="flex items-center gap-1">
+<span class="">Role &amp; Tier</span>
+<span class="material-symbols-outlined text-[14px] text-outline/60 group-hover:text-on-surface">unfold_more</span>
+</div>
+</th>
+
+
+<th class="py-2.5 px-3 font-bold group cursor-pointer hover:text-on-surface transition-colors">
+<div class="flex items-center gap-1">
+<span class="">Verification Status</span>
+<span class="material-symbols-outlined text-[14px] text-outline/60 group-hover:text-on-surface">unfold_more</span>
+</div>
+</th>
+<th class="py-2.5 px-3 font-bold group cursor-pointer hover:text-on-surface transition-colors">
+<div class="flex items-center gap-1">
+<span class="">Last Active</span>
+<span class="material-symbols-outlined text-[14px] text-outline/60 group-hover:text-on-surface">unfold_more</span>
+</div>
+</th>
+<th class="py-2.5 pr-4 pl-2 text-right font-bold">Actions</th>
+</tr>
+</thead>
+<!-- Dense High-Volume Ledger Body -->
+<tbody class="divide-y divide-surface-container/60 text-[12px] text-on-surface font-body-md">
+<!-- Row 1: Alex Morgan -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-on-primary-fixed font-bold text-[11px] flex items-center justify-center ring-1 ring-primary/20">AM</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Alex Morgan</span>
+<span class="px-1 py-0.2 rounded bg-surface-container text-on-surface-variant font-mono text-[10px]">L14</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">Stanford University • Dept. CS</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">alex.morgan@stanford.edu</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">STU-90281-SF</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 text-primary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">school</span>
+                    Student
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Verified
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">3m ago</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Dr. Elena Rostova -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold text-[11px] flex items-center justify-center ring-1 ring-secondary/20">ER</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Dr. Elena Rostova</span>
+<span class="material-symbols-outlined text-[14px] text-secondary" title="Faculty Verified">verified</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">MIT Media Lab • Cognitive Sci</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">elena.rostova@mit.edu</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">FAC-44109-MA</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary/10 text-secondary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">psychology</span>
+                    Lead Educator
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Verified
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">18m ago</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Marcus Chen -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-primary font-bold text-[11px] flex items-center justify-center ring-1 ring-primary/20">MC</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Marcus Chen</span>
+<span class="px-1 py-0.2 rounded bg-surface-container text-on-surface-variant font-mono text-[10px]">Staff</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">Stanford AI Lab • Benchmark</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">marcus.c@stanford.edu</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">STF-88120-SF</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface-container-highest text-on-primary-fixed-variant font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">fact_check</span>
+                    Curator Lead
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Verified
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">1h ago</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Sarah Jenkins (Super Admin) -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary font-bold text-[11px] flex items-center justify-center ring-2 ring-primary/30">SJ</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Sarah Jenkins</span>
+<span class="px-1 py-0.2 rounded bg-primary text-on-primary font-mono text-[9px] font-bold">ROOT</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">Oxford University • Dean Council</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">s.jenkins@oxford.ac.uk</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">OXF-ROOT-001</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary-container text-on-primary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">admin_panel_settings</span>
+                    Super Admin
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Verified
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="text-emerald-600 font-bold">Live</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant opacity-40 cursor-not-allowed" disabled="" title="Root Account Protected">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: David Kim (Flagged Review) -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-amber-500/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-bold text-[11px] flex items-center justify-center ring-1 ring-amber-400">DK</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-amber-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">David Kim</span>
+<span class="px-1 py-0.2 rounded bg-amber-100 text-amber-800 font-mono text-[9px] font-bold">MULTI-IP</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">UC Berkeley • Haas Business</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">david.kim@berkeley.edu</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">BERK-12903-CA</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 text-primary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">school</span>
+                    Student
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[11px] font-semibold border border-amber-300">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                    Flagged Review
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">12m ago</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded bg-amber-100 text-amber-900 hover:bg-amber-200 transition-colors font-bold text-[11px] px-1.5 flex items-center gap-0.5" title="Review Security Flag">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+                      Audit
+                    </button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Prof. Liam O'Connor -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface font-bold text-[11px] flex items-center justify-center ring-1 ring-outline-variant/50">LO</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Prof. Liam O'Connor</span>
+<span class="material-symbols-outlined text-[14px] text-secondary" title="Faculty Verified">verified</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">Cambridge Univ • History Faculty</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">l.oconnor@cambridge.ac.uk</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">CAM-HIST-880</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary/10 text-secondary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">psychology</span>
+                    Educator
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Verified
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">3h ago</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Maya Patel -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-primary font-bold text-[11px] flex items-center justify-center ring-1 ring-primary/20">MP</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Maya Patel</span>
+<span class="px-1 py-0.2 rounded bg-surface-container text-on-surface-variant font-mono text-[10px]">Editor</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">Harvard Med • Neuro-Bio Lead</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">m.patel@harvard.edu</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">HRV-MED-491</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface-container-highest text-on-primary-fixed-variant font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">fact_check</span>
+                    Curator
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Verified
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">5h ago</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8: Chloe Zhao -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-primary-fixed/5">
+<td class="py-2.5 pl-4 pr-2 text-center">
+<input checked="" class="rounded w-3.5 h-3.5 text-primary accent-primary cursor-pointer" type="checkbox">
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-2.5">
+<div class="relative flex-shrink-0">
+<div class="w-8 h-8 rounded-full bg-surface-container text-on-surface font-bold text-[11px] flex items-center justify-center ring-1 ring-outline-variant/40">CZ</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-amber-400 rounded-full border-2 border-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-on-surface truncate text-[13px]">Chloe Zhao</span>
+<span class="px-1 py-0.2 rounded bg-surface-container text-on-surface-variant font-mono text-[10px]">L8</span>
+</div>
+<span class="text-[11px] text-on-surface-variant truncate">NYU Tisch • Interactive Media</span>
+</div>
+</div>
+</td>
+<td class="py-2.5 px-3 font-mono text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="text-on-surface">chloe.z@nyu.edu</span>
+<button class="material-symbols-outlined text-[13px] text-outline hover:text-primary" title="Copy Email">content_copy</button>
+</div>
+<span class="text-[10px] text-outline">NYU-IMA-1092</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 text-primary font-semibold text-[11px]">
+<span class="material-symbols-outlined text-[13px]">school</span>
+                    Student
+                  </span>
+</td>
+
+
+<td class="py-2.5 px-3">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 text-[11px] font-semibold border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    Pending Verif.
+                  </span>
+</td>
+<td class="py-2.5 px-3 text-[11px] text-on-surface-variant font-mono">
+<span class="">Yesterday</span>
+</td>
+<td class="py-2.5 pr-4 pl-2 text-right">
+<div class="inline-flex items-center justify-end gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors" title="Edit Permissions">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-error transition-colors" title="Suspend Access">
+<span class="material-symbols-outlined text-[16px]">block</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="More Operations">
+<span class="material-symbols-outlined text-[16px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- High-Density Pagination Console Footer -->
+<div class="px-4 py-3 bg-surface-container-low/70 border-t border-surface-container flex flex-col md:flex-row items-center justify-between gap-3 text-[12px]">
+<!-- Left Status & Page Size Selector -->
+<div class="flex flex-wrap items-center gap-3">
+<span class="text-on-surface-variant font-medium">
+              Showing <strong class="text-on-surface font-bold">1–8</strong> of <strong class="text-on-surface font-bold">54,820</strong> records
+            </span>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5">
+<span class="text-on-surface-variant">Rows per page:</span>
+<select class="h-7 px-2 rounded bg-surface-container-lowest border border-outline-variant/40 text-on-surface font-semibold text-[11px] focus:outline-none cursor-pointer">
+<option>25</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+<span class="text-outline-variant hidden sm:inline">•</span>
+<span class="text-[11px] text-outline font-mono hidden sm:inline">Query took 24.1ms</span>
+</div>
+<!-- Right Pagination & Page Jump Controls -->
+<div class="flex items-center gap-2">
+<!-- Jump to Page Input -->
+<div class="hidden lg:flex items-center gap-1.5 text-on-surface-variant mr-2">
+<span class="">Go to:</span>
+<input class="w-12 h-7 px-1.5 rounded bg-surface-container-lowest border border-outline-variant/40 text-center font-mono text-[11px] font-semibold text-on-surface focus:outline-none focus:border-primary" placeholder="1" type="text" value="1">
+</div>
+<!-- Page Buttons -->
+<div class="flex items-center gap-1">
+<button class="h-7 px-2 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant hover:text-on-surface disabled:opacity-40 flex items-center gap-0.5 text-[11px] font-semibold transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[15px]">first_page</span>
+</button>
+<button class="h-7 px-2 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface-variant hover:text-on-surface disabled:opacity-40 flex items-center gap-0.5 text-[11px] font-semibold transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[15px]">chevron_left</span>
+                Prev
+              </button>
+<button class="h-7 w-7 rounded bg-primary text-on-primary font-bold text-[11px] flex items-center justify-center shadow-xs" type="button">1</button>
+<button class="h-7 w-7 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface hover:bg-surface-container font-semibold text-[11px] flex items-center justify-center transition-colors" type="button">2</button>
+<button class="h-7 w-7 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface hover:bg-surface-container font-semibold text-[11px] flex items-center justify-center transition-colors" type="button">3</button>
+<span class="h-7 w-5 flex items-center justify-center text-outline text-[11px]">...</span>
+<button class="h-7 px-1.5 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface hover:bg-surface-container font-semibold text-[11px] flex items-center justify-center transition-colors" type="button">2,193</button>
+<button class="h-7 px-2 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface hover:bg-surface-container flex items-center gap-0.5 text-[11px] font-semibold transition-colors" type="button">
+                Next
+                <span class="material-symbols-outlined text-[15px]">chevron_right</span>
+</button>
+<button class="h-7 px-2 rounded bg-surface-container-lowest border border-outline-variant/30 text-on-surface hover:bg-surface-container flex items-center gap-0.5 text-[11px] font-semibold transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">last_page</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body></html>

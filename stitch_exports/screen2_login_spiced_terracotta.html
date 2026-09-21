@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quizzo - Comic Pop Hero Login</title>
+<!-- Tailwind CSS v3 with Forms Plugin -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for Comic Pop Aesthetic -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&amp;family=Comic+Neue:ital,wght@0,400;0,700;1,700&amp;family=Fredoka:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            comicInk: '#292524',
+            heroIndigo: '#78350f',
+            heroBlue: '#d97706',
+            comicYellow: '#f59e0b',
+            comicPink: '#ea580c',
+            comicPurple: '#9a3412',
+            comicCyan: '#d97706',
+          },
+          fontFamily: {
+            comic: ['"Comic Neue"', 'cursive', 'sans-serif'],
+            display: ['Bangers', 'cursive', 'system-ui'],
+            pill: ['Fredoka', '"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        }
+      }
+    };
+  </script>
+<!-- Halftone Pattern & Comic Visual Styles -->
+<style data-purpose="halftone-background">
+    body {
+      background-color: #fdf6ee;
+      background-image: radial-gradient(#e6c7a8 1.6px, transparent 1.6px);
+      background-size: 14px 14px;
+      min-height: 100vh;
+    }
+  </style>
+<!-- Custom Comic Card & Shadows Styling -->
+<style data-purpose="comic-elements">
+    .comic-border-thick {
+      border: 3.5px solid #292524;
+    }
+    .comic-border-input {
+      border: 2.5px solid #292524;
+    }
+    .comic-shadow-box {
+      box-shadow: 8px 8px 0px #ea580c;
+    }
+    .comic-shadow-badge {
+      box-shadow: 4.5px 4.5px 0px #292524;
+    }
+    .comic-shadow-btn {
+      box-shadow: 0px 5px 0px #292524;
+      transition: all 0.15s ease-in-out;
+    }
+    .comic-shadow-btn:hover {
+      transform: translateY(2px);
+      box-shadow: 0px 3px 0px #292524;
+    }
+    .comic-shadow-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0px 0px 0px #292524;
+    }
+    .comic-speech-tail::after {
+      content: '';
+      position: absolute;
+      bottom: -13px;
+      right: 28px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 14px solid #fffbeb;
+      filter: drop-shadow(0 3px 0 #292524);
+      z-index: 10;
+    }
+    .comic-title-shadow {
+      text-shadow: 2px 2px 0px #fed7aa, 4px 4px 0px #292524;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body class="text-comicInk font-comic antialiased selection:bg-amber-300 selection:text-comicInk relative flex flex-col justify-between items-center px-4 py-8 overflow-x-hidden min-h-screen">
+<!-- BEGIN: FloatingComicBadges -->
+<!-- Top Left Sound Effect Badge -->
+<div aria-hidden="true" class="fixed top-8 left-8 hidden lg:block transform -rotate-12 z-0 pointer-events-none">
+<div class="bg-amber-400 text-stone-900 px-5 py-2.5 rounded-2xl comic-border-thick comic-shadow-badge flex items-center gap-2">
+<span class="text-xl">⚡</span>
+<span class="font-display text-2xl tracking-wider uppercase font-bold">KAPOW!</span>
+</div>
+</div>
+<!-- Top Right Sound Effect Badge -->
+<div aria-hidden="true" class="fixed top-8 right-8 hidden lg:block transform rotate-12 z-0 pointer-events-none">
+<div class="bg-orange-600 text-white px-5 py-2.5 rounded-2xl comic-border-thick comic-shadow-badge flex items-center gap-2">
+<span class="text-xl">🔥</span>
+<span class="font-display text-2xl tracking-wider uppercase">BRAIN POWER!</span>
+</div>
+</div>
+<!-- Bottom Left Sound Effect Badge -->
+<div aria-hidden="true" class="fixed bottom-8 left-8 hidden lg:block transform rotate-6 z-0 pointer-events-none">
+<div class="bg-amber-200 text-stone-900 px-5 py-2.5 rounded-2xl comic-border-thick comic-shadow-badge flex items-center gap-2">
+<span class="text-lg">★</span>
+<span class="font-display text-2xl tracking-wider uppercase">100% FREE!</span>
+</div>
+</div>
+<!-- Bottom Right Sound Effect Badge -->
+<div aria-hidden="true" class="fixed bottom-8 right-8 hidden lg:block transform -rotate-6 z-0 pointer-events-none">
+<div class="bg-amber-600 text-white px-5 py-2.5 rounded-2xl comic-border-thick comic-shadow-badge flex items-center gap-2">
+<span class="text-lg">🏆</span>
+<span class="font-display text-2xl tracking-wider uppercase">TOP RANKED</span>
+</div>
+</div>
+<!-- END: FloatingComicBadges -->
+<!-- BEGIN: TopGuildHeader -->
+<header class="relative z-10 mb-8 mt-2">
+</header>
+<!-- END: TopGuildHeader -->
+<!-- BEGIN: MainHeroCardContainer -->
+<main class="w-full max-w-[760px] relative z-10 mb-8" data-purpose="login-card-section">
+<!-- Mascot & Speech Bubble Overlay -->
+<div class="relative w-full flex justify-end pr-8 sm:pr-14 -mb-10 z-20 pointer-events-none">
+<!-- Connected Comic Speech Bubble -->
+<div class="relative bg-amber-50 comic-border-thick rounded-2xl px-5 py-2.5 comic-shadow-badge flex items-center gap-1.5 self-center mr-2 mb-8 comic-speech-tail pointer-events-auto">
+<span class="font-pill font-extrabold uppercase tracking-wide text-xs sm:text-sm text-stone-900">WELCOME BACK!</span>
+<span class="text-amber-500 font-bold">⚡</span>
+</div>
+<!-- Mascot "Q" Orb -->
+<div class="relative pointer-events-auto">
+<div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-amber-700 via-stone-800 to-stone-950 comic-border-thick comic-shadow-badge flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Mascot Eyes -->
+<div class="flex gap-2 mb-1 z-10">
+<div class="w-3.5 h-4 bg-white rounded-full flex items-center justify-center">
+<div class="w-2 h-2.5 bg-stone-900 rounded-full"></div>
+</div>
+<div class="w-3.5 h-4 bg-white rounded-full flex items-center justify-center">
+<div class="w-2 h-2.5 bg-stone-900 rounded-full"></div>
+</div>
+</div>
+<!-- Mascot Logo Letter -->
+<span class="font-display text-amber-200 text-3xl sm:text-4xl leading-none italic drop-shadow-md z-10">Q</span>
+<!-- Interior Glow Accent -->
+<div class="absolute -top-4 -left-4 w-14 h-14 bg-amber-500 rounded-full opacity-30 blur-sm pointer-events-none"></div>
+</div>
+<!-- Mascot Tiny Tag Badge -->
+<span class="absolute -bottom-1 -right-2 bg-amber-400 text-stone-900 font-display text-xs uppercase px-2 py-0.5 rounded-md border-2 border-stone-900 transform rotate-12 shadow-sm">
+          HERO!
+        </span>
+</div>
+</div>
+<!-- Main Card Body -->
+<div class="bg-[#fffdfa] rounded-[32px] comic-border-thick comic-shadow-box px-6 py-10 sm:px-12 sm:py-12 relative overflow-hidden">
+<!-- Comic Pills Row -->
+<div class="flex items-center justify-center gap-2 sm:gap-3 mb-4">
+</div>
+<!-- Header Titles -->
+<div class="text-center mb-8">
+<h1 class="font-display text-3xl sm:text-5xl uppercase tracking-wider text-stone-900 comic-title-shadow transform -rotate-1 mb-2">
+          LOG IN TO YOUR ACCOUNT
+        </h1>
+<p class="text-stone-600 font-sans font-semibold text-sm sm:text-base max-w-lg mx-auto">
+          Resume your quiz master quest !</p>
+</div>
+<!-- BEGIN: SocialLogin -->
+<div class="mb-7">
+<button class="w-full bg-[#fffcf7] hover:bg-amber-50 text-stone-900 font-sans font-bold text-base py-3 px-4 rounded-xl comic-border-input comic-shadow-btn flex items-center justify-center gap-3 transition" type="button">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span class="">Sign in with Google</span>
+</button>
+</div>
+<!-- END: SocialLogin -->
+<!-- Comic Divider -->
+<div class="relative flex items-center justify-center my-7">
+<div class="w-full border-t-2 border-dashed border-amber-200"></div>
+<span class="absolute bg-[#fffdfa] px-4 text-xs font-sans font-extrabold uppercase tracking-widest text-amber-800">
+          ★ OR ENTER HERO CREDENTIALS ★
+        </span>
+</div>
+<!-- BEGIN: LoginForm -->
+<form action="#" class="space-y-5" method="POST" onsubmit="event.preventDefault();">
+<!-- Username or Email Field -->
+<div>
+<label class="block font-pill font-bold text-xs sm:text-sm uppercase tracking-wider text-stone-900 mb-1.5" for="hero-identifier">
+            Hero Username or Email <span class="text-orange-600">*</span>
+</label>
+<div class="relative rounded-xl">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="w-full pl-11 pr-4 py-3 bg-[#fffcf7] font-sans text-sm font-semibold rounded-xl comic-border-input focus:ring-0 focus:border-amber-600 text-stone-900" id="hero-identifier" name="identifier" placeholder="alex.rider@heroacademy.edu" required="" type="text" value="alex.rider@heroacademy.edu"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="block font-pill font-bold text-xs sm:text-sm uppercase tracking-wider text-stone-900" for="hero-password">
+              Hero Secret Password <span class="text-orange-600">*</span>
+</label>
+</div>
+<div class="relative rounded-xl">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="w-full pl-11 pr-11 py-3 bg-[#fffcf7] font-sans text-sm font-semibold rounded-xl comic-border-input focus:ring-0 focus:border-amber-600 text-stone-900" id="hero-password" name="password" placeholder="••••••••••••••••" required="" type="password" value="supersecretcipher123"/>
+<button aria-label="Toggle password visibility" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-stone-900 focus:outline-none" type="button">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Options Row: Remember Device & Forgot Password -->
+<div class="flex flex-wrap items-center justify-between gap-2 pt-1 pb-2">
+<label class="flex items-center gap-2.5 cursor-pointer">
+</label>
+<a class="font-pill font-bold text-xs sm:text-sm text-amber-700 hover:text-amber-900 underline decoration-2 underline-offset-2" href="#">
+            Forgot Secret Cipher?
+          </a>
+</div>
+<!-- Primary Action Submit Button -->
+<div class="pt-2">
+<button class="w-full py-4 px-6 rounded-2xl comic-border-thick comic-shadow-btn bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 text-white font-display text-xl sm:text-2xl tracking-wider uppercase flex items-center justify-center gap-2.5 cursor-pointer" type="submit">
+<span class="">ENTER THE QUIZZO ARENA</span>
+<span class="text-xl">💥</span>
+</button>
+</div>
+</form>
+<!-- END: LoginForm -->
+<!-- Bottom Card Switcher: Register Link -->
+<div class="mt-8 pt-6 border-t-2 border-dashed border-amber-200 flex flex-wrap items-center justify-center gap-2 text-center">
+<span class="font-sans font-bold text-xs sm:text-sm text-stone-900">★ New recruit ready to join the Quizzo?</span>
+<a class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-pill font-extrabold text-xs sm:text-sm px-4 py-1 rounded-full border-2 border-stone-900 transition inline-flex items-center gap-1.5 shadow-sm" href="#">
+<span class="">ENLIST NOW</span>
+<span class="">→</span>
+</a>
+<span class="text-stone-900 font-sans font-bold text-xs">★</span>
+</div>
+</div>
+</main>
+<!-- END: MainHeroCardContainer -->
+<!-- BEGIN: SiteFooter -->
+<footer class="relative z-10 text-center pb-2">
+</footer>
+<!-- END: SiteFooter -->
+</body></html>

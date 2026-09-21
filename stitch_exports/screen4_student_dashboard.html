@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quizzo - Student Recall Hub (Warm Honey &amp; Focused Asymmetry)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "canvas": "#fbfbfc",
+            "ink": "#1e1b4b",
+            "ink-muted": "#475569",
+            "indigo-deep": "#312e81",
+            "indigo-main": "#4338ca",
+            "indigo-light": "#eef2ff",
+            "indigo-subtle": "#e0e7ff",
+            "honey-gold": "#f59e0b",
+            "honey-warm": "#d97706",
+            "honey-light": "#fef3c7",
+            "tangerine": "#ea580c",
+            "tangerine-light": "#ffedd5",
+            "surface-card": "#ffffff",
+            "surface-subtle": "#f8fafc"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          boxShadow: {
+            'bento': '0 1px 3px 0 rgba(49, 46, 129, 0.03), 0 8px 24px -4px rgba(49, 46, 129, 0.06)',
+            'bento-hover': '0 4px 6px -1px rgba(49, 46, 129, 0.05), 0 16px 32px -6px rgba(49, 46, 129, 0.1)',
+            'honey-glow': '0 0 35px -5px rgba(245, 158, 11, 0.22)',
+            'amber-subtle': '0 4px 20px -4px rgba(217, 119, 6, 0.12)'
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+        background-color: #fbfbfc;
+      }
+    }
+
+    .btn-tactile {
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-tactile:active {
+      transform: translateY(1.5px);
+    }
+
+    .card-bento {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+    }
+    .card-bento:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -6px rgba(49, 46, 129, 0.09);
+    }
+  </style>
+</head>
+<body class="font-body text-ink antialiased selection:bg-honey-light selection:text-honey-warm min-h-screen flex flex-col justify-between bg-[#fbfbfc]">
+<!-- 1. TOP NAVIGATION BAR -->
+<header class="sticky top-3 z-50 w-full px-4 sm:px-8 mb-5">
+<div class="max-w-7xl mx-auto bg-surface-card/95 backdrop-blur-md border-[1.5px] border-indigo-deep/10 rounded-2xl px-5 sm:px-6 py-2.5 shadow-bento flex items-center justify-between">
+<!-- Brand & Navigation tabs -->
+<div class="flex items-center gap-7">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-deep via-indigo-main to-honey-gold flex items-center justify-center text-white font-headline font-black text-lg shadow-sm group-hover:scale-105 transition-transform">
+          Q
+        </div>
+<div class="flex flex-col">
+<span class="font-headline text-xl font-extrabold tracking-tight text-ink leading-none">Quizzo</span>
+<span class="text-[10px] uppercase tracking-wider font-bold text-honey-warm mt-0.5">Recall Hub</span>
+</div>
+</a>
+<!-- Active Tab Pills -->
+<nav class="hidden lg:flex items-center gap-1.5 font-headline font-semibold text-xs">
+<a class="px-3.5 py-1.5 rounded-xl bg-indigo-deep text-white font-bold flex items-center gap-1.5 shadow-sm" href="#">
+<span class="material-symbols-outlined text-[17px] text-honey-light">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<a class="px-3.5 py-1.5 rounded-xl text-ink/75 hover:text-indigo-deep hover:bg-indigo-light/60 transition-all" href="#">
+          My Decks
+        </a>
+<a class="px-3.5 py-1.5 rounded-xl text-ink/75 hover:text-indigo-deep hover:bg-indigo-light/60 transition-all" href="#">
+          Explore Quizzes
+        </a>
+<a class="px-3.5 py-1.5 rounded-xl text-ink/75 hover:text-indigo-deep hover:bg-indigo-light/60 transition-all" href="#">
+          Analytics
+        </a>
+</nav>
+</div>
+<!-- Right Controls: Quick Search, Streak Pill, Profile -->
+<div class="flex items-center gap-2.5 sm:gap-3.5">
+<!-- Quick Search -->
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-surface-subtle border-[1.5px] border-indigo-deep/10 rounded-xl text-xs font-headline text-ink-muted">
+<span class="material-symbols-outlined text-[16px] text-indigo-main">search</span>
+<span class="">Search cards, decks...</span>
+<kbd class="px-1.5 py-0.5 text-[10px] font-bold bg-white border border-indigo-deep/15 rounded text-indigo-deep shadow-xs">⌘K</kbd>
+</div>
+<!-- Streak Pill -->
+<div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-honey-light/90 to-tangerine-light/70 border-[1.5px] border-honey-gold/30 font-headline font-bold text-xs text-honey-warm shadow-xs">
+<span class="text-sm">🔥</span>
+<span class="font-extrabold text-honey-warm">5-Day</span>
+<span class="hidden sm:inline text-ink/70 font-semibold">Streak</span>
+</div>
+<!-- User Profile -->
+<div class="flex items-center gap-2 pl-2 border-l-[1.5px] border-indigo-deep/10">
+<button class="flex items-center gap-2.5 p-1 rounded-xl hover:bg-indigo-light/40 transition-all text-left">
+<div class="w-8 h-8 rounded-xl bg-indigo-deep text-white font-headline font-bold text-xs flex items-center justify-center ring-2 ring-honey-gold/40">
+            AM
+          </div>
+<div class="hidden xl:flex flex-col">
+<span class="text-xs font-headline font-bold text-ink leading-tight">Alex Morgan</span>
+<span class="text-[10px] font-medium text-honey-warm font-headline">Level 14 Scholar</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-ink-muted hidden sm:inline">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN DASHBOARD CONTENT -->
+<main class="w-full max-w-7xl mx-auto px-4 sm:px-8 space-y-7 flex-1">
+<!-- 2. HERO / ACTIVE FOCUS BENTO BLOCK (Asymmetric Spotlight) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+<!-- Main Focus Card (8 cols) -->
+<div class="lg:col-span-8 bg-surface-card rounded-3xl p-6 sm:p-7 border-[1.5px] border-indigo-deep/10 shadow-bento relative overflow-hidden flex flex-col justify-between">
+<!-- Warm Sun Glow in top-right corner -->
+<div class="absolute -right-14 -top-14 w-72 h-72 rounded-full bg-gradient-to-br from-honey-gold/35 via-honey-light/50 to-transparent pointer-events-none blur-3xl"></div>
+<div class="absolute right-20 top-6 w-36 h-36 rounded-full bg-honey-warm/15 pointer-events-none blur-2xl"></div>
+<div class="absolute left-1/4 -bottom-16 w-44 h-44 rounded-full bg-indigo-light/50 pointer-events-none blur-xl"></div>
+<div class="relative z-10">
+<!-- Badge -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-light border border-indigo-main/20 text-indigo-deep font-headline text-xs font-bold mb-3.5">
+<span class="material-symbols-outlined text-[15px] text-honey-gold">bolt</span>
+<span class="">Adaptive Daily Spaced Sprint</span>
+</div>
+<h1 class="font-headline text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-ink tracking-tight leading-snug">
+          Ready for today’s <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-main via-indigo-deep to-honey-warm">10-minute focus sprint, Alex?</span>
+</h1>
+<p class="font-body text-sm sm:text-base text-ink-muted mt-2 max-w-xl">
+          Complete Sprint #3 to seal memory decay on yesterday's cards and keep your retention trajectory at peak 96%.
+        </p>
+<!-- Progress Gauge & Metrics -->
+<div class="mt-5 p-4 rounded-2xl bg-[#faf9f6] border border-indigo-deep/10 max-w-xl shadow-xs">
+<div class="flex items-center justify-between text-xs font-headline font-bold mb-2">
+<span class="text-ink flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-honey-gold"></span>
+              Sprint Progress: <span class="font-semibold text-ink-muted">2 of 3 daily intervals locked in</span>
+</span>
+<span class="text-honey-warm font-extrabold bg-honey-light px-2.5 py-0.5 rounded-md text-[11px] border border-honey-gold/20">67% complete</span>
+</div>
+<!-- Dual-gradient Progress Bar -->
+<div class="w-full h-2.5 rounded-full bg-indigo-light/80 overflow-hidden p-0.5">
+<div class="h-full rounded-full bg-gradient-to-r from-indigo-main via-honey-gold to-honey-warm transition-all duration-700" style="width: 67%;"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-headline font-semibold text-ink-muted mt-2.5">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-indigo-main">schedule</span>
+              ~3.5 mins to finish daily benchmark
+            </span>
+<span class="flex items-center gap-1 text-indigo-deep font-bold">
+<span class="material-symbols-outlined text-[15px] text-honey-gold">stars</span>
+              +80 XP on completion
+            </span>
+</div>
+</div>
+</div>
+<!-- Hero CTA Bar -->
+<div class="relative z-10 mt-5 pt-4 border-t border-indigo-deep/10 flex flex-wrap items-center gap-3">
+<a class="btn-tactile inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-honey-gold to-honey-warm text-white font-headline font-bold text-sm shadow-md hover:brightness-105" href="#active-queues">
+<span class="">Jump into Sprint #3</span>
+<span class="material-symbols-outlined text-[17px]">arrow_forward</span>
+</a>
+<button class="btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-indigo-light/50 text-indigo-deep font-headline font-bold text-sm border border-indigo-deep/15 shadow-xs">
+<span class="material-symbols-outlined text-[17px] text-honey-warm">swords</span>
+<span class="">Rapid 5-Min Duel</span>
+</button>
+</div>
+</div>
+<!-- Side Bento Card: Daily Streak & Habit Rhythm (4 cols) -->
+<div class="lg:col-span-4 bg-surface-card rounded-3xl p-5 sm:p-6 border-[1.5px] border-indigo-deep/10 shadow-bento flex flex-col justify-between group">
+<div>
+<!-- Header Row -->
+<div class="flex items-center justify-between mb-2.5">
+<span class="text-xs uppercase font-extrabold tracking-wider text-indigo-main font-headline">Streak Calendar</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-headline font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">shield</span> Shield Active
+      </span>
+</div>
+<!-- Month Title & Navigation -->
+<div class="flex items-center justify-between mb-3 pb-2 border-b border-indigo-deep/10">
+<div class="flex items-center gap-2">
+<h3 class="font-headline text-base font-extrabold text-ink">October 2025</h3>
+<div class="flex items-center gap-0.5">
+<button class="w-6 h-6 rounded-lg bg-surface-subtle hover:bg-indigo-light/60 border border-indigo-deep/10 flex items-center justify-center text-ink-muted transition-colors">
+<span class="material-symbols-outlined text-[15px]">chevron_left</span>
+</button>
+<button class="w-6 h-6 rounded-lg bg-surface-subtle hover:bg-indigo-light/60 border border-indigo-deep/10 flex items-center justify-center text-ink-muted transition-colors">
+<span class="material-symbols-outlined text-[15px]">chevron_right</span>
+</button>
+</div>
+</div>
+<span class="text-[11px] font-headline font-bold text-honey-warm bg-honey-light/80 px-2 py-0.5 rounded-md border border-honey-gold/20">
+        18 / 24 Days Active (75%)
+      </span>
+</div>
+<!-- Calendar Weekday Header -->
+<div class="grid grid-cols-7 gap-1 text-center font-headline text-[10px] font-bold text-ink-muted mb-1">
+<span class="">M</span>
+<span class="">T</span>
+<span class="">W</span>
+<span class="">T</span>
+<span class="">F</span>
+<span class="">S</span>
+<span class="">S</span>
+</div>
+<!-- Calendar Month Grid (31 Days, starting Wednesday) -->
+<div class="grid grid-cols-7 gap-1 text-center font-headline text-[11px]">
+<!-- Empty offset cells (Mon, Tue before Oct 1) -->
+<div class="h-7 rounded-lg opacity-25 flex items-center justify-center text-[10px] text-ink-muted font-normal">29</div>
+<div class="h-7 rounded-lg opacity-25 flex items-center justify-center text-[10px] text-ink-muted font-normal">30</div>
+<!-- Oct 1 - Oct 5 -->
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">1</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">2</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">3</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">4</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">5</div>
+<!-- Oct 6 - Oct 12 -->
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">6</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">7</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">8</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">9</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">10</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">11</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">12</div>
+<!-- Oct 13 - Oct 19 -->
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">13</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">14</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">15</div>
+<div class="h-7 rounded-lg bg-honey-light text-honey-warm font-bold flex items-center justify-center border border-honey-gold/20">16</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">17</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">18</div>
+<div class="h-7 rounded-lg bg-surface-subtle text-ink-muted font-normal flex items-center justify-center">19</div>
+<!-- Oct 20 - Oct 26 -->
+<div class="h-7 rounded-lg bg-gradient-to-br from-honey-light to-honey-gold/25 text-honey-warm font-extrabold flex items-center justify-center border border-honey-gold/30">20</div>
+<div class="h-7 rounded-lg bg-gradient-to-br from-honey-light to-honey-gold/25 text-honey-warm font-extrabold flex items-center justify-center border border-honey-gold/30">21</div>
+<div class="h-7 rounded-lg bg-gradient-to-br from-honey-light to-honey-gold/25 text-honey-warm font-extrabold flex items-center justify-center border border-honey-gold/30">22</div>
+<div class="h-7 rounded-lg bg-gradient-to-br from-honey-light to-honey-gold/25 text-honey-warm font-extrabold flex items-center justify-center border border-honey-gold/30">23</div>
+<!-- Day 24: TODAY highlighted -->
+<div class="h-7 rounded-lg bg-gradient-to-r from-honey-gold to-honey-warm text-white font-black flex items-center justify-center shadow-xs ring-2 ring-honey-gold/40 relative">
+<span class="">24</span>
+</div>
+<!-- Upcoming days -->
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">25</div>
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">26</div>
+<!-- Oct 27 - Oct 31 -->
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">27</div>
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">28</div>
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">29</div>
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">30</div>
+<div class="h-7 rounded-lg bg-[#faf9f6] text-ink-muted font-normal opacity-50 flex items-center justify-center border border-indigo-deep/10">31</div>
+<div class="h-7 rounded-lg opacity-25 flex items-center justify-center text-[10px] text-ink-muted font-normal">1</div>
+<div class="h-7 rounded-lg opacity-25 flex items-center justify-center text-[10px] text-ink-muted font-normal">2</div>
+</div>
+</div>
+<!-- Bottom Summary & Footer -->
+<div class="mt-3.5 pt-3 border-t border-indigo-deep/10 space-y-1.5 font-headline">
+<div class="flex items-center justify-between text-xs">
+<span class="flex items-center gap-1 font-extrabold text-honey-warm">
+<span class="">🔥</span> 5-Day Current Streak
+      </span>
+<span class="text-[11px] font-semibold text-ink-muted">Longest: <strong class="text-ink font-bold">14 Days</strong></span>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="text-ink-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-emerald-700">ac_unit</span> Streak Freeze: 1 available
+      </span>
+<a class="text-indigo-main font-bold hover:underline flex items-center gap-0.5" href="#">
+        Milestones <span class="material-symbols-outlined text-[13px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. SECTION 2: TODAY'S ACTIVE QUEUES & DECKS (3 Modular Bento Cards) -->
+<section class="w-full space-y-4" id="active-queues"><div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-1"><div class="space-y-1"><div class="inline-flex items-center gap-1.5 text-xs uppercase font-extrabold tracking-wider text-honey-warm font-headline"><span class="material-symbols-outlined text-[15px] text-honey-gold">layers</span><span class="">Adaptive Spaced Queues</span></div><div class="flex flex-wrap items-baseline gap-3"><h2 class="font-headline text-2xl font-extrabold text-ink tracking-tight">Today's Active Queues &amp; Decks</h2><span class="text-xs font-headline font-semibold text-ink-muted bg-surface-card border border-indigo-deep/15 px-2.5 py-0.5 rounded-full shadow-xs">3 queues active</span></div></div><div class="flex flex-wrap items-center gap-2"><div class="flex items-center p-1 bg-surface-card border border-indigo-deep/15 rounded-xl shadow-xs font-headline text-xs font-bold"><button class="px-3 py-1.5 rounded-lg bg-indigo-deep text-white shadow-xs flex items-center gap-1.5 transition-all"><span class="">All Active</span><span class="px-1.5 py-0.2 bg-white/20 rounded-md text-[10px]">3</span></button><button class="px-3 py-1.5 rounded-lg text-ink-muted hover:text-indigo-deep hover:bg-indigo-light/50 transition-all flex items-center gap-1.5"><span class="">Due for Review</span><span class="px-1.5 py-0.2 bg-honey-light text-honey-warm font-extrabold rounded-md text-[10px]">1</span></button><button class="px-3 py-1.5 rounded-lg text-ink-muted hover:text-indigo-deep hover:bg-indigo-light/50 transition-all flex items-center gap-1.5"><span class="">New</span><span class="px-1.5 py-0.2 bg-emerald-50 text-emerald-700 font-extrabold rounded-md text-[10px]">1</span></button></div><button class="px-3 py-2 bg-surface-card hover:bg-surface-subtle border border-indigo-deep/15 rounded-xl shadow-xs font-headline text-xs font-bold text-ink-muted flex items-center gap-1.5 transition-all"><span class="material-symbols-outlined text-[16px] text-indigo-main">swap_vert</span><span class="">Priority</span></button></div></div><div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Deck Card 1 -->
+<div class="card-bento bg-surface-card rounded-3xl border-[1.5px] border-indigo-deep/10 p-5 sm:p-6 shadow-bento flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-indigo-light/40 pointer-events-none blur-xl"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between gap-2 mb-3">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-light border border-indigo-main/15 text-indigo-deep font-headline font-bold text-xs">
+<span class="material-symbols-outlined text-[14px] text-indigo-main">public</span>
+<span>Geography</span>
+</div>
+<span class="text-[11px] font-headline font-extrabold px-2.5 py-0.5 rounded-full bg-honey-light text-honey-warm border border-honey-gold/30 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-honey-gold"></span>8/10 Retained
+      </span>
+</div>
+<h3 class="font-headline text-base sm:text-lg font-bold text-ink mb-1.5 group-hover:text-indigo-main transition-colors flex items-center justify-between">
+<span>World Capitals &amp; Geopolitical Borders</span>
+<span class="material-symbols-outlined text-ink-muted group-hover:translate-x-0.5 transition-transform text-base">arrow_forward</span>
+</h3>
+<p class="font-body text-xs text-ink-muted leading-relaxed mb-4">Territorial capitals, border corridors, and international sovereignty markers.</p>
+<div class="bg-[#faf9f6] p-3.5 rounded-2xl border border-indigo-deep/10 mb-2">
+<div class="flex items-center justify-between text-xs font-headline mb-2">
+<span class="font-bold text-ink flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-indigo-main">done_all</span>Recall Progress
+        </span>
+<span class="font-black text-indigo-deep bg-indigo-light px-2 py-0.5 rounded-md">8 / 10 cards</span>
+</div>
+<div class="w-full h-2 rounded-full bg-indigo-light overflow-hidden">
+<div class="h-full bg-gradient-to-r from-indigo-main to-honey-gold rounded-full transition-all duration-700" style="width: 80%;"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-headline text-ink-muted mt-2 pt-2 border-t border-indigo-deep/5">
+<span class="flex items-center gap-1 font-semibold text-emerald-700">
+<span class="material-symbols-outlined text-[13px]">verified</span>+40 XP target
+        </span>
+<span class="font-semibold text-ink-muted">Stage 4 Spaced</span>
+</div>
+</div>
+</div>
+<div class="pt-3.5 border-t border-indigo-deep/10 flex items-center justify-between relative z-10">
+<div class="text-xs font-headline font-semibold text-ink-muted flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-indigo-main">schedule</span>
+<span>~4 mins</span>
+</div>
+<button class="btn-tactile px-4 py-2.5 rounded-xl bg-indigo-main hover:bg-indigo-deep text-white font-headline font-bold text-xs shadow-sm flex items-center gap-1.5">
+<span>Resume Spaced Sprint</span>
+<span class="material-symbols-outlined text-[16px] text-honey-light">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Deck Card 2 -->
+<div class="card-bento bg-surface-card rounded-3xl border-[1.5px] border-indigo-deep/10 p-5 sm:p-6 shadow-bento flex flex-col justify-between group relative overflow-hidden">
+<div class="absolute -right-12 -top-12 w-32 h-32 rounded-full bg-emerald-50 pointer-events-none blur-xl"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between gap-2 mb-3">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-light border border-indigo-main/15 text-indigo-deep font-headline font-bold text-xs">
+<span class="material-symbols-outlined text-[14px] text-indigo-main">terminal</span>
+<span>Frontend</span>
+</div>
+<span class="text-[11px] font-headline font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>12 Due Today
+      </span>
+</div>
+<h3 class="font-headline text-base sm:text-lg font-bold text-ink mb-1.5 group-hover:text-indigo-main transition-colors flex items-center justify-between">
+<span>Modern Web Architecture &amp; CSS</span>
+<span class="material-symbols-outlined text-ink-muted group-hover:translate-x-0.5 transition-transform text-base">arrow_forward</span>
+</h3>
+<p class="font-body text-xs text-ink-muted leading-relaxed mb-4">CSS box model architecture, semantic tags, and async JS event loops.</p>
+<div class="bg-[#faf9f6] p-3.5 rounded-2xl border border-indigo-deep/10 mb-2">
+<div class="flex items-center justify-between text-xs font-headline mb-2">
+<span class="font-bold text-ink flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-emerald-700">auto_awesome</span>Deck Queue
+        </span>
+<span class="font-black text-ink bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md">12 Fresh Cards</span>
+</div>
+<div class="w-full h-2 rounded-full bg-indigo-light overflow-hidden">
+<div class="h-full bg-gradient-to-r from-emerald-500 to-indigo-main rounded-full transition-all duration-700" style="width: 25%;"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-headline text-ink-muted mt-2 pt-2 border-t border-indigo-deep/5">
+<span class="flex items-center gap-1 font-semibold text-ink-muted">
+<span class="material-symbols-outlined text-[13px] text-indigo-main">school</span>Study Syllabus #2
+        </span>
+<span class="font-semibold text-ink-muted">0 / 12 initiated</span>
+</div>
+</div>
+</div>
+<div class="pt-3.5 border-t border-indigo-deep/10 flex items-center justify-between relative z-10">
+<div class="text-xs font-headline font-semibold text-ink-muted flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-indigo-main">schedule</span>
+<span>~5 mins</span>
+</div>
+<button class="btn-tactile px-4 py-2.5 rounded-xl bg-indigo-main hover:bg-indigo-deep text-white font-headline font-bold text-xs shadow-sm flex items-center gap-1.5">
+<span>Start Deck</span>
+<span class="material-symbols-outlined text-[16px] text-honey-light">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Deck Card 3 -->
+<div class="card-bento bg-surface-card rounded-3xl border-[1.5px] border-honey-gold/35 p-5 sm:p-6 shadow-amber-subtle flex flex-col justify-between group relative overflow-hidden bg-gradient-to-b from-surface-card via-surface-card to-honey-light/20">
+<div class="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-gradient-to-br from-honey-light to-tangerine-light pointer-events-none blur-xl"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between gap-2 mb-3">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-honey-light border border-honey-gold/30 text-honey-warm font-headline font-bold text-xs">
+<span class="material-symbols-outlined text-[14px] text-honey-warm">rocket_launch</span>
+<span>Astrophysics</span>
+</div>
+<span class="text-[11px] font-headline font-extrabold px-2.5 py-0.5 rounded-full bg-tangerine-light text-tangerine border border-tangerine/30 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tangerine animate-pulse"></span>Decay Warning: -40%
+      </span>
+</div>
+<h3 class="font-headline text-base sm:text-lg font-bold text-ink mb-1.5 group-hover:text-honey-warm transition-colors flex items-center justify-between">
+<span>Solar System Mechanics &amp; Deep Space</span>
+<span class="material-symbols-outlined text-ink-muted group-hover:translate-x-0.5 transition-transform text-base">arrow_forward</span>
+</h3>
+<p class="font-body text-xs text-ink-muted leading-relaxed mb-4">Spaced decay trigger: planetary moon telemetry, gravitational lenses, spectroscopy.</p>
+<div class="bg-[#faf9f6] p-3.5 rounded-2xl border border-honey-gold/20 mb-2">
+<div class="flex items-center justify-between text-xs font-headline mb-2">
+<span class="font-bold text-tangerine flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-tangerine">warning</span>Memory Decay Alert
+        </span>
+<span class="font-black text-tangerine bg-tangerine-light px-2 py-0.5 rounded-md">-40% Ret.</span>
+</div>
+<div class="w-full h-2 rounded-full bg-honey-light overflow-hidden">
+<div class="h-full bg-gradient-to-r from-honey-gold via-honey-warm to-tangerine rounded-full transition-all duration-700" style="width: 45%;"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-headline text-ink-muted mt-2 pt-2 border-t border-indigo-deep/5">
+<span class="flex items-center gap-1 font-semibold text-tangerine">
+<span class="material-symbols-outlined text-[13px]">alarm</span>Needs reinforcement
+        </span>
+<span class="font-semibold text-honey-warm">Due today</span>
+</div>
+</div>
+</div>
+<div class="pt-3.5 border-t border-indigo-deep/10 flex items-center justify-between relative z-10">
+<div class="text-xs font-headline font-semibold text-ink-muted flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-tangerine">schedule</span>
+<span>~4 mins</span>
+</div>
+<button class="btn-tactile px-4 py-2.5 rounded-xl bg-gradient-to-r from-honey-gold via-honey-warm to-tangerine text-white font-headline font-bold text-xs shadow-sm hover:brightness-105 flex items-center gap-1.5">
+<span>Review Decaying Cards</span>
+<span class="material-symbols-outlined text-[16px]">history_edu</span>
+</button>
+</div>
+</div>
+</div></section>
+</main>
+<!-- 5. BRAND FOOTER -->
+<footer class="w-full bg-surface-card border-t-[1.5px] border-indigo-deep/10 pt-7 pb-6 mt-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-8">
+<div class="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b border-indigo-deep/10">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-lg bg-indigo-deep text-white flex items-center justify-center font-headline font-black text-xs shadow-sm">
+          Q
+        </div>
+<span class="font-headline text-base font-bold text-ink">Quizzo Dashboard</span>
+<span class="text-[11px] px-2.5 py-0.5 rounded-full bg-honey-light font-headline font-bold text-honey-warm border border-honey-gold/20">
+          v2.5 Bento Recall
+        </span>
+</div>
+<div class="flex items-center gap-5 font-headline text-xs font-semibold text-ink-muted">
+<a class="hover:text-indigo-main transition-colors" href="#">Keyboard Shortcuts</a>
+<a class="hover:text-indigo-main transition-colors" href="#">Sync Settings</a>
+<a class="hover:text-indigo-main transition-colors" href="#">Spaced Repetition Guide</a>
+<a class="hover:text-indigo-main transition-colors" href="#">Help &amp; Support</a>
+</div>
+</div>
+<div class="pt-3.5 flex flex-col sm:flex-row items-center justify-between gap-2 font-headline text-xs text-ink-muted">
+<p class="">© 2025 Quizzo Inc. Engineered for scientific knowledge retention.</p>
+<div class="flex items-center gap-3">
+<span class="">Logged in as <strong>alex.morgan@university.edu</strong></span>
+<span class="">•</span>
+<a class="hover:text-indigo-deep font-bold transition-colors" href="#">Sign Out</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
