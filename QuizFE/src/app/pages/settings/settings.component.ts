@@ -1,7 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { UpdateProfileRequest, UserInfo } from '../../core/models/auth.models';
@@ -9,7 +9,7 @@ import { UpdateProfileRequest, UserInfo } from '../../core/models/auth.models';
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit {
   private readonly router = inject(Router);
 
   readonly currentUser = this.authService.currentUser;
+  readonly isAdmin = this.authService.isAdmin;
   readonly isLoading = signal<boolean>(false);
   readonly isSaving = signal<boolean>(false);
   readonly successMessage = signal<string | null>(null);

@@ -51,10 +51,18 @@
             <h2 class="font-black text-2xl text-[#1e1b18]">
               {{ displayName() || firstName() + ' ' + lastName() || userName() }}
             </h2>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1.5 flex-wrap justify-center sm:justify-start">
               <span *ngFor="let role of roles()" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
                 {{ role }}
               </span>
+              <a
+                *ngIf="isAdmin()"
+                routerLink="/admin"
+                class="ml-1 inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-[#3525cd] text-white font-headline font-bold text-[11px] border-2 border-[#272421] shadow-tactile-sm hover:bg-[#281ca8] transition-colors"
+                title="Switch to Admin Page">
+                <span class="material-symbols-outlined text-xs">admin_panel_settings</span>
+                <span>Switch to Admin Page</span>
+              </a>
             </div>
           </div>
 

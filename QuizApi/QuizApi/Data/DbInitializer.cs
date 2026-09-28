@@ -69,6 +69,16 @@ namespace QuizApi.Data
                 await context.SaveChangesAsync();
             }
 
+            // Ensure nguyendoandatada@gmail.com has Admin role if registered
+            var specialAdminUser = await context.Users
+                .Include(u => u.UserRoles)
+                .FirstOrDefaultAsync(u => u.Email == "nguyendoandatada@gmail.com");
+            if (specialAdminUser != null && !specialAdminUser.UserRoles.Any(ur => ur.RoleId == adminRole.Id))
+            {
+                context.UserRoles.Add(new UserRole { UserId = specialAdminUser.Id, RoleId = adminRole.Id });
+                await context.SaveChangesAsync();
+            }
+
             // Ensure at least 30 mock users are seeded
             var existingUserCount = await context.Users.CountAsync();
             if (existingUserCount < 30)

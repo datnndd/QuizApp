@@ -29,7 +29,15 @@
           </p>
         </div>
       </div>
-      <div class="shrink-0 flex items-center gap-3">
+      <div class="shrink-0 flex items-center gap-3 flex-wrap">
+        <a
+          *ngIf="isAdmin()"
+          routerLink="/admin"
+          class="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-[#3525cd] text-white font-headline font-bold text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-[#281ca8] hover:translate-y-0.5 active:translate-y-1 transition-all"
+          title="Switch to Admin Page">
+          <span class="material-symbols-outlined text-base">admin_panel_settings</span>
+          <span>Switch to Admin Page</span>
+        </a>
         <a
           routerLink="/explore"
           class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-600 text-white font-headline font-black text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 hover:translate-y-0.5 active:translate-y-1 transition-all">

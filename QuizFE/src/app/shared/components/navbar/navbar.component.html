@@ -51,13 +51,15 @@
 
     <!-- Right Actions -->
     <div class="flex items-center gap-3 shrink-0">
-      <!-- Admin Suite Shortcut if Admin -->
+      <!-- Admin Switch Button if Admin -->
       <a
         *ngIf="isAdmin()"
         routerLink="/admin"
-        class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#3525cd] text-white border-2 border-[#272421] font-headline font-bold text-xs shadow-tactile-sm hover:bg-[#281ca8] transition-colors">
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#3525cd] text-white border-2 border-[#272421] font-headline font-bold text-xs shadow-tactile-sm hover:bg-[#281ca8] transition-colors"
+        title="Switch to Admin Page">
         <span class="material-symbols-outlined text-sm">admin_panel_settings</span>
-        <span>Admin Suite</span>
+        <span class="hidden sm:inline">Switch to Admin Page</span>
+        <span class="sm:hidden">Admin</span>
       </a>
 
       <!-- User Profile Dropdown -->
@@ -118,7 +120,7 @@
             (click)="userMenuOpen.set(false)"
             class="flex items-center gap-2.5 px-4 py-2 text-xs font-headline font-bold text-indigo-700 hover:bg-indigo-50 transition-colors">
             <span class="material-symbols-outlined text-base">admin_panel_settings</span>
-            <span>Admin Console</span>
+            <span>Switch to Admin Page</span>
           </a>
 
           <div class="my-1 border-t border-[#e8e3d8]"></div>
@@ -186,7 +188,7 @@
         (click)="mobileMenuOpen.set(false)"
         class="w-full flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#3525cd] text-white border-2 border-[#272421] font-bold text-xs shadow-tactile-sm">
         <span class="material-symbols-outlined text-sm">admin_panel_settings</span>
-        <span>Admin Suite</span>
+        <span>Switch to Admin Page</span>
       </a>
     </div>
   </div>
