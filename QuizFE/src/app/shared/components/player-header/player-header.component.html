@@ -1,0 +1,104 @@
+<header class="sticky top-0 z-40 w-full bg-[#faf8f5]/95 backdrop-blur-md border-b border-[#e8e3d8] px-4 sm:px-8">
+  <div class="max-w-7xl mx-auto h-20 flex items-center justify-between gap-4">
+    <!-- Left: Leave Quiz Action & Title -->
+    <div class="flex items-center gap-4 min-w-0">
+      <button
+        (click)="openLeaveModal()"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border-2 border-[#272421] bg-white text-[#1e1b18] font-headline font-bold text-xs shadow-tactile-sm hover:bg-[#faf8f5] transition-all">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <span class="hidden sm:inline">Leave Quiz</span>
+      </button>
+
+      <div class="flex flex-col min-w-0">
+        <span class="font-headline font-black text-sm sm:text-base text-[#1e1b18] truncate">
+          {{ quizTitle() }}
+        </span>
+        <span class="text-[11px] font-headline font-bold text-amber-700">
+          Question {{ currentQuestionIndex() + 1 }} of {{ totalQuestions() }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Center/Right: Live Timer & Submit Action -->
+    <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+      <!-- Timer Box -->
+      <div
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl border-2 border-[#272421] shadow-tactile-sm transition-colors"
+        [ngClass]="isTimeWarning() ? 'bg-rose-100 text-rose-800 animate-pulse' : 'bg-white text-[#1e1b18]'">
+        <span class="material-symbols-outlined text-base" [ngClass]="isTimeWarning() ? 'text-rose-600' : 'text-amber-600'">
+          timer
+        </span>
+        <span class="font-mono font-black text-sm tracking-wider">
+          {{ timeRemainingFormatted() }}
+        </span>
+      </div>
+
+      <!-- Submit Sprint Button -->
+      <button
+        (click)="openSubmitModal()"
+        [disabled]="isSubmitting()"
+        class="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-2xl bg-amber-600 text-white font-headline font-black text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 hover:translate-y-0.5 active:translate-y-1 transition-all disabled:opacity-50">
+        <span>Finish &amp; Submit</span>
+        <span class="material-symbols-outlined text-sm">check_circle</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- LEAVE CONFIRMATION MODAL -->
+<div *ngIf="showLeaveConfirm()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150">
+  <div class="w-full max-w-md bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-6 sm:p-8">
+    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 border-2 border-[#272421] shadow-tactile-sm flex items-center justify-center mb-4">
+      <span class="material-symbols-outlined text-2xl">pause_circle</span>
+    </div>
+
+    <h3 class="font-headline font-black text-xl text-[#1e1b18] mb-2">Leave Quiz Session?</h3>
+    <p class="font-headline text-xs sm:text-sm text-[#6b665f] mb-6 leading-relaxed">
+      Your selected answers are saved automatically. You can resume this attempt anytime from your <strong>Dashboard</strong> or <strong>Recent Quizzes</strong> before the session expires.
+    </p>
+
+    <div class="flex items-center gap-3">
+      <button
+        (click)="cancelLeave()"
+        type="button"
+        class="flex-1 py-2.5 rounded-2xl border-2 border-[#272421] bg-white text-[#1e1b18] font-headline font-bold text-xs sm:text-sm hover:bg-[#faf8f5] shadow-tactile-sm transition-all">
+        Continue Quiz
+      </button>
+      <button
+        (click)="confirmLeave()"
+        type="button"
+        class="flex-1 py-2.5 rounded-2xl border-2 border-[#272421] bg-amber-600 text-white font-headline font-black text-xs sm:text-sm hover:bg-amber-700 shadow-tactile transition-all">
+        Save &amp; Exit
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT CONFIRMATION MODAL -->
+<div *ngIf="showSubmitConfirm()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150">
+  <div class="w-full max-w-md bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-6 sm:p-8">
+    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 border-2 border-[#272421] shadow-tactile-sm flex items-center justify-center mb-4">
+      <span class="material-symbols-outlined text-2xl">task_alt</span>
+    </div>
+
+    <h3 class="font-headline font-black text-xl text-[#1e1b18] mb-2">Ready to Submit?</h3>
+    <p class="font-headline text-xs sm:text-sm text-[#6b665f] mb-6 leading-relaxed">
+      Are you ready to submit your answers for final grading? Once submitted, answers cannot be edited.
+    </p>
+
+    <div class="flex items-center gap-3">
+      <button
+        (click)="cancelSubmit()"
+        type="button"
+        class="flex-1 py-2.5 rounded-2xl border-2 border-[#272421] bg-white text-[#1e1b18] font-headline font-bold text-xs sm:text-sm hover:bg-[#faf8f5] shadow-tactile-sm transition-all">
+        Review Answers
+      </button>
+      <button
+        (click)="confirmSubmit()"
+        type="button"
+        class="flex-1 py-2.5 rounded-2xl border-2 border-[#272421] bg-emerald-600 text-white font-headline font-black text-xs sm:text-sm hover:bg-emerald-700 shadow-tactile transition-all">
+        Submit Now
+      </button>
+    </div>
+  </div>
+</div>

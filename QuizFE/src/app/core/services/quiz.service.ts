@@ -52,7 +52,7 @@ export class QuizService {
     return this.http.get<QuizDetail>(`${this.baseUrl}/quizzes/${id}`).pipe(
       catchError(() => {
         const mock = this.getMockQuizzes().find(q => q.id === id) || this.getMockQuizzes()[0];
-        return of({
+        const detail: QuizDetail = {
           ...mock,
           questions: [
             {
@@ -95,7 +95,8 @@ export class QuizService {
               ]
             }
           ]
-        });
+        };
+        return of(detail);
       })
     );
   }

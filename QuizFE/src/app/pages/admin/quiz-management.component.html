@@ -1,0 +1,297 @@
+<div class="bg-[#faf8ff] font-sans text-sm text-[#131b2e] antialiased min-h-screen">
+  <!-- 1. FIXED LEFT SIDEBAR -->
+  <aside class="fixed left-0 top-0 h-full w-72 bg-[#f2f3ff] z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="flex flex-col">
+      <!-- Brand Header -->
+      <div class="h-16 px-6 flex items-center gap-2.5 border-b border-[#eaedff]">
+        <div class="w-9 h-9 rounded-xl bg-[#3525cd] flex items-center justify-center shadow-md shadow-[#3525cd]/25">
+          <span class="material-symbols-outlined text-white text-[20px]">school</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg text-[#131b2e] tracking-tight">Quizzo</span>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#e2dfff] text-[#3323cc] tracking-wider uppercase">Admin Suite</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex flex-col gap-1 px-4 mt-4">
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/admin">
+          <span class="material-symbols-outlined text-[20px]">grid_view</span>
+          <span class="text-sm font-medium">Overview</span>
+        </a>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/admin/user-management">
+          <span class="material-symbols-outlined text-[20px]">group</span>
+          <span class="text-sm font-medium">User Management</span>
+        </a>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all bg-[#4f46e5] text-white font-semibold shadow-sm cursor-pointer" routerLink="/admin/quiz-management">
+          <span class="material-symbols-outlined text-[20px]">quiz</span>
+          <span class="text-sm font-semibold">Quiz Management</span>
+        </a>
+        <div class="my-3 border-t border-[#eaedff]"></div>
+        <a class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-[#464555] hover:bg-[#eaedff] hover:text-[#131b2e] transition-all cursor-pointer" routerLink="/dashboard">
+          <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+          <span class="text-sm font-medium">Student Dashboard</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Production Node Info -->
+    <div class="p-4">
+      <div class="bg-white rounded-xl p-4 shadow-[0_1px_3px_0_rgba(15,23,42,0.03)] flex items-center justify-between border border-[#eaedff]">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0058be] opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#0058be]"></span>
+          </span>
+          <span class="text-xs text-[#464555] font-medium">Production Node</span>
+        </div>
+        <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-[#eaedff] text-[#464555]">v2.4.0-prod</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. MAIN CONTAINER -->
+  <div class="pl-72">
+    <!-- Top Bar -->
+    <header class="h-16 bg-[#faf8ff]/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] sticky top-0 z-40 flex items-center justify-between px-8 border-b border-[#eaedff]">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-base text-[#131b2e]">Academic Registry Console</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          (click)="createQuiz()"
+          class="flex items-center gap-2 px-4 py-2 bg-[#3525cd] text-white text-xs font-semibold rounded-xl hover:bg-[#281ca8] shadow-sm transition-all">
+          <span class="material-symbols-outlined text-[18px]">add</span>
+          <span>Create New Quiz</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-8 max-w-[1440px] mx-auto flex flex-col gap-6">
+      <!-- Title & Metrics Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs uppercase tracking-wider text-[#3525cd] font-bold">Academic Curriculum</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#464555]"></span>
+            <span class="text-xs text-[#767586]">Active Repository</span>
+          </div>
+          <h1 class="text-2xl font-extrabold text-[#131b2e] tracking-tight">Quiz Management</h1>
+          <p class="text-xs sm:text-sm text-[#767586] mt-0.5">Audit, organize, and administer verified study decks and learning outcomes.</p>
+        </div>
+
+        <!-- View Switcher (Table vs Accordion) -->
+        <div class="flex items-center gap-2 p-1 bg-[#eaedff] rounded-xl border border-[#dce1ff]">
+          <button
+            (click)="viewMode.set('table')"
+            [class]="viewMode() === 'table' ? 'bg-white text-[#3525cd] font-bold shadow-sm' : 'text-[#464555] font-medium'"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all">
+            <span class="material-symbols-outlined text-sm">table_rows</span>
+            <span>Clean Table</span>
+          </button>
+          <button
+            (click)="viewMode.set('accordion')"
+            [class]="viewMode() === 'accordion' ? 'bg-white text-[#3525cd] font-bold shadow-sm' : 'text-[#464555] font-medium'"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all">
+            <span class="material-symbols-outlined text-sm">account_tree</span>
+            <span>Curriculum Accordion</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="bg-white rounded-2xl border border-[#eaedff] p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <!-- Search -->
+        <div class="relative flex-1">
+          <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            placeholder="Search quizzes by title, code, or curriculum category..."
+            class="w-full pl-10 pr-4 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none focus:ring-2 focus:ring-[#3525cd]/40" />
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="w-full md:w-56">
+          <select
+            [(ngModel)]="selectedCategoryId"
+            class="w-full px-3 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none">
+            <option [ngValue]="null">All Categories</option>
+            <option *ngFor="let cat of categories()" [ngValue]="cat.id">{{ cat.name }}</option>
+          </select>
+        </div>
+
+        <!-- Visibility Filter -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button
+            (click)="selectedVisibility.set('all')"
+            [class]="selectedVisibility() === 'all' ? 'bg-[#3525cd] text-white font-bold' : 'bg-[#f2f3ff] text-[#464555]'"
+            class="px-3 py-1.5 rounded-lg text-xs transition-all">
+            All
+          </button>
+          <button
+            (click)="selectedVisibility.set('public')"
+            [class]="selectedVisibility() === 'public' ? 'bg-[#3525cd] text-white font-bold' : 'bg-[#f2f3ff] text-[#464555]'"
+            class="px-3 py-1.5 rounded-lg text-xs transition-all">
+            Public
+          </button>
+          <button
+            (click)="selectedVisibility.set('private')"
+            [class]="selectedVisibility() === 'private' ? 'bg-[#3525cd] text-white font-bold' : 'bg-[#f2f3ff] text-[#464555]'"
+            class="px-3 py-1.5 rounded-lg text-xs transition-all">
+            Private
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: CLEAN DATA TABLE (Screen 1) -->
+      <div *ngIf="viewMode() === 'table'" class="bg-white rounded-2xl border border-[#eaedff] shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-[#f8f9ff] border-b border-[#eaedff] text-xs font-bold text-[#767586] uppercase tracking-wider">
+                <th class="py-3.5 px-6">Quiz Title &amp; Code</th>
+                <th class="py-3.5 px-6">Curriculum Domain</th>
+                <th class="py-3.5 px-6">Questions</th>
+                <th class="py-3.5 px-6">Duration</th>
+                <th class="py-3.5 px-6">Access</th>
+                <th class="py-3.5 px-6">Curator</th>
+                <th class="py-3.5 px-6 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[#eaedff] text-xs font-medium">
+              <tr *ngFor="let q of filteredQuizzes()" class="hover:bg-[#f8f9ff] transition-colors">
+                <td class="py-4 px-6">
+                  <div class="flex flex-col">
+                    <span class="font-bold text-sm text-[#131b2e]">{{ q.title }}</span>
+                    <span class="font-mono text-[11px] text-[#767586]">#{{ q.quizCode }}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6">
+                  <span class="inline-block px-2.5 py-0.5 rounded-md bg-[#e2dfff] text-[#3323cc] font-semibold text-[11px]">
+                    {{ q.categoryName }}
+                  </span>
+                </td>
+                <td class="py-4 px-6">
+                  <span class="font-bold text-[#131b2e]">{{ q.questionCount }}</span> items
+                </td>
+                <td class="py-4 px-6">
+                  {{ q.duration > 0 ? q.duration + ' min' : 'Untimed' }}
+                </td>
+                <td class="py-4 px-6">
+                  <span
+                    class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                    [ngClass]="q.visibility === 1 ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-700'">
+                    {{ q.visibility === 1 ? 'Public' : 'Private' }}
+                  </span>
+                </td>
+                <td class="py-4 px-6 text-[#767586]">
+                  {{ q.ownerDisplayName || 'Faculty Staff' }}
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <button
+                      (click)="playQuiz(q)"
+                      title="Preview Sprint"
+                      class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#3525cd] transition-colors">
+                      <span class="material-symbols-outlined text-base">visibility</span>
+                    </button>
+                    <button
+                      (click)="editQuiz(q)"
+                      title="Edit in Studio"
+                      class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#3525cd] transition-colors">
+                      <span class="material-symbols-outlined text-base">edit</span>
+                    </button>
+                    <button
+                      (click)="confirmDelete(q)"
+                      title="Delete Quiz"
+                      class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 transition-colors">
+                      <span class="material-symbols-outlined text-base">delete</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- VIEW 2: ACCORDION CURRICULUM LEDGER (Screen 4) -->
+      <div *ngIf="viewMode() === 'accordion'" class="flex flex-col gap-4">
+        <div
+          *ngFor="let group of curriculumGroups()"
+          class="bg-white rounded-2xl border border-[#eaedff] shadow-sm overflow-hidden">
+          <!-- Accordion Header -->
+          <button
+            (click)="toggleAccordionCat(group.category.id)"
+            class="w-full px-6 py-4 bg-[#f8f9ff] flex items-center justify-between hover:bg-[#f2f3ff] transition-colors text-left">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-[#3525cd] text-white flex items-center justify-center font-bold text-xs">
+                {{ group.category.name ? group.category.name.slice(0, 1) : 'C' }}
+              </span>
+              <div>
+                <h3 class="font-bold text-sm text-[#131b2e]">{{ group.category.name }}</h3>
+                <span class="text-[11px] text-[#767586]">{{ group.quizzes.length }} Active Quizzes</span>
+              </div>
+            </div>
+            <span class="material-symbols-outlined text-gray-500 transition-transform" [class.rotate-180]="expandedAccordionCats().has(group.category.id)">
+              expand_more
+            </span>
+          </button>
+
+          <!-- Accordion Content -->
+          <div *ngIf="expandedAccordionCats().has(group.category.id)" class="p-4 divide-y divide-[#eaedff]">
+            <div *ngFor="let q of group.quizzes" class="py-3 flex items-center justify-between gap-4">
+              <div>
+                <h4 class="font-bold text-xs text-[#131b2e]">{{ q.title }}</h4>
+                <div class="flex items-center gap-3 text-[11px] text-[#767586] mt-0.5">
+                  <span class="font-mono">#{{ q.quizCode }}</span>
+                  <span>{{ q.questionCount }} Questions</span>
+                  <span>{{ q.duration }} min</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button
+                  (click)="playQuiz(q)"
+                  class="px-2.5 py-1 rounded-md bg-[#eaedff] text-[#3525cd] font-semibold text-xs hover:bg-[#dce1ff]">
+                  Preview
+                </button>
+                <button
+                  (click)="editQuiz(q)"
+                  class="px-2.5 py-1 rounded-md bg-[#3525cd] text-white font-semibold text-xs hover:bg-[#281ca8]">
+                  Edit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div *ngIf="deleteModalQuiz()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150">
+  <div class="w-full max-w-md bg-white rounded-2xl border border-[#eaedff] shadow-xl p-6">
+    <h3 class="font-bold text-base text-[#131b2e] mb-2">Delete Quiz?</h3>
+    <p class="text-xs text-[#767586] mb-6">
+      Are you sure you want to delete <strong>{{ deleteModalQuiz()?.title }}</strong>? Past student attempt snapshots will be preserved.
+    </p>
+
+    <div class="flex items-center justify-end gap-3">
+      <button
+        (click)="cancelDelete()"
+        class="px-4 py-2 rounded-xl border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50">
+        Cancel
+      </button>
+      <button
+        (click)="deleteConfirmed()"
+        class="px-4 py-2 rounded-xl bg-rose-600 text-xs font-bold text-white hover:bg-rose-700">
+        Delete Quiz
+      </button>
+    </div>
+  </div>
+</div>

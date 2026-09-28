@@ -1,0 +1,270 @@
+<div class="bg-[#faf8f5] text-[#1e1b18] antialiased min-h-screen flex flex-col">
+  <!-- Shared Unified Navigation Bar -->
+  <app-navbar></app-navbar>
+
+  <main class="w-full flex-1 max-w-[92rem] mx-auto px-4 sm:px-6 py-6">
+    <!-- Top Taxonomy Strip -->
+    <div class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-5 sm:p-6 mb-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 mb-4 border-b border-[#e8e3d8]">
+        <div class="flex items-center gap-3">
+          <button
+            (click)="backToDecks()"
+            class="w-9 h-9 rounded-xl border-2 border-[#272421] bg-[#faf8f5] flex items-center justify-center text-[#1e1b18] hover:bg-amber-100 shadow-tactile-sm transition-colors">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+          </button>
+          <div>
+            <span class="text-[10px] font-headline font-extrabold uppercase tracking-widest text-amber-700">
+              {{ isNew() ? 'Deck Creation' : 'Deck Editor' }} • Creator Studio
+            </span>
+            <h1 class="font-headline font-black text-2xl text-[#1e1b18] leading-tight">
+              {{ title() }}
+            </h1>
+          </div>
+        </div>
+
+        <!-- Save Actions & Success Badge -->
+        <div class="flex items-center gap-3 shrink-0">
+          <span *ngIf="saveSuccess()" class="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-400 font-headline font-bold text-xs flex items-center gap-1 animate-in fade-in">
+            <span class="material-symbols-outlined text-sm">check_circle</span>
+            <span>Saved Successfully</span>
+          </span>
+
+          <button
+            (click)="saveQuiz()"
+            [disabled]="isSaving()"
+            class="px-5 py-2.5 rounded-2xl bg-amber-600 text-white font-headline font-black text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 hover:translate-y-0.5 active:translate-y-1 transition-all flex items-center gap-1.5 disabled:opacity-50">
+            <span class="material-symbols-outlined text-base">save</span>
+            <span>{{ isSaving() ? 'Saving...' : 'Save Deck' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Taxonomy Inputs Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5">
+        <!-- Title Input -->
+        <div class="lg:col-span-2">
+          <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
+            Deck Title
+          </label>
+          <input
+            type="text"
+            [(ngModel)]="title"
+            class="w-full px-3.5 py-2 rounded-xl border-2 border-[#272421] bg-[#faf8f5] font-headline font-bold text-xs text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
+        </div>
+
+        <!-- Category Dropdown -->
+        <div>
+          <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
+            Category
+          </label>
+          <select
+            [(ngModel)]="categoryId"
+            class="w-full px-3 py-2 rounded-xl border-2 border-[#272421] bg-[#faf8f5] font-headline font-bold text-xs text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm">
+            <option *ngFor="let cat of categories()" [value]="cat.id">{{ cat.name }}</option>
+          </select>
+        </div>
+
+        <!-- Duration Input -->
+        <div>
+          <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
+            Pacing Duration
+          </label>
+          <div class="relative">
+            <input
+              type="number"
+              [(ngModel)]="duration"
+              min="0"
+              max="180"
+              class="w-full pl-3 pr-9 py-2 rounded-xl border-2 border-[#272421] bg-[#faf8f5] font-headline font-bold text-xs text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-[#6b665f]">min</span>
+          </div>
+        </div>
+
+        <!-- Visibility Select -->
+        <div>
+          <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
+            Visibility
+          </label>
+          <select
+            [(ngModel)]="visibility"
+            class="w-full px-3 py-2 rounded-xl border-2 border-[#272421] bg-[#faf8f5] font-headline font-bold text-xs text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm">
+            <option [value]="1">Public Catalog</option>
+            <option [value]="0">Private Deck</option>
+          </select>
+        </div>
+
+        <!-- Quiz Access Code -->
+        <div>
+          <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
+            Access Code
+          </label>
+          <div class="px-3 py-2 rounded-xl border-2 border-[#272421] bg-amber-50 font-mono font-bold text-xs text-amber-900 shadow-sm flex items-center justify-between">
+            <span>{{ quizCode() }}</span>
+            <span class="material-symbols-outlined text-xs text-amber-600">key</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Master-Detail 2-Column IDE Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <!-- Left Column: Question Index & Navigator (4 cols) -->
+      <div class="lg:col-span-4 flex flex-col gap-4 sticky top-28">
+        <div class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <h3 class="font-headline font-black text-sm uppercase tracking-wider text-[#1e1b18]">
+                Question Index
+              </h3>
+              <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-headline font-black text-xs">
+                {{ questions().length }}
+              </span>
+            </div>
+
+            <button
+              (click)="addQuestion()"
+              class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-600 text-white font-headline font-bold text-xs border-2 border-[#272421] shadow-tactile-sm hover:bg-amber-700 transition-all">
+              <span class="material-symbols-outlined text-sm">add</span>
+              <span>New Question</span>
+            </button>
+          </div>
+
+          <!-- Questions List -->
+          <div class="flex flex-col gap-2.5 max-h-[60vh] overflow-y-auto pr-1">
+            <div
+              *ngFor="let q of questions(); let idx = index"
+              (click)="selectQuestion(idx)"
+              class="p-3.5 rounded-2xl border-2 cursor-pointer transition-all flex items-start justify-between gap-3"
+              [ngClass]="activeQuestionIndex() === idx
+                ? 'bg-amber-50/90 border-amber-600 shadow-tactile-sm ring-2 ring-amber-500/20'
+                : 'bg-[#faf8f5] border-[#272421]/40 hover:border-[#272421] hover:bg-white'">
+              <div class="flex items-start gap-2.5 min-w-0">
+                <span
+                  class="w-6 h-6 rounded-lg font-headline font-black text-xs flex items-center justify-center border-2 border-[#272421] shrink-0"
+                  [ngClass]="activeQuestionIndex() === idx ? 'bg-amber-600 text-white' : 'bg-white text-[#1e1b18]'">
+                  {{ idx + 1 }}
+                </span>
+                <div class="min-w-0">
+                  <p class="font-headline font-bold text-xs text-[#1e1b18] truncate leading-tight mb-1">
+                    {{ q.content || 'Untitled question' }}
+                  </p>
+                  <span class="text-[10px] font-headline font-bold text-[#6b665f]">
+                    {{ q.questionType === 0 ? 'Single Choice' : 'Multiple Choice' }} • {{ q.answers.length }} options
+                  </span>
+                </div>
+              </div>
+
+              <!-- Delete Question Button -->
+              <button
+                *ngIf="questions().length > 1"
+                (click)="removeQuestion(idx); $event.stopPropagation()"
+                class="text-gray-400 hover:text-rose-600 p-1 transition-colors">
+                <span class="material-symbols-outlined text-sm">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Question Detail Editor (8 cols) -->
+      <div class="lg:col-span-8 flex flex-col gap-6">
+        <div *ngIf="activeQuestion() as q" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-6 sm:p-8">
+          <!-- Question Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-[#e8e3d8]">
+            <span class="font-headline font-black text-base text-[#1e1b18] flex items-center gap-2">
+              <span class="w-7 h-7 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xs font-black border-2 border-[#272421]">
+                {{ activeQuestionIndex() + 1 }}
+              </span>
+              <span>Edit Question Details</span>
+            </span>
+
+            <!-- Question Type Selector -->
+            <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-[#faf8f5] border-2 border-[#272421] shadow-tactile-sm">
+              <button
+                (click)="setQuestionType(0)"
+                [class]="q.questionType === 0
+                  ? 'bg-amber-600 text-white font-black'
+                  : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
+                class="px-3 py-1 rounded-xl font-headline text-xs transition-colors">
+                Single Choice
+              </button>
+              <button
+                (click)="setQuestionType(1)"
+                [class]="q.questionType === 1
+                  ? 'bg-amber-600 text-white font-black'
+                  : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
+                class="px-3 py-1 rounded-xl font-headline text-xs transition-colors">
+                Multiple Choice
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Content Statement Textarea -->
+          <div class="mb-6">
+            <label class="block font-headline font-bold text-xs uppercase tracking-wider text-[#1e1b18] mb-2">
+              Question Statement
+            </label>
+            <textarea
+              [(ngModel)]="q.content"
+              rows="3"
+              placeholder="Enter the question text or prompt here..."
+              class="w-full p-4 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm font-semibold text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm leading-relaxed"></textarea>
+          </div>
+
+          <!-- Answer Options Editor -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <label class="block font-headline font-bold text-xs uppercase tracking-wider text-[#1e1b18]">
+                Answer Options &amp; Correct Key
+              </label>
+              <span class="text-xs font-headline text-[#6b665f]">
+                Check the box to mark the correct answer
+              </span>
+            </div>
+
+            <div class="flex flex-col gap-3 mb-4">
+              <div
+                *ngFor="let ans of q.answers; let optIdx = index"
+                class="p-3.5 rounded-2xl border-2 transition-all flex items-center gap-3"
+                [ngClass]="ans.isCorrect
+                  ? 'bg-emerald-50/70 border-emerald-500 shadow-tactile-sm'
+                  : 'bg-white border-[#272421] shadow-tactile-sm'">
+                <!-- Correct Checkbox Toggle -->
+                <button
+                  (click)="toggleAnswerCorrect(optIdx)"
+                  type="button"
+                  class="w-8 h-8 rounded-xl border-2 border-[#272421] flex items-center justify-center shrink-0 transition-colors"
+                  [ngClass]="ans.isCorrect ? 'bg-emerald-600 text-white' : 'bg-[#faf8f5] text-transparent hover:bg-emerald-100'">
+                  <span class="material-symbols-outlined text-sm font-black">check</span>
+                </button>
+
+                <!-- Input Text -->
+                <input
+                  type="text"
+                  [(ngModel)]="ans.content"
+                  placeholder="Enter answer option text..."
+                  class="flex-1 px-3 py-1.5 rounded-xl border border-gray-300 bg-white font-headline text-xs sm:text-sm font-medium text-[#1e1b18] focus:outline-none focus:ring-1 focus:ring-amber-500" />
+
+                <!-- Remove Option Button -->
+                <button
+                  *ngIf="q.answers.length > 2"
+                  (click)="removeAnswerOption(optIdx)"
+                  class="text-gray-400 hover:text-rose-600 p-1 transition-colors">
+                  <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Add Option Button -->
+            <button
+              (click)="addAnswerOption()"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border-2 border-[#272421] bg-[#faf8f5] text-[#1e1b18] font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-100 transition-colors">
+              <span class="material-symbols-outlined text-sm">add</span>
+              <span>Add Option Choice</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
