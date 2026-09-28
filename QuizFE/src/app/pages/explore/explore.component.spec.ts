@@ -66,4 +66,13 @@ describe('ExploreComponent', () => {
       expect(component.selectedQuiz()?.id).toBe(quiz.id);
     }
   });
+
+  it('should not filter quizzes by quizCode', () => {
+    const fixture = TestBed.createComponent(ExploreComponent);
+    const component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    component.searchQuery.set('ASTRO9');
+    expect(component.filteredQuizzes().length).toBe(0);
+  });
 });

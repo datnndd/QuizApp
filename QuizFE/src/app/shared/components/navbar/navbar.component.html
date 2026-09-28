@@ -51,14 +51,6 @@
 
     <!-- Right Actions -->
     <div class="flex items-center gap-3 shrink-0">
-      <!-- Quick Join by Code Button -->
-      <button
-        (click)="openCodeModal()"
-        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 border-2 border-[#272421] text-[#1e1b18] font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-100 transition-colors">
-        <span class="material-symbols-outlined text-sm text-amber-600">bolt</span>
-        <span>Enter Code</span>
-      </button>
-
       <!-- Admin Suite Shortcut if Admin -->
       <a
         *ngIf="isAdmin()"
@@ -173,13 +165,6 @@
     </a>
 
     <div class="pt-2 flex flex-col gap-2">
-      <button
-        (click)="openCodeModal()"
-        class="w-full flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-50 border-2 border-[#272421] text-[#1e1b18] font-bold text-xs shadow-tactile-sm">
-        <span class="material-symbols-outlined text-sm text-amber-600">bolt</span>
-        <span>Enter Quiz Code</span>
-      </button>
-
       <a
         *ngIf="isAdmin()"
         routerLink="/admin"
@@ -191,59 +176,3 @@
     </div>
   </div>
 </header>
-
-<!-- QUICK CODE MODAL -->
-<div *ngIf="codeModalOpen()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150">
-  <div class="w-full max-w-md bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-6 sm:p-8">
-    <div class="flex items-center justify-between mb-4">
-      <div class="flex items-center gap-2.5">
-        <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center border-2 border-[#272421] shadow-tactile-sm">
-          <span class="material-symbols-outlined text-xl">bolt</span>
-        </div>
-        <div>
-          <h3 class="font-headline font-black text-xl text-[#1e1b18]">Join Quiz Sprint</h3>
-          <p class="font-headline text-xs text-[#6b665f]">Enter the 6-character code from your instructor or peer</p>
-        </div>
-      </div>
-      <button
-        (click)="closeCodeModal()"
-        class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
-        <span class="material-symbols-outlined text-base">close</span>
-      </button>
-    </div>
-
-    <div class="my-6">
-      <label class="block font-headline font-bold text-xs text-[#1e1b18] mb-2 uppercase tracking-wider">
-        Quiz Access Code
-      </label>
-      <input
-        type="text"
-        [(ngModel)]="inputCode"
-        (keyup.enter)="joinByCode()"
-        placeholder="e.g. ASTRO9"
-        maxlength="10"
-        class="w-full px-4 py-3 text-center text-2xl font-mono font-bold tracking-widest uppercase rounded-2xl border-2 border-[#272421] bg-[#faf8f5] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
-
-      <p *ngIf="codeError()" class="mt-2 text-xs font-headline font-bold text-rose-600 flex items-center gap-1">
-        <span class="material-symbols-outlined text-sm">error</span>
-        <span>{{ codeError() }}</span>
-      </p>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <button
-        (click)="closeCodeModal()"
-        type="button"
-        class="flex-1 py-3 rounded-2xl border-2 border-[#272421] bg-white text-[#1e1b18] font-headline font-bold text-sm hover:bg-[#faf8f5] shadow-tactile-sm transition-all">
-        Cancel
-      </button>
-      <button
-        (click)="joinByCode()"
-        [disabled]="isSubmittingCode()"
-        type="button"
-        class="flex-1 py-3 rounded-2xl border-2 border-[#272421] bg-amber-600 text-white font-headline font-black text-sm hover:bg-amber-700 shadow-tactile transition-all disabled:opacity-50">
-        {{ isSubmittingCode() ? 'Joining...' : 'Start Sprint' }}
-      </button>
-    </div>
-  </div>
-</div>

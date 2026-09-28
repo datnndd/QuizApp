@@ -30,7 +30,6 @@ public class QuizAttemptsController(
                 Id = a.Id,
                 QuizId = a.QuizId,
                 QuizTitle = a.Quiz.Title,
-                QuizCode = a.Quiz.QuizCode,
                 CategoryName = a.Quiz.Category.Name,
                 Status = a.Status,
                 StartedAt = a.StartedAt,
@@ -52,12 +51,11 @@ public class QuizAttemptsController(
         CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
-        var code = request.QuizCode.Trim().ToUpperInvariant();
         var quiz = await context.Quizzes
             .Include(q => q.QuizQuestions)
-            .SingleOrDefaultAsync(q => q.QuizCode == code && q.IsActive, cancellationToken);
+            .SingleOrDefaultAsync(q => q.Id == request.QuizId && q.IsActive, cancellationToken);
 
-        if (quiz is null) return NotFound(new { message = "Invalid quiz code." });
+        if (quiz is null) return NotFound(new { message = "Invalid quiz." });
         if (quiz.Visibility != QuizVisibility.Public && quiz.OwnerId != userId) return Forbid();
 
         await using var transaction = context.Database.IsRelational()
@@ -103,13 +101,12 @@ public class QuizAttemptsController(
         return Ok(await LoadAttempt(id, userId, cancellationToken));
     }
 
-    [HttpGet("resume/{quizCode}")]
-    public async Task<ActionResult<AttemptResponse>> Resume(string quizCode, CancellationToken cancellationToken)
+    [HttpGet("resume/{quizId:int}")]
+    public async Task<ActionResult<AttemptResponse>> Resume(int quizId, CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
-        var code = quizCode.Trim().ToUpperInvariant();
         var attemptId = await context.QuizAttempts
-            .Where(a => a.UserId == userId && a.Quiz.QuizCode == code && a.Status == QuizAttemptStatus.InProgress)
+            .Where(a => a.UserId == userId && a.QuizId == quizId && a.Status == QuizAttemptStatus.InProgress)
             .OrderByDescending(a => a.StartedAt)
             .Select(a => (int?)a.Id)
             .FirstOrDefaultAsync(cancellationToken);

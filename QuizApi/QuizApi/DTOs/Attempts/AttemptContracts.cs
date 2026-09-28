@@ -5,8 +5,8 @@ namespace QuizApi.DTOs.Attempts;
 
 public class StartAttemptRequest
 {
-    [Required, StringLength(6, MinimumLength = 6)]
-    public string QuizCode { get; set; } = string.Empty;
+    [Range(1, int.MaxValue)]
+    public int QuizId { get; set; }
 }
 
 public class SaveAnswerRequest
@@ -81,7 +81,6 @@ public class UserAttemptSummaryResponse
     public int Id { get; set; }
     public int QuizId { get; set; }
     public string QuizTitle { get; set; } = string.Empty;
-    public string QuizCode { get; set; } = string.Empty;
     public string CategoryName { get; set; } = string.Empty;
     public QuizAttemptStatus Status { get; set; }
     public DateTime StartedAt { get; set; }

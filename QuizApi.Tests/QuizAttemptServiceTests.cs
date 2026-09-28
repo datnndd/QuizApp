@@ -84,7 +84,6 @@ public class QuizAttemptServiceTests
             OwnerId = user.Id,
             CategoryId = 1,
             Title = "Math",
-            QuizCode = "MATH22",
             Visibility = QuizVisibility.Public
         };
         var attemptQuestion = new QuizAttemptQuestion

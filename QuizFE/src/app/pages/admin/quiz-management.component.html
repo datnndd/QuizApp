@@ -122,7 +122,7 @@
           <input
             type="text"
             [(ngModel)]="searchQuery"
-            placeholder="Search quizzes by title, code, or curriculum category..."
+            placeholder="Search quizzes by title or curriculum category..."
             class="w-full pl-10 pr-4 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none focus:ring-2 focus:ring-[#3525cd]/40" />
         </div>
 
@@ -165,7 +165,7 @@
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="bg-[#f8f9ff] border-b border-[#eaedff] text-xs font-bold text-[#767586] uppercase tracking-wider">
-                <th class="py-3.5 px-6">Quiz Title &amp; Code</th>
+                <th class="py-3.5 px-6">Quiz Title</th>
                 <th class="py-3.5 px-6">Curriculum Domain</th>
                 <th class="py-3.5 px-6">Questions</th>
                 <th class="py-3.5 px-6">Duration</th>
@@ -179,7 +179,6 @@
                 <td class="py-4 px-6">
                   <div class="flex flex-col">
                     <span class="font-bold text-sm text-[#131b2e]">{{ q.title }}</span>
-                    <span class="font-mono text-[11px] text-[#767586]">#{{ q.quizCode }}</span>
                   </div>
                 </td>
                 <td class="py-4 px-6">
@@ -260,7 +259,6 @@
               <div>
                 <h4 class="font-bold text-xs text-[#131b2e]">{{ q.title }}</h4>
                 <div class="flex items-center gap-3 text-[11px] text-[#767586] mt-0.5">
-                  <span class="font-mono">#{{ q.quizCode }}</span>
                   <span>{{ q.questionCount }} Questions</span>
                   <span>{{ q.duration }} min</span>
                 </div>

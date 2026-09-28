@@ -7,7 +7,6 @@ public class Quiz
     public int CategoryId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string QuizCode { get; set; } = string.Empty;
     public QuizVisibility Visibility { get; set; }
     public int Duration { get; set; }
     public int MaxAttempts { get; set; }

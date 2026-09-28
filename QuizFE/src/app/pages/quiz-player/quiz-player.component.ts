@@ -76,13 +76,13 @@ export class QuizPlayerComponent implements OnInit, OnDestroy {
     this.quizService.getQuizById(quizId).subscribe({
       next: (quiz) => {
         // Try resuming existing in-progress attempt first
-        this.quizService.resumeAttempt(quiz.quizCode).subscribe({
+        this.quizService.resumeAttempt(quiz.id).subscribe({
           next: (existingAtt) => {
             this.handleAttemptLoaded(existingAtt, quiz);
           },
           error: () => {
             // No in-progress attempt to resume, start new attempt
-            this.quizService.startAttempt({ quizCode: quiz.quizCode }).subscribe({
+            this.quizService.startAttempt({ quizId: quiz.id }).subscribe({
               next: (newAtt) => {
                 this.handleAttemptLoaded(newAtt, quiz);
               },

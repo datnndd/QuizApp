@@ -26,7 +26,7 @@
           <input
             type="text"
             [(ngModel)]="searchQuery"
-            placeholder="Search quizzes by title, category, code, or keyword..."
+            placeholder="Search quizzes by title, category, or keyword..."
             class="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
         </div>
 
@@ -89,9 +89,6 @@
               <span class="px-2.5 py-1 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
                 {{ quiz.categoryName }}
               </span>
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-gray-100 text-gray-700 border border-gray-300">
-                #{{ quiz.quizCode }}
-              </span>
             </div>
 
             <!-- Stats badges -->
@@ -138,9 +135,6 @@
           <div class="flex items-center justify-between gap-2 mb-4">
             <span class="px-3 py-1 rounded-full text-[11px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
               {{ quiz.categoryName }}
-            </span>
-            <span class="text-xs font-mono font-bold text-gray-500">
-              Code: <strong class="text-[#1e1b18]">{{ quiz.quizCode }}</strong>
             </span>
           </div>
 

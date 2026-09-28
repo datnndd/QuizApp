@@ -14,8 +14,6 @@ namespace QuizApi.Controllers;
 [Route("api/quizzes")]
 public class QuizzesController(AppDbContext context) : ControllerBase
 {
-    private const string QuizCodeAlphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
     [HttpGet]
     public async Task<ActionResult<IEnumerable<QuizResponse>>> GetAll(CancellationToken cancellationToken)
     {
@@ -45,22 +43,6 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         return quiz is null ? NotFound(new { message = "Quiz not found." }) : Ok(quiz);
     }
 
-    [HttpGet("code/{quizCode}")]
-    public async Task<ActionResult<QuizResponse>> GetByCode(string quizCode, CancellationToken cancellationToken)
-    {
-        var userId = User.GetUserId();
-        var normalized = quizCode.Trim().ToUpperInvariant();
-        var id = await context.Quizzes
-            .Where(q => q.QuizCode == normalized && q.IsActive &&
-                        (q.Visibility == QuizVisibility.Public || q.OwnerId == userId))
-            .Select(q => (int?)q.Id)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        return id is null
-            ? NotFound(new { message = "Quiz code is invalid or access is denied." })
-            : Ok(await LoadAccessibleQuiz(id.Value, userId, cancellationToken));
-    }
-
     [HttpPost]
     public async Task<ActionResult<QuizResponse>> Create(CreateQuizRequest request, CancellationToken cancellationToken)
     {
@@ -75,7 +57,6 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             CategoryId = request.CategoryId,
             Title = request.Title.Trim(),
             Description = request.Description?.Trim(),
-            QuizCode = await GenerateUniqueQuizCode(cancellationToken),
             Visibility = request.Visibility,
             Duration = request.Duration,
             MaxAttempts = request.MaxAttempts
@@ -276,14 +257,6 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     private Task<bool> CategoryExists(int categoryId, CancellationToken cancellationToken) =>
         context.Categories.AnyAsync(c => c.Id == categoryId && c.IsActive, cancellationToken);
 
-    private async Task<string> GenerateUniqueQuizCode(CancellationToken cancellationToken)
-    {
-        string code;
-        do code = RandomNumberGenerator.GetString(QuizCodeAlphabet, 6);
-        while (await context.Quizzes.AnyAsync(q => q.QuizCode == code, cancellationToken));
-        return code;
-    }
-
     private async Task<QuizResponse?> LoadAccessibleQuiz(int id, int userId, CancellationToken cancellationToken) =>
         await DetailQuery(context.Quizzes.AsNoTracking().Where(q =>
                 q.Id == id && q.IsActive && (q.Visibility == QuizVisibility.Public || q.OwnerId == userId)))
@@ -297,7 +270,6 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             Description = q.Description,
             CategoryId = q.CategoryId,
             CategoryName = q.Category.Name,
-            QuizCode = q.QuizCode,
             Visibility = q.Visibility,
             Duration = q.Duration,
             MaxAttempts = q.MaxAttempts,
@@ -315,7 +287,6 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             Description = q.Description,
             CategoryId = q.CategoryId,
             CategoryName = q.Category.Name,
-            QuizCode = q.QuizCode,
             Visibility = q.Visibility,
             Duration = q.Duration,
             MaxAttempts = q.MaxAttempts,

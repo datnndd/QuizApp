@@ -40,9 +40,9 @@
       </div>
 
       <!-- Taxonomy Inputs Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
         <!-- Title Input -->
-        <div class="lg:col-span-2">
+        <div>
           <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
             Deck Title
           </label>
@@ -91,17 +91,6 @@
             <option [value]="1">Public Catalog</option>
             <option [value]="0">Private Deck</option>
           </select>
-        </div>
-
-        <!-- Quiz Access Code -->
-        <div>
-          <label class="block font-headline font-bold text-[11px] uppercase tracking-wider text-[#6b665f] mb-1">
-            Access Code
-          </label>
-          <div class="px-3 py-2 rounded-xl border-2 border-[#272421] bg-amber-50 font-mono font-bold text-xs text-amber-900 shadow-sm flex items-center justify-between">
-            <span>{{ quizCode() }}</span>
-            <span class="material-symbols-outlined text-xs text-amber-600">key</span>
-          </div>
         </div>
       </div>
     </div>

@@ -42,8 +42,7 @@ export class RecentQuizzesComponent implements OnInit {
     return list.filter(item => {
       const matchQuery = !query ||
         item.quizTitle.toLowerCase().includes(query) ||
-        item.categoryName.toLowerCase().includes(query) ||
-        item.quizCode.toLowerCase().includes(query);
+        item.categoryName.toLowerCase().includes(query);
 
       const matchStatus = status === 'all' ||
         (status === 'completed' && isAttemptCompleted(item.status)) ||

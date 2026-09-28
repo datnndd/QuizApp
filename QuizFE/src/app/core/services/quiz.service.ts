@@ -104,7 +104,7 @@ export class QuizService {
   getQuizByCode(code: string): Observable<QuizSummary> {
     return this.http.get<QuizSummary>(`${this.baseUrl}/quizzes/code/${code}`).pipe(
       catchError(() => {
-        const match = this.getMockQuizzes().find(q => q.quizCode.toLowerCase() === code.toLowerCase());
+        const match = this.getMockQuizzes().find(q => q.quizCode?.toLowerCase() === code.toLowerCase());
         return match ? of(match) : of(this.getMockQuizzes()[0]);
       })
     );
@@ -133,8 +133,8 @@ export class QuizService {
     return this.http.post<AttemptDetail>(`${this.baseUrl}/quiz-attempts`, request);
   }
 
-  resumeAttempt(quizCode: string): Observable<AttemptDetail> {
-    return this.http.get<AttemptDetail>(`${this.baseUrl}/quiz-attempts/resume/${quizCode}`);
+  resumeAttempt(quizId: number): Observable<AttemptDetail> {
+    return this.http.get<AttemptDetail>(`${this.baseUrl}/quiz-attempts/resume/${quizId}`);
   }
 
   getAttempt(id: number): Observable<AttemptDetail> {

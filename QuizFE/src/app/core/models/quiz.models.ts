@@ -78,7 +78,7 @@ export interface QuizSummary {
   id: number;
   title: string;
   description: string;
-  quizCode: string;
+  quizCode?: string;
   duration: number;
   maxAttempts: number;
   visibility: QuizVisibility;
@@ -131,6 +131,7 @@ export interface CreateQuizRequest {
   categoryId: number;
   questionIds?: number[];
   questions?: CreateQuizQuestionInput[];
+  quizCode?: string;
 }
 
 export interface UpdateQuizRequest {
@@ -142,17 +143,18 @@ export interface UpdateQuizRequest {
   categoryId: number;
   questionIds?: number[];
   questions?: CreateQuizQuestionInput[];
+  quizCode?: string;
 }
 
 export interface StartAttemptRequest {
-  quizCode: string;
+  quizId: number;
 }
 
 export interface AttemptSummary {
   id: number;
   quizId: number;
   quizTitle: string;
-  quizCode: string;
+  quizCode?: string;
   categoryName: string;
   status: QuizAttemptStatus;
   startedAt: string;

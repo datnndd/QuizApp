@@ -26,15 +26,15 @@ describe('NavbarComponent', () => {
     expect(component.mobileMenuOpen()).toBe(true);
   });
 
-  it('should open and close code modal', () => {
+  it('should toggle user menu', () => {
     const fixture = TestBed.createComponent(NavbarComponent);
     const component = fixture.componentInstance;
-    expect(component.codeModalOpen()).toBe(false);
+    expect(component.userMenuOpen()).toBe(false);
 
-    component.openCodeModal();
-    expect(component.codeModalOpen()).toBe(true);
+    component.toggleUserMenu();
+    expect(component.userMenuOpen()).toBe(true);
 
-    component.closeCodeModal();
-    expect(component.codeModalOpen()).toBe(false);
+    component.toggleUserMenu();
+    expect(component.userMenuOpen()).toBe(false);
   });
 });

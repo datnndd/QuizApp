@@ -34,8 +34,7 @@ export class ExploreComponent implements OnInit {
       const matchQuery = !query ||
         quiz.title.toLowerCase().includes(query) ||
         quiz.description.toLowerCase().includes(query) ||
-        quiz.categoryName.toLowerCase().includes(query) ||
-        quiz.quizCode.toLowerCase().includes(query);
+        quiz.categoryName.toLowerCase().includes(query);
       return matchCat && matchQuery;
     });
   });

@@ -20,7 +20,7 @@ public class QuizAttemptsControllerTests
         var controller = Controller(context, userId: 2);
 
         var action = await controller.Start(
-            new StartAttemptRequest { QuizCode = "QUIZ22" }, CancellationToken.None);
+            new StartAttemptRequest { QuizId = 20 }, CancellationToken.None);
         var created = Assert.IsType<CreatedAtActionResult>(action.Result);
         var response = Assert.IsType<AttemptResponse>(created.Value);
 
@@ -44,7 +44,7 @@ public class QuizAttemptsControllerTests
         var controller = Controller(context, userId: 2);
 
         var action = await controller.Start(
-            new StartAttemptRequest { QuizCode = "QUIZ22" }, CancellationToken.None);
+            new StartAttemptRequest { QuizId = 20 }, CancellationToken.None);
 
         Assert.IsType<ForbidResult>(action.Result);
         Assert.Empty(context.QuizAttempts);
@@ -66,7 +66,7 @@ public class QuizAttemptsControllerTests
         var controller = Controller(context, userId: 2);
 
         var action = await controller.Start(
-            new StartAttemptRequest { QuizCode = "QUIZ22" }, CancellationToken.None);
+            new StartAttemptRequest { QuizId = 20 }, CancellationToken.None);
 
         Assert.IsType<ConflictObjectResult>(action.Result);
         Assert.Single(context.QuizAttempts);
@@ -100,7 +100,7 @@ public class QuizAttemptsControllerTests
         await context.SaveChangesAsync(CancellationToken.None);
         var controller = Controller(context, userId: 2);
 
-        var action = await controller.Resume("QUIZ22", CancellationToken.None);
+        var action = await controller.Resume(20, CancellationToken.None);
         Assert.IsType<NotFoundObjectResult>(action.Result);
 
         var attemptInDb = await context.QuizAttempts.SingleAsync(a => a.Id == 55);
@@ -179,7 +179,6 @@ public class QuizAttemptsControllerTests
             OwnerId = owner.Id,
             CategoryId = 1,
             Title = "Snapshot quiz",
-            QuizCode = "QUIZ22",
             Visibility = visibility,
             MaxAttempts = maxAttempts,
             QuizQuestions =

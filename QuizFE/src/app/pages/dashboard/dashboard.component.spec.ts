@@ -108,4 +108,12 @@ describe('DashboardComponent', () => {
     expect(component.isAttemptInProgress(0)).toBe(true);
     expect(component.isAttemptInProgress('Submitted')).toBe(false);
   });
+
+  it('should not display quiz code badges in the template', () => {
+    const fixture = TestBed.createComponent(DashboardComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).not.toContain('#ASTRO9');
+  });
 });
+

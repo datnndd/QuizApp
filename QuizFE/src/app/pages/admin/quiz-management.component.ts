@@ -40,7 +40,6 @@ export class AdminQuizManagementComponent implements OnInit {
     return list.filter(q => {
       const matchQuery = !query ||
         q.title.toLowerCase().includes(query) ||
-        q.quizCode.toLowerCase().includes(query) ||
         q.categoryName.toLowerCase().includes(query);
 
       const matchCat = catId === null || q.categoryId === catId;

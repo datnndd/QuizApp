@@ -35,4 +35,13 @@ describe('AdminQuizManagementComponent', () => {
     const publicList = component.filteredQuizzes();
     expect(publicList.every(q => q.visibility === 1)).toBe(true);
   });
+
+  it('should not filter quizzes by quizCode', () => {
+    const fixture = TestBed.createComponent(AdminQuizManagementComponent);
+    const component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    component.searchQuery.set('ASTRO9');
+    expect(component.filteredQuizzes().length).toBe(0);
+  });
 });

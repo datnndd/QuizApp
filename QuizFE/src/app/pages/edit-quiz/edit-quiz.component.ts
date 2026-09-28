@@ -6,6 +6,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
 import { QuizService } from '../../core/services/quiz.service';
 import {
   Category,
+  CreateQuizRequest,
   getQuestionTypeDisplay,
   isMultipleChoice,
   isSingleChoice,
@@ -51,7 +52,6 @@ export class EditQuizComponent implements OnInit {
   readonly duration = signal<number>(15);
   readonly maxAttempts = signal<number>(3);
   readonly visibility = signal<number>(1); // 1 = Public, 0 = Private
-  readonly quizCode = signal<string>('NEWDEC');
 
   // Questions Master-Detail
   readonly questions = signal<EditableQuestion[]>([]);
@@ -84,13 +84,14 @@ export class EditQuizComponent implements OnInit {
     this.isLoading.set(true);
     this.quizService.getQuizById(id).subscribe({
       next: (quiz) => {
+        this.quizId.set(quiz.id || id);
+        this.isNew.set(false);
         this.title.set(quiz.title);
         this.description.set(quiz.description);
         this.categoryId.set(quiz.categoryId || 1);
         this.duration.set(quiz.duration);
         this.maxAttempts.set(quiz.maxAttempts);
         this.visibility.set(quiz.visibility === 1 || quiz.visibility === 'Public' ? 1 : 0);
-        this.quizCode.set(quiz.quizCode);
 
         const loadedQuestions: EditableQuestion[] = (quiz.questions || []).map((q, qIdx) => ({
           id: q.questionId || qIdx + 1,
@@ -114,16 +115,18 @@ export class EditQuizComponent implements OnInit {
   }
 
   private initDefaultNewQuiz(): void {
+    this.quizId.set(null);
+    this.isNew.set(true);
     this.title.set('Custom Study Deck');
     this.description.set('Interactive study questions for spaced repetition.');
     this.categoryId.set(1);
     this.duration.set(15);
     this.maxAttempts.set(3);
     this.visibility.set(1);
-    this.quizCode.set('DECK' + Math.floor(100 + Math.random() * 900));
     this.questions.set([]);
     this.activeQuestionIndex.set(0);
   }
+
 
   isSingleChoice(type?: QuestionType): boolean {
     return isSingleChoice(type);
@@ -256,7 +259,7 @@ export class EditQuizComponent implements OnInit {
     this.saveSuccess.set(false);
 
     const questionsList = this.questions();
-    const payload = {
+    const payload: CreateQuizRequest = {
       title: this.title(),
       description: this.description(),
       categoryId: Number(this.categoryId()),

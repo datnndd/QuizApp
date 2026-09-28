@@ -58,7 +58,6 @@ public class QuizResponse
     public string? Description { get; set; }
     public int CategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
-    public string QuizCode { get; set; } = string.Empty;
     public QuizVisibility Visibility { get; set; }
     public int Duration { get; set; }
     public int MaxAttempts { get; set; }

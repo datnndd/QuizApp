@@ -92,4 +92,30 @@ describe('RecentQuizzesComponent', () => {
     expect(component.getAccuracy(itemFail)).toBe(25);
     expect(component.isPassed(itemFail)).toBe(false);
   });
+
+  it('should not filter attempts by quizCode', () => {
+    const fixture = TestBed.createComponent(RecentQuizzesComponent);
+    const component = fixture.componentInstance;
+
+    component.attempts.set([
+      {
+        id: 1,
+        quizId: 10,
+        quizTitle: 'Astrophysics',
+        quizCode: 'ASTRO1',
+        categoryName: 'Science',
+        status: 'Submitted' as any,
+        startedAt: new Date().toISOString(),
+        totalQuestions: 10,
+        correctAnswers: 9,
+        score: 9,
+        timeSpentSeconds: 300,
+        isAutoSubmitted: false
+      }
+    ]);
+    fixture.detectChanges();
+
+    component.searchQuery.set('ASTRO1');
+    expect(component.filteredAttempts().length).toBe(0);
+  });
 });

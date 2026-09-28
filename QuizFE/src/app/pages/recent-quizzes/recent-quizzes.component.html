@@ -29,7 +29,7 @@
           <input
             type="text"
             [(ngModel)]="searchQuery"
-            placeholder="Search attempts by title, category, or code..."
+            placeholder="Search attempts by title or category..."
             class="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
         </div>
 
@@ -90,9 +90,6 @@
             <div class="flex items-center gap-2 mb-2">
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
                 {{ item.categoryName }}
-              </span>
-              <span class="text-xs font-mono font-bold text-gray-500">
-                #{{ item.quizCode }}
               </span>
               <span class="text-xs font-headline text-[#6b665f]">
                 • {{ formatDate(item.startedAt) }}

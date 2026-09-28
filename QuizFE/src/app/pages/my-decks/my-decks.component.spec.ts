@@ -31,4 +31,30 @@ describe('MyDecksComponent', () => {
       expect(component.expandedDeckId()).toBeNull();
     }
   });
+
+  it('should not filter decks by quizCode', () => {
+    const fixture = TestBed.createComponent(MyDecksComponent);
+    const component = fixture.componentInstance;
+    component.myQuizzes.set([
+      {
+        id: 1,
+        title: 'Quantum Physics',
+        description: 'Deep dive',
+        quizCode: 'QUANT1',
+        categoryId: 1,
+        categoryName: 'Physics',
+        duration: 20,
+        maxAttempts: 3,
+        visibility: 1,
+        questionCount: 5,
+        createdAt: '',
+        updatedAt: ''
+      }
+    ]);
+    fixture.detectChanges();
+
+    component.searchQuery.set('QUANT1');
+    expect(component.filteredQuizzes().length).toBe(0);
+  });
 });
+

@@ -33,8 +33,7 @@ export class MyDecksComponent implements OnInit {
     return list.filter(q =>
       q.title.toLowerCase().includes(query) ||
       q.description.toLowerCase().includes(query) ||
-      q.categoryName.toLowerCase().includes(query) ||
-      q.quizCode.toLowerCase().includes(query)
+      q.categoryName.toLowerCase().includes(query)
     );
   });
 
