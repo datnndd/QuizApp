@@ -1,127 +1,129 @@
-﻿import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-interface QuizExplanation {
-  correct: boolean;
+export interface QuizOptionFeedback {
+  speech: string;
   title: string;
-  badge: string;
+  desc: string;
   icon: string;
-  text: string;
-  streak: string;
+  correct: boolean;
   xp: string;
+  badge: string;
 }
 
-interface Deck {
+export interface StarterDeck {
+  id: string;
   title: string;
   category: string;
   description: string;
-  rating: string;
-  questionsCount: number;
-  duration: string;
   imageUrl: string;
-  sampleQuestions: string[];
+  questionsCount?: number;
+  duration?: string;
+  rating?: string;
+  sampleQuestions?: string[];
 }
 
 @Component({
   selector: 'app-landing',
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
 export class LandingComponent implements OnInit, OnDestroy {
-  protected readonly selectedOption = signal<string>('A');
-  protected readonly timerDisplay = signal<string>('00:42');
+  // Interactive Hero Quiz State
+  protected readonly selectedOption = signal<'A' | 'B' | 'C'>('A');
+  protected readonly timerDisplay = signal<string>('00:24');
   private timerInterval: ReturnType<typeof setInterval> | null = null;
-  private secondsLeft = 42;
+  private secondsLeft = 24;
 
+  // Preview Modal State
   protected readonly previewModalOpen = signal<boolean>(false);
-  protected readonly previewDeck = signal<Deck | null>(null);
+  protected readonly previewDeck = signal<StarterDeck | null>(null);
 
-  protected readonly explanations: Record<string, QuizExplanation> = {
+  protected readonly optionData: Record<'A' | 'B' | 'C', QuizOptionFeedback> = {
     A: {
+      speech: 'Spot on! Saturn has 146! 🪐',
+      title: 'Spot on! 🎉',
+      desc: "Saturn holds the official record with 146 discovered moons, outnumbering Jupiter's 95 officially confirmed satellites.",
+      icon: 'verified',
       correct: true,
-      title: 'Verified Explanation',
-      badge: 'VERIFIED',
-      icon: 'check',
-      text: "Saturn holds the official record with 146 discovered moons, outnumbering Jupiter's 95 officially confirmed satellites.",
-      streak: '3-Day Streak Active',
-      xp: '+150 XP Earned'
+      xp: '+150 XP Earned',
+      badge: 'VERIFIED'
     },
     B: {
-      correct: false,
+      speech: 'Close! Jupiter has 95 🔭',
       title: 'Close, but not quite',
-      badge: 'FACT CHECK',
+      desc: "Jupiter held the title previously with 95 moons, but telescope discoveries placed Saturn ahead at 146.",
       icon: 'info',
-      text: "Jupiter held the title previously with 95 moons, but telescope discoveries placed Saturn ahead at 146.",
-      streak: 'Streak Protected',
-      xp: '+50 XP for Effort'
+      correct: false,
+      xp: '+50 XP for trying',
+      badge: 'FACT CHECK'
     },
     C: {
-      correct: false,
+      speech: 'Neptune only has 16 🌊',
       title: 'Not Neptune',
-      badge: 'FACT CHECK',
+      desc: 'Neptune only has 16 recognized moons. Saturn leads the solar system with 146 confirmed moons.',
       icon: 'help',
-      text: 'Neptune only has 16 recognized moons. Saturn leads the solar system with 146 confirmed moons.',
-      streak: 'Streak Active',
-      xp: '+50 XP for Effort'
-    },
-    D: {
       correct: false,
-      title: 'Not Mars',
-      badge: 'FACT CHECK',
-      icon: 'help',
-      text: 'Mars only has 2 tiny moons: Phobos and Deimos. Saturn leads the planetary pack with 146.',
-      streak: 'Streak Active',
-      xp: '+50 XP for Effort'
+      xp: '+50 XP for trying',
+      badge: 'FACT CHECK'
     }
   };
 
   protected readonly currentFeedback = computed(() => {
-    return this.explanations[this.selectedOption()] || this.explanations['A'];
+    return this.optionData[this.selectedOption()] || this.optionData['A'];
   });
 
-  protected readonly decks: Deck[] = [
+  // 3 Popular Starter Decks (from Stitch Screen 7)
+  protected readonly decks: StarterDeck[] = [
     {
-      title: 'World Capitals Challenge',
-      category: 'Geography',
-      description: 'Test your recognition of international capitals, territorial landmarks, and regional topography.',
-      rating: '4.9',
-      questionsCount: 10,
-      duration: '5 Minutes',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCAhJUNyOhp8khFzJiMBb0VI-j6S8ekcmoAc3CdEEw5b0VAPYh0Vyi8ixP73VGAyoLX7CvffzD0e2kCuHA_4AhGhRFl74CejpwtvAE627lG06kMHu6p0_3178N9yyjqnDholNJfqEnMrW0ePTdU1r9Suwn2OCANzoFtnASF4mhJkuc4MmNZ5MNgPNqDz6uaxNtFWd5uV_Z5AHpJkRPlBT3n-dJjWzTncvn227RcUEmLQwAY2cP1UkV-',
-      sampleQuestions: [
-        'What is the capital city of Australia?',
-        'Which city is known as the capital of two countries?',
-        'Which European capital lies on the Danube River?'
-      ]
-    },
-    {
-      title: 'Web Dev Fundamentals',
-      category: 'Computer Architecture',
-      description: 'Clarify core concepts in semantic DOM layout, modern responsive CSS architecture, and ES6 runtime logic.',
-      rating: '5.0',
-      questionsCount: 12,
-      duration: '6 Minutes',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCrG6QKUJWBm-6AYDznh-x5uZ2C2sOzt3Mg4UNoDvswXTaJlzywXoJzl7AfiVGvDJ0cszn7qL1o-dNjkYk3Kjla1iPUGpXu1jGX6STouJI-CbRTmP7c2Zv7P0lbwz78GCErvR5pkwKz89NvaPHrwNUJoQj-A8T1DFuuwqTxowD5O-GrFTXbPnR0D6lKD78HM3dsixO99YXtZNqvIXWRmfaHjuG-nrx4h-IlssXf6gUeng3XbEomV5q7',
-      sampleQuestions: [
-        'How does the CSS box-sizing: border-box property operate?',
-        'What distinguishes const from let in block execution?',
-        'What is the semantic purpose of the <main> element?'
-      ]
-    },
-    {
+      id: 'space-1',
       title: 'Solar System & Deep Space',
       category: 'Astrophysics',
-      description: 'Review planetary orbits, exoplanets, recent space telescope observations, and deep space milestones.',
+      description: 'Planetary moons, event horizons, and recent orbital discoveries.',
+      imageUrl:
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuDJoi27RHdqwtc1-XPkAuUefms0pNM_5rW3kfvkYWi6r9tNExYFv7rr0S3xyujoBBNGRfzNvI5scU1lhterG3u0HMKJA9l7UmzDWb5423DckAxIzm2iYlwOwynTLRaTT_iAubJv16MgIXFnlIhEBbzGS_43BMJv7hObFvwY3KL79aCBy2DfYTQb-qRftTj0STTx-UTnjVGXWDNMPwSAiO_ioRKURJ_hDaQJlTzH-JW4O5iuiboK_pAI',
+      questionsCount: 15,
+      duration: '12 Mins',
       rating: '4.9',
-      questionsCount: 10,
-      duration: '5 Minutes',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB9TTLcCkeUwVfWXTrIxHehhUpdHEOEBlgi-ZqpqBL6Y66cI49uTE1qkBGX7EIvMBD75MVuBFsOxIiZhFn7VYPWa6tkvjta5K7Z5wIqFy7KrNTKCRcq4JqocqWto_YaQsakcN6gS5OnlVOHQDuchWO_pnCSCoPiqZ9ruV83O_LetQT5XFqsmgWSSE6H-dUFNbStb_0O5-L43qNyG1YlkndLTm383G2yhNMolHUxPkRgo74CUmMwVUZo',
       sampleQuestions: [
-        'Which planet possesses the most confirmed natural satellites?',
-        'What causes the magnetic field of Jupiter?',
-        'What is the event horizon of a supermassive black hole?'
+        'Which planet in our solar system has the greatest number of confirmed moons?',
+        'What is the event horizon of a supermassive black hole?',
+        'What causes Jupiter’s intense auroras?'
+      ]
+    },
+    {
+      id: 'webdev-1',
+      title: 'Web Dev Fundamentals',
+      category: 'Architecture',
+      description: 'CSS box model, ES6 runtimes, DOM hierarchy, and state lifecycles.',
+      imageUrl:
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuDfwnnhxwcLo3DChsv9Ttmc7w0nYQua0D_M616Ct3n3QeLv1lj1onZS5fORCp-Xfhjc7d4GleV3nBFknlZ6HS3A6jCmzpz4SJBEXA30Ofkq2LD7HPaeSM7k-8MWPQs7DvcomWSTZeeGLWTOHxbH291BdgxI1FRUIkEKfVNwAr7FFq9dLvmdeg9JFFnCGZ97fZh2L_qONHDPvQ98_sKBqcZuSXxysjc4-mbB-976JlOTxv_DNROw1uLc',
+      questionsCount: 20,
+      duration: '15 Mins',
+      rating: '4.8',
+      sampleQuestions: [
+        'How does CSS box-sizing: border-box operate?',
+        'What is the difference between microtasks and macrotasks in the event loop?',
+        'How do signals track reactive dependencies in modern frontend frameworks?'
+      ]
+    },
+    {
+      id: 'geography-1',
+      title: 'World Capitals Challenge',
+      category: 'Geography',
+      description: 'National landmarks, river capitals, and disputed border markers.',
+      imageUrl:
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuD2aArskNfW5lsBLD7IVMxZfIHu39-S1g3Rl53sD18GMB1vmjWBBkgVRgVRmhHz2DKiePnHvZeCif-8iUup8fSNIS941--X5BB-TZ0PQaGzijAnp3Tp2lhJhXsoZ33Oa7-9mXnLwIj4QZFMvFl65x3pp7e-uls4B1_YRcaTO5MvT3JsiUEdnUL7AYQSPzOwKLMiZUtkROU8nzEgyUEcy2LY7lgfhH6B95Fl8db1WsSFSLoM8yii9Lzv',
+      questionsCount: 10,
+      duration: '8 Mins',
+      rating: '5.0',
+      sampleQuestions: [
+        'What is the capital city of Australia?',
+        'Which city serves as the legislative capital of South Africa?',
+        'Which European capital lies on the Danube River?'
       ]
     }
   ];
@@ -131,7 +133,7 @@ export class LandingComponent implements OnInit, OnDestroy {
       if (this.secondsLeft > 0) {
         this.secondsLeft--;
       } else {
-        this.secondsLeft = 60;
+        this.secondsLeft = 30;
       }
       const formatted = `00:${this.secondsLeft < 10 ? '0' : ''}${this.secondsLeft}`;
       this.timerDisplay.set(formatted);
@@ -144,11 +146,11 @@ export class LandingComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectOption(option: string): void {
+  selectOption(option: 'A' | 'B' | 'C'): void {
     this.selectedOption.set(option);
   }
 
-  openPreview(deck: Deck): void {
+  openPreview(deck: StarterDeck): void {
     this.previewDeck.set(deck);
     this.previewModalOpen.set(true);
   }

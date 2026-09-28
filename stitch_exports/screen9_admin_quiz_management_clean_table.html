@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#001a42", "outline-variant": "#c7c4d8", "tertiary-container": "#885500", "inverse-surface": "#283044", "surface-container-highest": "#dae2fd", "on-tertiary-container": "#ffd4a4", "surface-tint": "#4d44e3", "on-surface-variant": "#464555", "surface-container-high": "#e2e7ff", "tertiary-fixed": "#ffddb8", "surface-container-lowest": "#ffffff", "error-container": "#ffdad6", "surface-container": "#eaedff", "surface-dim": "#d2d9f4", "on-secondary-container": "#fefcff", "surface-bright": "#faf8ff", "background": "#faf8ff", "primary-fixed-dim": "#c3c0ff", "secondary-fixed": "#d8e2ff", "secondary-fixed-dim": "#adc6ff", "on-secondary": "#ffffff", "on-primary-fixed-variant": "#3323cc", "inverse-primary": "#c3c0ff", "on-primary": "#ffffff", "surface-variant": "#dae2fd", "error": "#ba1a1a", "on-primary-container": "#dad7ff", "on-tertiary": "#ffffff", "tertiary": "#684000", "on-background": "#131b2e", "on-primary-fixed": "#0f0069", "inverse-on-surface": "#eef0ff", "on-error-container": "#93000a", "on-tertiary-fixed": "#2a1700", "secondary-container": "#2170e4", "on-secondary-fixed-variant": "#004395", "outline": "#777587", "on-error": "#ffffff", "primary": "#3525cd", "surface": "#faf8ff", "primary-container": "#4f46e5", "primary-fixed": "#e2dfff", "surface-container-low": "#f2f3ff", "on-tertiary-fixed-variant": "#653e00", "on-surface": "#131b2e", "tertiary-fixed-dim": "#ffb95f", "secondary": "#0058be" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xl": "2.5rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "margin": "2rem", "gutter": "1.5rem", "space-md": "1rem" }, "fontFamily": { "body-sm": ["Inter"], "label-sm": ["Inter"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Inter"], "display-hero-mobile": ["Plus Jakarta Sans"], "label-md": ["Inter"], "display-hero": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "body-md": ["Inter"], "headline-sm": ["Plus Jakarta Sans"] }, "fontSize": { "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "display-hero-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "display-hero": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between py-6 px-4 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col gap-6"><div class="flex items-center gap-3 px-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">school</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">Quizzo</span><span class="font-label-sm text-label-sm uppercase text-outline tracking-wider">Admin Console</span></div></div><nav class="flex flex-col gap-1.5 pt-4" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-xl shadow-sm"><a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Overview</span></a><a class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="user-management" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>User Management</span></a><a aria-current="page" class="flex items-center gap-3 px-3.5 py-2.5 transition-all bg-primary-container text-on-primary-container font-semibold rounded-xl shadow-sm" data-path="quiz-management" href="#"><span class="material-symbols-outlined text-[20px]">quiz</span><span>Quiz Management</span></a></nav></div><div class="px-3 flex flex-col gap-2"><div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-high/60"><div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-primary text-[20px]">shield_person</span><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface">Status</span><span class="font-label-sm text-label-sm text-outline">Operational</span></div></div><div class="w-2 h-2 rounded-full bg-secondary-container"></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-8 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-2 font-label-md text-label-md text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-outline">admin_panel_settings</span><span>Console</span><span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span><span class="text-on-surface font-semibold">Quiz Management</span></div><div class="flex items-center gap-6"><div class="flex items-center gap-3 text-on-surface-variant"><button class="p-2 rounded-lg hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><button class="p-2 rounded-lg hover:bg-surface-container hover:text-on-surface transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span></button></div><div class="h-6 w-[1px] bg-surface-container-highest"></div><div class="flex items-center gap-3"><div class="flex flex-col items-end"><span class="font-label-md text-label-md text-on-surface font-semibold">Alex Morgan</span><span class="font-label-sm text-label-sm text-outline">Super Admin</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-8 py-8 flex flex-col gap-6 max-w-[1440px] mx-auto w-full">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Academic Registry</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+<span class="font-label-sm text-label-sm text-outline">v3.4 Production</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Quiz Management</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage, monitor, and review academic quizzes across the platform.</p>
+</div>
+<div class="flex items-center gap-2.5">
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container shadow-sm transition-all text-label-md font-label-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-outline">download</span>
+<span>Export Directory (CSV)</span>
+</button>
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-container-low text-on-surface hover:bg-surface-container shadow-sm transition-all text-label-md font-label-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-outline">rule</span>
+<span>System Audit</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-container text-on-primary shadow-sm hover:opacity-95 transition-all text-label-md font-label-md ml-1" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Create Quiz</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex flex-col lg:flex-row items-center justify-between gap-3">
+<div class="relative w-full lg:w-96 flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-outline text-[20px] pointer-events-none">search</span>
+<input class="w-full pl-10 pr-12 py-2 text-label-md font-body-md rounded-xl bg-surface-container-low text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container transition-all" placeholder="Search by quiz title, owner, category, or ID..." type="text"/>
+<div class="absolute right-3 flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface text-outline font-label-sm text-[10px] shadow-xs select-none">
+<span class="font-semibold">⌘</span>K
+          </div>
+</div>
+<div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto">
+<div class="relative">
+<select class="appearance-none bg-surface-container-low hover:bg-surface-container text-on-surface text-label-md font-label-md py-2 pl-3 pr-8 rounded-xl focus:outline-none transition-colors cursor-pointer">
+<option>Category: All Categories</option>
+<option>Biology &amp; Life Sciences</option>
+<option>Quantum Physics</option>
+<option>Computer Science</option>
+<option>Economics &amp; Business</option>
+<option>History</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-[18px] text-outline pointer-events-none">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low hover:bg-surface-container text-on-surface text-label-md font-label-md py-2 pl-3 pr-8 rounded-xl focus:outline-none transition-colors cursor-pointer">
+<option>Visibility: All</option>
+<option>Public</option>
+<option>Restricted</option>
+<option>Private</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-[18px] text-outline pointer-events-none">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low hover:bg-surface-container text-on-surface text-label-md font-label-md py-2 pl-3 pr-8 rounded-xl focus:outline-none transition-colors cursor-pointer">
+<option>Status: All</option>
+<option>Active</option>
+<option>Under Review</option>
+<option>Disabled</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-2.5 text-[18px] text-outline pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 px-1">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Showing <span class="font-semibold text-on-surface">8</span> of <span class="font-semibold text-on-surface">148</span> quizzes</span>
+<span class="inline-block w-1 h-1 rounded-full bg-outline-variant"></span>
+<button class="text-primary hover:underline font-label-md text-label-md font-medium" type="button">Reset filters</button>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Sort by:</span>
+<button class="flex items-center gap-1 font-label-md text-label-md text-on-surface hover:text-primary transition-colors" type="button">
+<span>Recent Activity</span>
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3.5 px-6 font-semibold" scope="col">Quiz Title &amp; ID</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Owner</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Category</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Visibility</th>
+<th class="py-3.5 px-4 font-semibold text-center" scope="col">Questions</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Attempts</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Status</th>
+<th class="py-3.5 px-6 font-semibold text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface font-body-md text-body-md">
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-primary self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Cellular Biology &amp; Genetics</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-408</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Undergraduate Core • Molecular Foundations</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-label-sm text-[11px] font-bold">
+                    MV
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Dr. Marcus Vance</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Biology &amp; Life Sciences</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Public
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                12
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">3,420</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Active
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group bg-surface-container-lowest/50">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-secondary-container self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Quantum Computing &amp; Cryptography</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-882</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Postgraduate Specialization • Qubit Theory</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-label-sm text-[11px] font-bold">
+                    ER
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Dr. Elena Rostova</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Computer Science</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Public
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                24
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">2,150</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Active
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-tertiary-container self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Astrophysics &amp; Orbital Mechanics</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-409</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Upper Division Physics • Kepler Laws</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-label-sm text-[11px] font-bold">
+                    AT
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Dr. Aris Thorne</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Physics</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Public
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                18
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">1,840</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-tertiary font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                  Under Review
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group bg-surface-container-lowest/50">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-secondary self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Principles of Microeconomics</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-319</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Business &amp; Finance • Supply &amp; Elasticity</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface font-label-sm text-[11px] font-bold">
+                    DK
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">David Kim</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Business &amp; Econ</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Restricted
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                25
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">890</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Active
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-primary self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Modern European History</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-510</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Humanities • Industrial Revolution to 1945</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center text-on-surface font-label-sm text-[11px] font-bold">
+                    LO
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Prof. Liam O'Connor</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">History</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Public
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                18
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">630</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Active
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group bg-surface-container-lowest/50">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-primary-container self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Introduction to Neural Networks</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-401</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">AI &amp; Machine Learning • Deep Foundations</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-label-sm text-[11px] font-bold">
+                    ER
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Dr. Elena Rostova</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Computer Science</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Public
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                20
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">2,840</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Active
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group opacity-80">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-outline-variant self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Organic Chemistry Foundations</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-outline font-label-sm text-[11px] font-bold tracking-tight">#QZ-105</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Biochemistry Preparation • Reaction Pathways</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center text-outline font-label-sm text-[11px] font-bold">
+                    MP
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Maya Patel</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Chemistry</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-outline font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                  Private
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                12
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">215</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-outline font-semibold">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                  Disabled
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/60 transition-colors group bg-surface-container-lowest/50">
+<td class="py-4 px-6">
+<div class="flex items-start gap-3">
+<div class="w-2 rounded-full bg-secondary-container self-stretch my-1"></div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-[15px] font-bold text-on-surface group-hover:text-primary transition-colors">Calculus I: Limits &amp; Derivatives</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-[11px] font-bold tracking-tight">#QZ-204</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">STEM Foundation • Single-Variable Analysis</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-label-sm text-[11px] font-bold">
+                    SJ
+                  </div>
+<span class="font-label-md text-label-md text-on-surface font-medium">Sarah Jenkins</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant font-medium">Mathematics</span>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                  Public
+                </span>
+</td>
+<td class="py-4 px-4 text-center whitespace-nowrap font-label-md text-label-md font-semibold text-on-surface">
+                30
+              </td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">3,110</span>
+<span class="font-label-sm text-[10px] text-outline">completions</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Active
+                </span>
+</td>
+<td class="py-4 px-6 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<a class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-primary hover:text-on-primary font-label-md text-label-md font-semibold text-primary transition-colors" href="#">
+<span>View</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 bg-surface-container-low/50">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant">Showing <span class="font-semibold text-on-surface">1–8</span> of <span class="font-semibold text-on-surface">148</span> quizzes</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button aria-label="Previous page" class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-container-low text-outline hover:text-on-surface hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold shadow-xs" type="button">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant font-label-md text-label-md font-medium transition-colors" type="button">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant font-label-md text-label-md font-medium transition-colors" type="button">3</button>
+<span class="px-1 text-outline font-label-sm">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant font-label-md text-label-md font-medium transition-colors" type="button">19</button>
+<button aria-label="Next page" class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">132</span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Active Published Quizzes</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[24px]">pending_actions</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">9</span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Pending Academic Review</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4">
+<div class="w-11 h-11 rounded-xl bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[24px]">trending_up</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">18,450+</span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Total Monthly Submissions</span>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

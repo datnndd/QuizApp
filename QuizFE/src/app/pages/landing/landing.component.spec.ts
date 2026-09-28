@@ -24,6 +24,7 @@ describe('LandingComponent', () => {
     component.selectOption('B');
     expect(component['selectedOption']()).toBe('B');
     expect(component['currentFeedback']().badge).toBe('FACT CHECK');
+    expect(component['currentFeedback']().speech).toContain('95');
   });
 
   it('should open and close preview modal', () => {
@@ -33,7 +34,7 @@ describe('LandingComponent', () => {
 
     component.openPreview(component['decks'][0]);
     expect(component['previewModalOpen']()).toBe(true);
-    expect(component['previewDeck']()?.title).toBe('World Capitals Challenge');
+    expect(component['previewDeck']()?.title).toBe('Solar System & Deep Space');
 
     component.closePreview();
     expect(component['previewModalOpen']()).toBe(false);

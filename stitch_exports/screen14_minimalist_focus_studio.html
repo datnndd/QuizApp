@@ -1,0 +1,544 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Quizzo Studio — Think. Test. Master.</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#d97706",
+          "primary-dark": "#b45309",
+          "primary-light": "#fef3c7",
+          "primary-soft": "#fffbeb",
+          "ink": "#1e1b18",
+          "ink-muted": "#6b665f",
+          "canvas": "#faf8f5",
+          "surface": "#ffffff",
+          "surface-alt": "#f7f4ed",
+          "border-soft": "#e8e3d8",
+          "border-dark": "#272421"
+        },
+        fontFamily: {
+          "headline": ["Plus Jakarta Sans", "sans-serif"],
+          "body": ["Inter", "sans-serif"]
+        },
+        borderRadius: {
+          "2xl": "1.25rem",
+          "3xl": "1.75rem"
+        },
+        boxShadow: {
+          "soft": "0 10px 30px -5px rgba(217, 119, 6, 0.08), 0 4px 12px -2px rgba(30, 27, 24, 0.04)",
+          "float": "0 20px 40px -15px rgba(30, 27, 24, 0.08)",
+          "tactile": "0 4px 0 #272421",
+          "tactile-hover": "0 2px 0 #272421",
+          "tactile-amber": "0 4px 0 #b45309"
+        }
+      }
+    }
+  };
+</script>
+<style>
+  @layer base {
+    body {
+      background-color: #faf8f5;
+      color: #1e1b18;
+      font-family: 'Inter', sans-serif;
+    }
+  }
+
+  /* Micro animated character floating effects */
+  @keyframes gentle-bob {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(1.5deg); }
+  }
+  @keyframes pop-spark {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  .animate-bob {
+    animation: gentle-bob 4s ease-in-out infinite;
+  }
+  .animate-spark {
+    animation: pop-spark 2.5s ease-in-out infinite;
+  }
+</style>
+</head>
+<body class="bg-canvas text-ink antialiased selection:bg-primary-light selection:text-primary-dark">
+<!-- 1. ULTRA-MINIMAL TOP BAR -->
+<header class="sticky top-0 z-40 w-full bg-canvas/85 backdrop-blur-md border-b border-border-soft/60 px-4 sm:px-8">
+<div class="max-w-6xl mx-auto h-20 flex items-center justify-between">
+<!-- Brand with Mini Mascot Emblem -->
+<a class="flex items-center gap-3 group" href="#">
+<div class="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center shadow-tactile border-2 border-border-dark relative group-hover:scale-105 transition-transform">
+<!-- Mascot Emblem: Mini Sparky Robot/Beanie -->
+<svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 32 32">
+<rect fill="white" height="18" rx="8" stroke="#272421" stroke-width="2" width="22" x="5" y="9"></rect>
+<circle cx="11" cy="17" fill="#272421" r="2.5"></circle>
+<circle cx="21" cy="17" fill="#272421" r="2.5"></circle>
+<path d="M13 21C14 22.5 18 22.5 19 21" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+<!-- Antenna / Lightbulb -->
+<path d="M16 4V9" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+<circle cx="16" cy="4" fill="#fef08a" r="2.5" stroke="#272421" stroke-width="1.5"></circle>
+<!-- Cute Blush -->
+<circle cx="8" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
+<circle cx="24" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-black text-xl tracking-tight leading-none">Quizzo</span>
+<span class="text-[10px] font-headline font-bold text-primary uppercase tracking-widest mt-0.5">Focus Studio</span>
+</div>
+</a>
+<!-- Compact Navigation -->
+<nav class="hidden md:flex items-center gap-8 font-headline font-semibold text-sm text-ink-muted">
+<a class="hover:text-ink transition-colors" href="#decks">Decks</a>
+<a class="hover:text-ink transition-colors" href="#why">Why It Works</a>
+
+</nav>
+<!-- Minimal CTA -->
+<div class="flex items-center gap-3">
+
+<a class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl font-headline font-bold text-xs sm:text-sm bg-primary text-white border-2 border-border-dark shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover active:translate-y-1 transition-all" href="#decks">
+<span class="">Start Practice</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- 2. HERO: ULTRA-TIGHT HEADLINE + INTERACTIVE QUIZ & CUTE STUDY GUIDE -->
+<section class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-16 pb-16 sm:pb-24">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+<!-- Left: Extreme Clarity 3-Line Title -->
+<div class="lg:col-span-6 flex flex-col items-start text-left">
+<!-- Cute Mascot Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface border-2 border-border-dark shadow-sm mb-6">
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+<span class="font-headline font-bold text-xs text-ink">5-minute active recall sprints</span>
+</div>
+<h1 class="font-headline text-5xl sm:text-6xl lg:text-[68px] font-black tracking-tight leading-[1.05] text-ink mb-6">
+            Think.<br>
+            Test.<br>
+<span class="text-primary underline decoration-primary/30 decoration-wavy decoration-4 underline-offset-8">Master</span>.
+          </h1>
+<p class="font-headline text-base sm:text-lg text-ink-muted font-medium max-w-md mb-8 leading-snug">
+            Science-backed bite-sized recall without study burnout. Zero ads, zero fluff.
+          </p>
+<!-- Dual Button Action -->
+<div class="flex flex-wrap items-center gap-3.5 w-full sm:w-auto mb-8">
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-primary text-white font-headline font-extrabold text-sm sm:text-base border-2 border-border-dark shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover transition-all" href="#decks">
+<span class="">Try a 2-min Quiz</span>
+<span class="material-symbols-outlined text-lg">bolt</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-surface text-ink font-headline font-bold text-sm sm:text-base border-2 border-border-dark shadow-tactile hover:bg-surface-alt hover:translate-y-0.5 hover:shadow-tactile-hover transition-all" href="#decks">
+<span class="">Explore Decks</span>
+</a>
+</div>
+<!-- Micro Social Proof -->
+<div class="flex items-center gap-3 text-xs font-headline font-semibold text-ink-muted">
+<div class="flex -space-x-1.5">
+<span class="w-6 h-6 rounded-full bg-amber-100 border border-border-dark flex items-center justify-center text-[10px]">🦊</span>
+<span class="w-6 h-6 rounded-full bg-blue-100 border border-border-dark flex items-center justify-center text-[10px]">🚀</span>
+<span class="w-6 h-6 rounded-full bg-emerald-100 border border-border-dark flex items-center justify-center text-[10px]">🦉</span>
+</div>
+<span class="">Over 240,000 active daily recallers</span>
+</div>
+</div>
+<!-- Right: Interactive Quiz Preview with Floating Mascot Guide -->
+<div class="lg:col-span-6 relative">
+<!-- FLOATING CHARACTER GUIDE: "Leo the Cosmic Owl" -->
+<div class="absolute -top-10 -right-2 sm:-right-4 z-20 animate-bob flex items-center gap-2.5">
+<!-- Speech bubble -->
+<div class="bg-surface border-2 border-border-dark px-3 py-1.5 rounded-2xl shadow-tactile text-xs font-headline font-extrabold text-ink flex items-center gap-1.5">
+<span id="mascot-speech" class="">Tap an answer! 👇</span>
+</div>
+<!-- Custom Illustrated Mascot Emblem -->
+<div class="w-14 h-14 rounded-2xl bg-primary-light border-2 border-border-dark shadow-tactile flex items-center justify-center shrink-0">
+<svg class="w-10 h-10" fill="none" viewBox="0 0 36 36">
+<!-- Mascot Body (Cosmic Fox Scholar) -->
+<circle cx="18" cy="18" fill="#f59e0b" r="14" stroke="#272421" stroke-width="2"></circle>
+<!-- Ears -->
+<polygon fill="#d97706" points="8,8 14,14 7,16" stroke="#272421" stroke-width="1.5"></polygon>
+<polygon fill="#d97706" points="28,8 22,14 29,16" stroke="#272421" stroke-width="1.5"></polygon>
+<!-- White Cheeks -->
+<path d="M7 19C11 18 13 22 13 25C10 26 7 24 7 19Z" fill="white"></path>
+<path d="M29 19C25 18 23 22 23 25C26 26 29 24 29 19Z" fill="white"></path>
+<!-- Glasses -->
+<circle cx="14" cy="17" fill="none" r="3.5" stroke="#272421" stroke-width="1.5"></circle>
+<circle cx="22" cy="17" fill="none" r="3.5" stroke="#272421" stroke-width="1.5"></circle>
+<line stroke="#272421" stroke-width="1.5" x1="17.5" x2="18.5" y1="17" y2="17"></line>
+<circle cx="14" cy="17" fill="#272421" r="1.5"></circle>
+<circle cx="22" cy="17" fill="#272421" r="1.5"></circle>
+<!-- Nose -->
+<polygon fill="#272421" points="18,21 16.5,23 19.5,23"></polygon>
+<!-- Graduation mini cap -->
+<polygon fill="#272421" points="18,4 25,8 18,11 11,8"></polygon>
+<line stroke="#f59e0b" stroke-width="1.5" x1="18" x2="26" y1="11" y2="13"></line>
+</svg>
+</div>
+</div>
+<!-- Interactive Card -->
+<div class="bg-surface rounded-3xl border-2 border-border-dark p-6 sm:p-7 shadow-tactile relative z-10" id="hero-quiz-card">
+<div class="flex items-center justify-between pb-4 border-b border-border-soft mb-5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-headline font-bold text-xs uppercase tracking-wider text-primary">Daily Question 3 of 5</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-alt px-2.5 py-1 rounded-lg border border-border-soft font-headline text-xs font-bold text-ink">
+<span class="material-symbols-outlined text-sm text-ink-muted">timer</span>
+<span id="quick-timer" class="">00:24</span>
+</div>
+</div>
+<h2 class="font-headline text-lg sm:text-xl font-extrabold text-ink leading-snug mb-5">
+              Which planet in our solar system has the greatest number of confirmed moons?
+            </h2>
+<div class="space-y-2.5 mb-5" id="hero-quiz-options">
+<!-- Option A: Correct -->
+<button class="quiz-btn w-full p-3.5 rounded-2xl bg-primary-soft border-2 border-primary flex items-center justify-between font-headline font-bold text-sm text-ink transition-all shadow-sm group" data-correct="true" data-key="A">
+<div class="flex items-center gap-3">
+<span class="opt-badge w-7 h-7 rounded-xl bg-primary text-white flex items-center justify-center font-black text-xs border border-border-dark">A</span>
+<span class="">Saturn</span>
+</div>
+<span class="opt-icon w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-sm font-black">check</span>
+</span>
+</button>
+<!-- Option B -->
+<button class="quiz-btn w-full p-3.5 rounded-2xl bg-surface hover:bg-surface-alt border-2 border-border-soft flex items-center justify-between font-headline font-semibold text-sm text-ink transition-all" data-correct="false" data-key="B">
+<div class="flex items-center gap-3">
+<span class="opt-badge w-7 h-7 rounded-xl bg-surface-alt text-ink-muted flex items-center justify-center font-bold text-xs border border-border-soft">B</span>
+<span class="">Jupiter</span>
+</div>
+<span class="opt-icon w-5 h-5 rounded-full border border-border-soft"></span>
+</button>
+<!-- Option C -->
+<button class="quiz-btn w-full p-3.5 rounded-2xl bg-surface hover:bg-surface-alt border-2 border-border-soft flex items-center justify-between font-headline font-semibold text-sm text-ink transition-all" data-correct="false" data-key="C">
+<div class="flex items-center gap-3">
+<span class="opt-badge w-7 h-7 rounded-xl bg-surface-alt text-ink-muted flex items-center justify-center font-bold text-xs border border-border-soft">C</span>
+<span class="">Neptune</span>
+</div>
+<span class="opt-icon w-5 h-5 rounded-full border border-border-soft"></span>
+</button>
+</div>
+<!-- Instant Feedback Panel -->
+<div class="p-3.5 rounded-2xl bg-surface-alt border border-border-soft flex items-start gap-3" id="feedback-box">
+<div class="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shrink-0 mt-0.5 font-bold" id="feedback-icon-wrap">
+<span class="material-symbols-outlined text-base" id="feedback-icon">verified</span>
+</div>
+<div>
+<p class="font-headline text-xs font-extrabold text-ink" id="feedback-title">Spot on! 🎉</p>
+<p class="font-body text-xs text-ink-muted mt-0.5" id="feedback-desc">
+                  Saturn leads with 146 confirmed moons, topping Jupiter's 95.
+                </p>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-border-soft flex items-center justify-between text-xs font-headline font-bold">
+<span class="text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+<span class="">3-Day Streak</span>
+</span>
+<span class="text-ink flex items-center gap-1">
+<span class="material-symbols-outlined text-base text-amber-500">star</span>
+<span id="xp-text" class="">+150 XP Earned</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. 'WHY QUIZZO' COMPRESSED INTO 3 STAT CHIPS WITH MASCOT ICONS -->
+<section class="max-w-6xl mx-auto px-4 sm:px-8 py-10" id="why">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Chip 1: Cheerful Clock Mascot -->
+<div class="bg-surface rounded-2xl border-2 border-border-dark p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
+<div class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-border-dark flex items-center justify-center shrink-0">
+<!-- Cheerful Clock Mascot -->
+<svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
+<circle cx="16" cy="16" fill="#fef3c7" r="12" stroke="#272421" stroke-width="2"></circle>
+<!-- Clock Eyes & Smile -->
+<circle cx="12" cy="14" fill="#272421" r="1.5"></circle>
+<circle cx="20" cy="14" fill="#272421" r="1.5"></circle>
+<path d="M13 18C14 20 18 20 19 18" stroke="#272421" stroke-linecap="round" stroke-width="1.8"></path>
+<!-- Clock Hands -->
+<line stroke="#d97706" stroke-linecap="round" stroke-width="2" x1="16" x2="16" y1="16" y2="10"></line>
+<line stroke="#d97706" stroke-linecap="round" stroke-width="2" x1="16" x2="20" y1="16" y2="16"></line>
+<!-- Bell Ears -->
+<path d="M8 8L6 6" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+<path d="M24 8L26 6" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<div class="font-headline font-black text-xl text-ink">5 Min Sprints</div>
+<div class="font-headline text-xs font-semibold text-ink-muted mt-0.5">Quick sessions built for busy days.</div>
+</div>
+</div>
+<!-- Chip 2: Cosmic Astronaut Learner -->
+<div class="bg-surface rounded-2xl border-2 border-border-dark p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
+<div class="w-14 h-14 rounded-2xl bg-blue-100 border-2 border-border-dark flex items-center justify-center shrink-0">
+<!-- Astronaut Cadet -->
+<svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
+<rect fill="#dbeafe" height="16" rx="8" stroke="#272421" stroke-width="2" width="18" x="7" y="8"></rect>
+<!-- Visor -->
+<rect fill="#3b82f6" height="7" rx="3.5" stroke="#272421" stroke-width="1.5" width="12" x="10" y="11"></rect>
+<circle cx="13" cy="13" fill="white" r="1"></circle>
+<!-- Antenna -->
+<line stroke="#272421" stroke-width="2" x1="16" x2="16" y1="4" y2="8"></line>
+<circle cx="16" cy="4" fill="#f59e0b" r="1.5"></circle>
+<!-- Chest Badge -->
+<circle cx="16" cy="20" fill="#10b981" r="1.5"></circle>
+</svg>
+</div>
+<div>
+<div class="font-headline font-black text-xl text-ink">Zero Ads</div>
+<div class="font-headline text-xs font-semibold text-ink-muted mt-0.5">Pure focus with verified explanations.</div>
+</div>
+</div>
+<!-- Chip 3: Curious Fox Scholar -->
+<div class="bg-surface rounded-2xl border-2 border-border-dark p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
+<div class="w-14 h-14 rounded-2xl bg-emerald-100 border-2 border-border-dark flex items-center justify-center shrink-0">
+<!-- Curious Brain Mascot -->
+<svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
+<path d="M11 12C9 12 7 14 7 17C7 20 9 22 11 22C11 24 13 25 15 25V9C13 9 11 10 11 12Z" fill="#d1fae5" stroke="#272421" stroke-width="1.8"></path>
+<path d="M21 12C23 12 25 14 25 17C25 20 23 22 21 22C21 24 19 25 17 25V9C19 9 21 10 21 12Z" fill="#d1fae5" stroke="#272421" stroke-width="1.8"></path>
+<!-- Sparkles -->
+<path d="M16 4L17 7L20 8L17 9L16 12L15 9L12 8L15 7L16 4Z" fill="#f59e0b"></path>
+</svg>
+</div>
+<div>
+<div class="font-headline font-black text-xl text-ink">98% Recall</div>
+<div class="font-headline text-xs font-semibold text-ink-muted mt-0.5">Proven spaced repetition algorithms.</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. MINIMALIST 3-CARD DECK SPOTLIGHT WITH ILLUSTRATED CHARACTER EMBLEMS -->
+<section class="max-w-6xl mx-auto px-4 sm:px-8 py-14" id="decks">
+<div class="flex items-end justify-between mb-8">
+<div>
+<span class="text-xs font-headline font-black text-primary uppercase tracking-widest">Instant Play</span>
+<h2 class="font-headline text-3xl sm:text-4xl font-black text-ink mt-1 tracking-tight">Popular Starter Decks</h2>
+</div>
+
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Deck 1: Space & Universe (Astro Cadet Mascot) -->
+<div class="bg-surface rounded-3xl border-2 border-border-dark p-6 shadow-tactile flex flex-col justify-between group hover:-translate-y-1 transition-all">
+<div>
+<!-- Mascot Header -->
+<div class="relative w-full h-40 rounded-xl overflow-hidden mb-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJoi27RHdqwtc1-XPkAuUefms0pNM_5rW3kfvkYWi6r9tNExYFv7rr0S3xyujoBBNGRfzNvI5scU1lhterG3u0HMKJA9l7UmzDWb5423DckAxIzm2iYlwOwynTLRaTT_iAubJv16MgIXFnlIhEBbzGS_43BMJv7hObFvwY3KL79aCBy2DfYTQb-qRftTj0STTx-UTnjVGXWDNMPwSAiO_ioRKURJ_hDaQJlTzH-JW4O5iuiboK_pAI" alt="Solar System &amp; Deep Space" class="w-full h-full object-cover"></div>
+<div class="text-xs font-headline font-bold text-primary mb-1">Astrophysics</div>
+<h3 class="font-headline text-xl font-black text-ink mb-2">Solar System &amp; Deep Space</h3>
+<p class="font-body text-xs text-ink-muted leading-relaxed mb-6">
+              Planetary moons, event horizons, and recent orbital discoveries.
+            </p>
+</div>
+<a class="w-full py-3 rounded-2xl bg-primary text-white font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 border-2 border-border-dark shadow-tactile hover:bg-primary-dark transition-all" href="#">
+<span class="">Start Deck</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Deck 2: Web Dev & Code (Curious Fox Mascot) -->
+<div class="bg-surface rounded-3xl border-2 border-border-dark p-6 shadow-tactile flex flex-col justify-between group hover:-translate-y-1 transition-all">
+<div>
+<!-- Mascot Header -->
+<div class="relative w-full h-40 rounded-xl overflow-hidden mb-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfwnnhxwcLo3DChsv9Ttmc7w0nYQua0D_M616Ct3n3QeLv1lj1onZS5fORCp-Xfhjc7d4GleV3nBFknlZ6HS3A6jCmzpz4SJBEXA30Ofkq2LD7HPaeSM7k-8MWPQs7DvcomWSTZeeGLWTOHxbH291BdgxI1FRUIkEKfVNwAr7FFq9dLvmdeg9JFFnCGZ97fZh2L_qONHDPvQ98_sKBqcZuSXxysjc4-mbB-976JlOTxv_DNROw1uLc" alt="Web Dev Fundamentals" class="w-full h-full object-cover"></div>
+<div class="text-xs font-headline font-bold text-primary mb-1">Architecture</div>
+<h3 class="font-headline text-xl font-black text-ink mb-2">Web Dev Fundamentals</h3>
+<p class="font-body text-xs text-ink-muted leading-relaxed mb-6">
+              CSS box model, ES6 runtimes, DOM hierarchy, and state lifecycles.
+            </p>
+</div>
+<a class="w-full py-3 rounded-2xl bg-primary text-white font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 border-2 border-border-dark shadow-tactile hover:bg-primary-dark transition-all" href="#">
+<span class="">Start Deck</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Deck 3: Geography & Capitals (Globetrotter Owl) -->
+<div class="bg-surface rounded-3xl border-2 border-border-dark p-6 shadow-tactile flex flex-col justify-between group hover:-translate-y-1 transition-all">
+<div>
+<!-- Mascot Header -->
+<div class="relative w-full h-40 rounded-xl overflow-hidden mb-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2aArskNfW5lsBLD7IVMxZfIHu39-S1g3Rl53sD18GMB1vmjWBBkgVRgVRmhHz2DKiePnHvZeCif-8iUup8fSNIS941--X5BB-TZ0PQaGzijAnp3Tp2lhJhXsoZ33Oa7-9mXnLwIj4QZFMvFl65x3pp7e-uls4B1_YRcaTO5MvT3JsiUEdnUL7AYQSPzOwKLMiZUtkROU8nzEgyUEcy2LY7lgfhH6B95Fl8db1WsSFSLoM8yii9Lzv" alt="World Capitals Challenge" class="w-full h-full object-cover"></div>
+<div class="text-xs font-headline font-bold text-primary mb-1">Geography</div>
+<h3 class="font-headline text-xl font-black text-ink mb-2">World Capitals Challenge</h3>
+<p class="font-body text-xs text-ink-muted leading-relaxed mb-6">
+              National landmarks, river capitals, and disputed border markers.
+            </p>
+</div>
+<a class="w-full py-3 rounded-2xl bg-primary text-white font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 border-2 border-border-dark shadow-tactile hover:bg-primary-dark transition-all" href="#">
+<span class="">Start Deck</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 5. MINIMALIST FINAL CALL-TO-ACTION WITH MASCOT DUO -->
+<section class="max-w-6xl mx-auto px-4 sm:px-8 py-12">
+<div class="bg-surface rounded-3xl border-2 border-border-dark p-8 sm:p-14 shadow-tactile text-center relative overflow-hidden">
+<!-- Floating Mascot Left -->
+<div class="hidden sm:block absolute left-8 top-1/2 -translate-y-1/2 animate-bob">
+<div class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-border-dark flex items-center justify-center shadow-sm">
+<span class="text-3xl">🦊</span>
+</div>
+</div>
+<!-- Floating Mascot Right -->
+<div class="hidden sm:block absolute right-8 top-1/2 -translate-y-1/2 animate-bob" style="animation-delay: -2s;">
+<div class="w-16 h-16 rounded-2xl bg-blue-100 border-2 border-border-dark flex items-center justify-center shadow-sm">
+<span class="text-3xl">🚀</span>
+</div>
+</div>
+<div class="max-w-md mx-auto relative z-10 flex flex-col items-center">
+<span class="px-3 py-1 rounded-full bg-primary-soft text-primary font-headline font-black text-xs border border-primary/30 uppercase tracking-widest mb-4">
+            Zero Onboarding Friction
+          </span>
+<h2 class="font-headline text-3xl sm:text-4xl font-black text-ink tracking-tight mb-3">
+            Start your daily streak.
+          </h2>
+<p class="font-body text-sm text-ink-muted mb-8 leading-relaxed">
+            Pick a topic and lock in your first memory sprint in under two minutes.
+          </p>
+<a class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-primary text-white font-headline font-black text-base border-2 border-border-dark shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover transition-all w-full sm:w-auto" href="#decks">
+<span class="">Start a Free Sprint</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+<p class="text-[11px] font-headline font-semibold text-ink-muted/70 mt-4">
+            No credit card • No account needed • Instant feedback
+          </p>
+</div>
+</div>
+</section>
+</main>
+<!-- 6. ULTRA-CLEAN FOOTER -->
+<footer class="w-full border-t border-border-soft/80 bg-canvas py-10 px-4 sm:px-8">
+<div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-headline text-xs font-semibold text-ink-muted">
+<div class="flex items-center gap-2 text-ink font-bold">
+<div class="w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center font-black text-xs border border-border-dark">Q</div>
+<span class="">Quizzo Studio</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-ink transition-colors" href="#decks">Decks</a>
+<a class="hover:text-ink transition-colors" href="#why">Why It Works</a>
+<a class="hover:text-ink transition-colors" href="#">Privacy</a>
+<a class="hover:text-ink transition-colors" href="#">Terms</a>
+</div>
+<p class="text-ink-muted/70">© 2026 Quizzo Inc.</p>
+</div>
+</footer>
+<!-- INTERACTIVE JS FOR QUIZ & MASCOT -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const quizButtons = document.querySelectorAll('#hero-quiz-options button');
+      const speech = document.getElementById('mascot-speech');
+      const feedbackTitle = document.getElementById('feedback-title');
+      const feedbackDesc = document.getElementById('feedback-desc');
+      const feedbackIcon = document.getElementById('feedback-icon');
+      const feedbackIconWrap = document.getElementById('feedback-icon-wrap');
+      const xpText = document.getElementById('xp-text');
+      const timerDisplay = document.getElementById('quick-timer');
+
+      const answerData = {
+        'A': {
+          speech: "Spot on! Saturn has 146! 🪐",
+          title: "Spot on! 🎉",
+          desc: "Saturn holds the official record with 146 discovered moons.",
+          icon: "verified",
+          correct: true,
+          xp: "+150 XP Earned"
+        },
+        'B': {
+          speech: "Close! Jupiter has 95 🔭",
+          title: "Close, but not quite",
+          desc: "Jupiter has 95 moons, but Saturn passed it with 146!",
+          icon: "info",
+          correct: false,
+          xp: "+50 XP for trying"
+        },
+        'C': {
+          speech: "Neptune only has 16 🌊",
+          title: "Not Neptune",
+          desc: "Neptune only has 16 moons. Saturn leads by far.",
+          icon: "help",
+          correct: false,
+          xp: "+50 XP for trying"
+        }
+      };
+
+      quizButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-key');
+          const data = answerData[key];
+
+          // Reset all buttons
+          quizButtons.forEach(b => {
+            b.className = "quiz-btn w-full p-3.5 rounded-2xl bg-surface hover:bg-surface-alt border-2 border-border-soft flex items-center justify-between font-headline font-semibold text-sm text-ink transition-all";
+            const badge = b.querySelector('.opt-badge');
+            if (badge) {
+              badge.className = "opt-badge w-7 h-7 rounded-xl bg-surface-alt text-ink-muted flex items-center justify-center font-bold text-xs border border-border-soft";
+            }
+            const icon = b.querySelector('.opt-icon');
+            if (icon) {
+              icon.className = "opt-icon w-5 h-5 rounded-full border border-border-soft";
+              icon.innerHTML = "";
+            }
+          });
+
+          // Style active button
+          const activeBadge = btn.querySelector('.opt-badge');
+          const activeIcon = btn.querySelector('.opt-icon');
+
+          if (data.correct) {
+            btn.className = "quiz-btn w-full p-3.5 rounded-2xl bg-primary-soft border-2 border-primary flex items-center justify-between font-headline font-bold text-sm text-ink transition-all shadow-sm";
+            if (activeBadge) {
+              activeBadge.className = "opt-badge w-7 h-7 rounded-xl bg-primary text-white flex items-center justify-center font-black text-xs border border-border-dark";
+            }
+            if (activeIcon) {
+              activeIcon.className = "opt-icon w-6 h-6 rounded-lg bg-primary text-white flex items-center justify-center";
+              activeIcon.innerHTML = '<span class="material-symbols-outlined text-sm font-black">check</span>';
+            }
+            feedbackIconWrap.className = "w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shrink-0 mt-0.5 font-bold";
+          } else {
+            btn.className = "quiz-btn w-full p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-between font-headline font-bold text-sm text-ink transition-all shadow-sm";
+            if (activeBadge) {
+              activeBadge.className = "opt-badge w-7 h-7 rounded-xl bg-ink text-white flex items-center justify-center font-bold text-xs border border-border-dark";
+            }
+            if (activeIcon) {
+              activeIcon.className = "opt-icon w-6 h-6 rounded-lg bg-ink text-white flex items-center justify-center";
+              activeIcon.innerHTML = '<span class="material-symbols-outlined text-sm font-black">close</span>';
+            }
+            feedbackIconWrap.className = "w-8 h-8 rounded-xl bg-ink text-white flex items-center justify-center shrink-0 mt-0.5 font-bold";
+          }
+
+          // Mascot speech bubble update
+          if (speech) speech.textContent = data.speech;
+          if (feedbackTitle) feedbackTitle.textContent = data.title;
+          if (feedbackDesc) feedbackDesc.textContent = data.desc;
+          if (feedbackIcon) feedbackIcon.textContent = data.icon;
+          if (xpText) xpText.textContent = data.xp;
+        });
+      });
+
+      // Quick Countdown timer
+      let timeLeft = 38;
+      setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          if (timerDisplay) {
+            timerDisplay.textContent = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+          }
+        } else {
+          timeLeft = 45;
+        }
+      }, 1000);
+    });
+  </script>
+
+
+
+
+</body></html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Quizzo - Interactive Curriculum Audit Ledger</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "tertiary-fixed-dim": "#ffb95f",
+          "surface-variant": "#dae2fd",
+          "inverse-surface": "#283044",
+          "on-surface-variant": "#464555",
+          "error": "#ba1a1a",
+          "error-container": "#ffdad6",
+          "outline": "#777587",
+          "on-error-container": "#93000a",
+          "surface-container": "#eaedff",
+          "secondary": "#0058be",
+          "surface-container-highest": "#dae2fd",
+          "background": "#faf8ff",
+          "secondary-fixed-dim": "#adc6ff",
+          "primary-fixed": "#e2dfff",
+          "secondary-fixed": "#d8e2ff",
+          "on-primary-fixed-variant": "#3323cc",
+          "surface-container-low": "#f2f3ff",
+          "on-secondary-container": "#fefcff",
+          "primary-container": "#4f46e5",
+          "on-secondary-fixed": "#001a42",
+          "surface-container-high": "#e2e7ff",
+          "on-tertiary-fixed": "#2a1700",
+          "on-secondary-fixed-variant": "#004395",
+          "on-primary-container": "#dad7ff",
+          "on-primary": "#ffffff",
+          "on-background": "#131b2e",
+          "on-secondary": "#ffffff",
+          "tertiary": "#684000",
+          "primary": "#3525cd",
+          "outline-variant": "#c7c4d8",
+          "tertiary-fixed": "#ffddb8",
+          "inverse-on-surface": "#eef0ff",
+          "on-tertiary-fixed-variant": "#653e00",
+          "on-error": "#ffffff",
+          "on-surface": "#131b2e",
+          "surface-tint": "#4d44e3",
+          "tertiary-container": "#885500",
+          "on-tertiary": "#ffffff",
+          "surface-dim": "#d2d9f4",
+          "primary-fixed-dim": "#c3c0ff",
+          "surface-bright": "#faf8ff",
+          "on-tertiary-container": "#ffd4a4",
+          "inverse-primary": "#c3c0ff",
+          "surface": "#faf8ff",
+          "on-primary-fixed": "#0f0069",
+          "surface-container-lowest": "#ffffff",
+          "secondary-container": "#2170e4"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "fontFamily": {
+          "headline-md": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "body-lg": ["Inter"],
+          "label-sm": ["Inter"],
+          "label-md": ["Inter"],
+          "body-sm": ["Inter"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "display-hero": ["Plus Jakarta Sans"],
+          "label-lg": ["Inter"],
+          "headline-sm": ["Plus Jakarta Sans"]
+        }
+      },
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface antialiased font-['Inter'] min-h-screen flex selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Overall App Wrapper -->
+<div class="flex h-screen w-full overflow-hidden bg-background">
+<!-- Persistent Left Navigation Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-outline-variant/30 bg-surface-container-lowest flex flex-col justify-between p-5 select-none">
+<div class="flex flex-col gap-8">
+<!-- Logo Branding -->
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-['Plus_Jakarta_Sans'] font-extrabold text-lg shadow-sm">
+          Q
+        </div>
+<div class="flex flex-col">
+<h1 class="text-on-surface font-['Plus_Jakarta_Sans'] text-base font-bold tracking-tight">Quizzo</h1>
+<p class="text-on-surface-variant text-[11px] uppercase tracking-wider font-semibold">Admin Console</p>
+</div>
+</div>
+<!-- 3 Strict Navigation Items -->
+<nav class="flex flex-col gap-1.5">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-container text-primary font-semibold text-sm shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">description</span>
+<span class="">Quiz Management</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Status & Admin Profile -->
+<div class="pt-4 border-t border-outline-variant/20 flex flex-col gap-3">
+
+
+</div>
+</aside>
+<!-- Main View Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Top Bar: Breadcrumb + Sync Telemetry + Profile -->
+<header class="h-14 border-b border-outline-variant/30 bg-surface-container-lowest px-8 flex items-center justify-between flex-shrink-0">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Quiz Management</a>
+<span class="text-outline-variant">/</span>
+<span class="text-on-surface font-semibold">Cellular Biology &amp; Genetics (#QZ-408)</span>
+</nav>
+<div class="flex items-center gap-4">
+
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-xs font-medium text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+
+</div>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center text-xs font-semibold">
+            MV
+          </div>
+<span class="text-xs font-medium text-on-surface">Dr. Vance</span>
+</div>
+</div>
+</header>
+<!-- Sub-Header: Title & Actions -->
+<div class="bg-surface-container-lowest border-b border-outline-variant/20 px-8 py-5">
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2.5">
+<a class="inline-flex items-center gap-1 text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[15px]">arrow_back</span>
+<span class="">All Quizzes</span>
+</a>
+<span class="text-outline-variant/50">•</span>
+<span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-surface-container text-primary">#QZ-408</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Active
+            </span>
+</div>
+<h1 class="text-2xl md:text-3xl font-['Plus_Jakarta_Sans'] text-on-surface tracking-tight font-bold">
+            Cellular Biology &amp; Genetics
+          </h1>
+<p class="text-xs text-on-surface-variant">Undergraduate Core Biology • MIT Academic Curriculum 2023–2024</p>
+</div>
+<!-- Direct Actions Toolbar -->
+<div class="flex items-center gap-2 flex-wrap">
+<button class="inline-flex items-center gap-1.5 px-3 py-2 border border-outline-variant/60 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container-low transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[17px]">visibility</span>
+<span class="">Preview Quiz</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-2 border border-amber-300 text-amber-800 bg-amber-50/50 hover:bg-amber-100/60 rounded-lg text-xs font-semibold transition-colors" type="button">
+<span class="material-symbols-outlined text-[17px]">pause_circle</span>
+<span class="">Disable Quiz</span>
+</button>
+<button class="inline-flex items-center gap-1.5 px-3 py-2 border border-outline-variant/60 rounded-lg text-xs font-semibold text-on-surface hover:bg-surface-container-low transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[17px]">restore</span>
+<span class="">Restore Quiz</span>
+</button>
+
+</div>
+</div>
+</div>
+<!-- Main Scrollable Ledger Area -->
+<main class="flex-1 overflow-y-auto px-8 py-6 bg-background">
+<div class="max-w-6xl mx-auto flex flex-col gap-6">
+<!-- Bento Metric Grid (4 Clean Cards) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Title & Category -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-[11px] font-semibold tracking-wider uppercase">Title &amp; Category</span>
+<span class="material-symbols-outlined text-[18px] text-primary">category</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface truncate">Cellular Biology &amp; Genetics</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Biology &amp; Life Sciences</div>
+</div>
+</div>
+<!-- Card 2: Owner & Visibility -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-[11px] font-semibold tracking-wider uppercase">Owner &amp; Access</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">person_check</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface truncate">Dr. Marcus Vance</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Public Institutional Access</div>
+</div>
+</div>
+<!-- Card 3: Assessment Parameters -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-[11px] font-semibold tracking-wider uppercase">Assessment Parameters</span>
+<span class="material-symbols-outlined text-[18px] text-primary">timer</span>
+</div>
+<div>
+<div class="text-sm font-bold text-on-surface">45 Minutes Allowed</div>
+<div class="text-xs text-on-surface-variant mt-0.5">Max 3 Attempts per Student</div>
+</div>
+</div>
+<!-- Card 4: Submission Stats -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-on-surface-variant mb-2">
+<span class="text-[11px] font-semibold tracking-wider uppercase">Submission Performance</span>
+<span class="material-symbols-outlined text-[18px] text-emerald-600">monitoring</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="text-sm font-bold text-on-surface">3,420 Attempts</span>
+<span class="text-xs font-semibold text-emerald-600">84.2% Avg</span>
+</div>
+<div class="text-xs text-on-surface-variant mt-0.5">12 Questions Configured</div>
+</div>
+</div>
+</section>
+<!-- Question Curriculum Ledger Section -->
+<section class="flex flex-col gap-4">
+<!-- Search, Filtering, and Expand Controls Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-3 flex flex-col lg:flex-row items-center justify-between gap-3 shadow-sm">
+<div class="flex items-center gap-3 w-full lg:w-auto flex-1">
+<!-- Search Input -->
+<div class="relative w-full max-w-sm">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg pl-9 pr-3 py-1.5 text-xs text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Search prompts, authors, keywords..." type="text">
+</div>
+<!-- Filter Pills -->
+<div class="hidden sm:flex items-center gap-1.5 overflow-x-auto">
+<button class="px-2.5 py-1 rounded-md text-xs font-semibold bg-primary text-on-primary">All (12)</button>
+<button class="px-2.5 py-1 rounded-md text-xs font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors">Single Choice (5)</button>
+<button class="px-2.5 py-1 rounded-md text-xs font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors">Multiple Choice (4)</button>
+<button class="px-2.5 py-1 rounded-md text-xs font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors">True/False (3)</button>
+</div>
+</div>
+<!-- Expand / Collapse All Toggle & Counter -->
+
+</div>
+<!-- Accordion Question List -->
+<div class="flex flex-col gap-3">
+<!-- Question 1: EXPANDED -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm transition-all">
+<!-- Header / Clickable Bar -->
+<div class="p-4 bg-surface-container-lowest flex items-center justify-between gap-4 cursor-pointer hover:bg-surface-container-low/40 transition-colors border-b border-outline-variant/20">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-md bg-surface-container flex items-center justify-center font-bold text-xs text-primary flex-shrink-0">Q1</span>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-on-surface">Single Choice</span>
+<span class="text-xs text-on-surface-variant">•</span>
+<span class="text-xs text-on-surface-variant">v1.3</span>
+<span class="text-xs text-on-surface-variant">•</span>
+<span class="text-xs text-on-surface-variant">Dr. Marcus Vance</span>
+</div>
+</div>
+<div class="flex items-center gap-3 flex-shrink-0">
+
+
+</div>
+</div>
+<!-- Expanded Body -->
+<div class="p-5 flex flex-col gap-4 bg-surface-container-lowest">
+<div>
+<h3 class="text-sm font-semibold text-on-surface leading-snug">
+                    Which organelle is primarily responsible for ATP synthesis in eukaryotic cells?
+                  </h3>
+</div>
+<!-- 2x2 Options Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Option A (Correct - Light Emerald) -->
+<div class="flex items-center justify-between p-3 rounded-lg border-2 border-emerald-400 bg-emerald-50/60 shadow-sm">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">A</span>
+<span class="text-xs font-semibold text-emerald-950">Mitochondria</span>
+</div>
+<span class="text-[11px] font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span> Correct Answer
+                    </span>
+</div>
+<!-- Option B -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/40 bg-surface-container-lowest opacity-75">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full border border-outline-variant text-on-surface-variant flex items-center justify-center text-xs font-medium">B</span>
+<span class="text-xs text-on-surface">Ribosome</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Distractor</span>
+</div>
+<!-- Option C -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/40 bg-surface-container-lowest opacity-75">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full border border-outline-variant text-on-surface-variant flex items-center justify-center text-xs font-medium">C</span>
+<span class="text-xs text-on-surface">Golgi Apparatus</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Distractor</span>
+</div>
+<!-- Option D -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/40 bg-surface-container-lowest opacity-75">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full border border-outline-variant text-on-surface-variant flex items-center justify-center text-xs font-medium">D</span>
+<span class="text-xs text-on-surface">Lysosome</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Distractor</span>
+</div>
+</div>
+<!-- Rationale Box -->
+<div class="flex items-start gap-2.5 p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[18px] flex-shrink-0 mt-0.5">info</span>
+<div class="leading-relaxed">
+<strong class="text-on-surface font-semibold">Audit Rationale:</strong> Mitochondria generate the vast majority of cellular ATP via oxidative phosphorylation across the inner mitochondrial membrane (F0-F1 ATP synthase complex).
+                  </div>
+</div>
+</div>
+</div>
+<!-- Question 2: EXPANDED -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm transition-all">
+<!-- Header / Clickable Bar -->
+<div class="p-4 bg-surface-container-lowest flex items-center justify-between gap-4 cursor-pointer hover:bg-surface-container-low/40 transition-colors border-b border-outline-variant/20">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-md bg-surface-container flex items-center justify-center font-bold text-xs text-primary flex-shrink-0">Q2</span>
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-on-surface">Multiple Choice</span>
+<span class="text-xs text-on-surface-variant">•</span>
+<span class="text-xs text-on-surface-variant">v2.1</span>
+<span class="text-xs text-on-surface-variant">•</span>
+<span class="text-xs text-on-surface-variant">Prof. Elena Rostova</span>
+</div>
+</div>
+<div class="flex items-center gap-3 flex-shrink-0">
+
+
+</div>
+</div>
+<!-- Expanded Body -->
+<div class="p-5 flex flex-col gap-4 bg-surface-container-lowest">
+<div>
+<h3 class="text-sm font-semibold text-on-surface leading-snug">
+                    Which of the following cellular transport mechanisms require ATP expenditure? (Select all that apply)
+                  </h3>
+</div>
+<!-- Checkbox Options Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<!-- Option 1: Sodium-Potassium Pump (Correct) -->
+<div class="flex items-center justify-between p-3 rounded-lg border-2 border-emerald-400 bg-emerald-50/60 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-5 h-5 rounded bg-emerald-600 text-white flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<span class="text-xs font-semibold text-emerald-950">Sodium-Potassium Pump</span>
+</div>
+<span class="text-[11px] font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-full">Correct</span>
+</div>
+<!-- Option 2: Facilitated Diffusion -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/40 bg-surface-container-lowest opacity-75">
+<div class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border border-outline-variant flex items-center justify-center text-xs"></div>
+<span class="text-xs text-on-surface">Facilitated Diffusion</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Distractor</span>
+</div>
+<!-- Option 3: Endocytosis (Correct) -->
+<div class="flex items-center justify-between p-3 rounded-lg border-2 border-emerald-400 bg-emerald-50/60 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-5 h-5 rounded bg-emerald-600 text-white flex items-center justify-center text-xs">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<span class="text-xs font-semibold text-emerald-950">Endocytosis</span>
+</div>
+<span class="text-[11px] font-bold text-emerald-800 bg-emerald-100/90 border border-emerald-300 px-2 py-0.5 rounded-full">Correct</span>
+</div>
+<!-- Option 4: Osmosis -->
+<div class="flex items-center justify-between p-3 rounded-lg border border-outline-variant/40 bg-surface-container-lowest opacity-75">
+<div class="flex items-center gap-3">
+<div class="w-5 h-5 rounded border border-outline-variant flex items-center justify-center text-xs"></div>
+<span class="text-xs text-on-surface">Osmosis</span>
+</div>
+<span class="text-[11px] text-on-surface-variant">Distractor</span>
+</div>
+</div>
+<!-- Rationale Box -->
+<div class="flex items-start gap-2.5 p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[18px] flex-shrink-0 mt-0.5">info</span>
+<div class="leading-relaxed">
+<strong class="text-on-surface font-semibold">Audit Rationale:</strong> Active primary transport (Na+/K+ ATPase) and vesicle-mediated bulk transport (endocytosis/exocytosis) require direct hydrolysis of ATP. Facilitated diffusion and osmosis are passive transport forms driven by electrochemical gradients.
+                  </div>
+</div>
+</div>
+</div>
+<!-- Question 3: COLLAPSED -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl overflow-hidden shadow-sm transition-all hover:border-outline-variant/60">
+<div class="p-4 flex items-center justify-between gap-4 cursor-pointer">
+<div class="flex items-center gap-3 min-w-0">
+<span class="w-7 h-7 rounded-md bg-surface-container flex items-center justify-center font-bold text-xs text-primary flex-shrink-0">Q3</span>
+<div class="flex items-center gap-2 flex-wrap min-w-0">
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-on-surface">True / False</span>
+<span class="text-xs text-on-surface-variant">•</span>
+<span class="text-xs text-on-surface-variant">v1.0</span>
+<span class="text-xs text-on-surface-variant">•</span>
+<span class="text-xs text-on-surface-variant">Dr. Marcus Vance</span>
+<span class="text-xs text-on-surface-variant hidden md:inline">•</span>
+<span class="text-xs text-on-surface font-medium truncate max-w-md hidden md:inline">"Glycolysis requires oxygen to produce pyruvate."</span>
+</div>
+</div>
+<div class="flex items-center gap-3 flex-shrink-0">
+
+
+
+</div>
+</div>
+</div>
+<!-- Summary collapsed strip for remaining items (Simulating 4–12 in ledger) -->
+
+</div>
+</section>
+<!-- Pagination & Ledger Navigation Dock -->
+<footer class="mt-2 mb-8 bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+<div class="flex items-center gap-3">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-outline-variant/40 hover:bg-surface-container-low transition-colors text-on-surface" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span class="">Back to Quizzes</span>
+</a>
+<span class="text-xs text-on-surface-variant hidden sm:inline">Page 1 of 4 • 12 Questions</span>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-outline-variant/30 text-on-surface-variant opacity-50 cursor-not-allowed">Prev</button>
+<button class="px-2.5 py-1 text-xs font-bold rounded bg-primary text-on-primary">1</button>
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-outline-variant/30 text-on-surface hover:bg-surface-container-low">2</button>
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-outline-variant/30 text-on-surface hover:bg-surface-container-low">3</button>
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-outline-variant/30 text-on-surface hover:bg-surface-container-low">4</button>
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-outline-variant/30 text-on-surface hover:bg-surface-container-low">Next</button>
+<div class="h-4 w-px bg-outline-variant/30 mx-1"></div>
+<button class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded border border-outline-variant/40 text-on-surface-variant hover:text-primary transition-colors" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" type="button">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+<span class="">Back to Top</span>
+</button>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</div>
+
+
+</body></html>

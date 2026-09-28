@@ -1,0 +1,615 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_standard" name="shell-type">
+<title>Quizzo Creator Studio - Split Workspace IDE</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #dbc2b0;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #887364;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "canvas": "#faf8f5",
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#fefcff",
+            "accent-emerald": "#d1fae5",
+            "surface-container-highest": "#e9e1dc",
+            "ink": "#1e1b18",
+            "surface": "#ffffff",
+            "surface-container": "#f4ece7",
+            "border-dark": "#272421",
+            "on-error": "#ffffff",
+            "secondary-fixed": "#ffdbca",
+            "secondary": "#9b4500",
+            "tertiary": "#0058be",
+            "primary-fixed": "#ffdcc3",
+            "surface-bright": "#fff8f4",
+            "background": "#fff8f4",
+            "on-tertiary-fixed": "#001a42",
+            "primary-container": "#b15f00",
+            "on-primary-container": "#fffbff",
+            "tertiary-fixed": "#d8e2ff",
+            "error": "#ba1a1a",
+            "inverse-surface": "#33302c",
+            "surface-dim": "#e0d9d3",
+            "secondary-fixed-dim": "#ffb68e",
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#554336",
+            "outline-variant": "#dbc2b0",
+            "on-tertiary": "#ffffff",
+            "ink-muted": "#6b665f",
+            "tertiary-container": "#2170e4",
+            "primary-light": "#fef3c7",
+            "outline": "#887364",
+            "tertiary-fixed-dim": "#adc6ff",
+            "on-secondary-container": "#682c00",
+            "on-surface": "#1e1b18",
+            "inverse-primary": "#ffb77d",
+            "primary-soft": "#fffbeb",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#faf2ed",
+            "on-secondary-fixed": "#331200",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed-variant": "#6e3900",
+            "surface-alt": "#f7f4ed",
+            "on-background": "#1e1b18",
+            "inverse-on-surface": "#f7efea",
+            "on-tertiary-fixed-variant": "#004395",
+            "border-soft": "#e8e3d8",
+            "on-primary-fixed": "#2f1500",
+            "error-container": "#ffdad6",
+            "accent-blue": "#dbeafe",
+            "on-secondary-fixed-variant": "#763300",
+            "surface-variant": "#e9e1dc",
+            "secondary-container": "#fd8a42",
+            "surface-tint": "#904d00",
+            "surface-container-high": "#eee7e1",
+            "primary": "#8d4b00",
+            "primary-fixed-dim": "#ffb77d"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "3xl": "1.5rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "label-xs": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "body-sm": ["Inter"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-canvas text-on-surface font-body-md text-sm antialiased min-h-screen flex flex-col">
+<!-- 1. TOP NAVIGATION BAR -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-b border-border-soft/60">
+<div class="max-w-[92rem] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-on-primary-container text-[22px]">school</span>
+</div>
+<span class="font-headline-md text-lg font-bold text-ink tracking-tight">Quizzo</span>
+</a>
+<nav class="hidden lg:flex items-center gap-1.5 text-xs font-semibold">
+<a class="text-on-surface-variant hover:text-ink px-3 py-1.5 rounded-full transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-ink px-3 py-1.5 rounded-full transition-colors" href="#">Recent Quizzes</a>
+<a class="text-on-surface-variant hover:text-ink px-3 py-1.5 rounded-full transition-colors" href="#">Explore</a>
+<a aria-current="page" class="bg-primary-light text-primary font-bold px-3.5 py-1.5 rounded-full shadow-xs" href="#">My Decks</a>
+</nav>
+</div>
+<div class="flex items-center gap-3">
+<a class="hidden sm:flex items-center gap-1.5 bg-primary-container text-on-primary-container font-label-sm text-xs font-bold px-3.5 py-1.5 rounded-full shadow-sm hover:opacity-95 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span class="">New Deck</span>
+</a>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs ring-2 ring-primary-light">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- 2. SUB-HEADER & QUICK ACTIONS -->
+<section class="mt-16 bg-surface-alt border-b border-border-soft/80 sticky top-16 z-40">
+<div class="max-w-[92rem] mx-auto px-4 sm:px-6 py-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+<!-- Breadcrumbs & Status -->
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-1.5 text-[11px] font-bold text-ink-muted uppercase tracking-wider">
+<a class="hover:text-primary transition-colors" href="#">Creator Workspace</a>
+<span class="">/</span>
+<a class="hover:text-primary transition-colors" href="#">My Decks</a>
+<span class="">/</span>
+<span class="text-ink truncate max-w-[200px] sm:max-w-none">Solar System &amp; Planetary Physics</span>
+<span class="">/</span>
+<span class="text-primary font-bold">Edit Quiz</span>
+</div>
+<div class="flex items-center gap-2.5">
+<h1 class="font-headline-sm text-base font-bold text-ink tracking-tight flex items-center gap-2">
+            Solar System &amp; Planetary Physics
+          </h1>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-accent-emerald/80 border border-emerald-300 text-ink text-[11px] font-bold uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            Published &amp; Live
+          </span>
+<span class="hidden sm:inline-flex items-center gap-1 text-[11px] text-ink-muted">
+<span class="material-symbols-outlined text-[14px] text-primary">cloud_done</span> Autosaved 2m ago
+          </span>
+</div>
+</div>
+<!-- Action Button Group -->
+<div class="flex items-center gap-2 flex-wrap">
+<button class="px-3 py-1.5 rounded-xl bg-surface hover:bg-surface-container border border-border-soft text-ink font-semibold text-xs transition-colors" type="button">
+          Discard
+        </button>
+<button class="px-3.5 py-1.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant/40 text-ink font-semibold text-xs flex items-center gap-1.5 transition-all shadow-xs" id="preview-focus-btn" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">visibility</span>
+<span class="">Preview as Student</span>
+</button>
+<button class="px-4 py-1.5 rounded-xl bg-primary hover:bg-secondary text-on-primary font-semibold text-xs shadow-md flex items-center gap-1.5 transition-transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span class="">Save All Changes</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 3. TOP PERSISTENT SETTINGS STRIP (Deck Settings & Taxonomy) -->
+<section class="max-w-[92rem] w-full mx-auto px-4 sm:px-6 pt-5">
+<div class="bg-surface rounded-2xl border border-border-soft shadow-xs p-3 sm:px-5 sm:py-3.5">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+<!-- Title & Header Badge -->
+<div class="flex items-center gap-2.5 shrink-0 pr-4 lg:border-r border-border-soft">
+<div class="w-8 h-8 rounded-xl bg-primary-light flex items-center justify-center text-primary shadow-xs">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</div>
+<div>
+<span class="text-[10px] font-bold text-ink-muted uppercase tracking-wider block">Deck Rules</span>
+<h2 class="font-headline-sm text-xs sm:text-sm font-bold text-ink whitespace-nowrap">Settings &amp; Taxonomy</h2>
+</div>
+</div>
+<!-- Settings Fields Grid/Row -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 flex-1">
+<!-- Category -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold text-ink-muted uppercase tracking-wider">Category</span>
+<div class="text-xs font-bold text-ink bg-surface-container-low px-2.5 py-1.5 rounded-xl border border-border-soft truncate flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-ink-muted">category</span>
+<span class="">Astrophysics</span>
+</div>
+</div>
+<!-- Difficulty -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold text-ink-muted uppercase tracking-wider">Difficulty</span>
+<div class="text-xs font-bold text-primary bg-primary-soft px-2.5 py-1.5 rounded-xl border border-amber-200 truncate flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-primary">military_tech</span>
+<span class="">Intermediate (250 XP)</span>
+</div>
+</div>
+<!-- Passing Score -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold text-ink-muted uppercase tracking-wider">Passing Score</span>
+<div class="flex items-center justify-between text-xs font-bold text-ink bg-surface-container-low px-2.5 py-1.5 rounded-xl border border-border-soft">
+<span class="">75%</span>
+<span class="material-symbols-outlined text-[14px] text-primary">verified</span>
+</div>
+</div>
+<!-- Time Allowance -->
+<div class="flex flex-col gap-1">
+<span class="text-[10px] font-bold text-ink-muted uppercase tracking-wider">Time Allowance</span>
+<div class="flex items-center justify-between text-xs font-bold text-ink bg-surface-container-low px-2.5 py-1.5 rounded-xl border border-border-soft">
+<span class="">15 Mins</span>
+<span class="material-symbols-outlined text-[14px] text-ink-muted">timer</span>
+</div>
+</div>
+</div>
+<!-- Quick Toggles & Points Summary -->
+<div class="flex items-center justify-between lg:justify-end gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 lg:border-l border-border-soft lg:pl-4 shrink-0">
+
+
+</div>
+</div>
+</div>
+</section>
+<!-- 4. MAIN MASTER-DETAIL WORKSPACE -->
+<main class="flex-1 max-w-[92rem] w-full mx-auto px-4 sm:px-6 py-5">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- ================= LEFT COLUMN: QUESTION INDEX & NAVIGATOR (4 COLS / ~33%) ================= -->
+<aside class="lg:col-span-4 flex flex-col gap-4 sticky top-28">
+<!-- Filter & Controls Header -->
+<div class="bg-surface rounded-2xl p-3.5 border border-border-soft shadow-xs flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-xs font-bold text-ink uppercase tracking-wider">Question Index</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-soft text-primary font-bold text-[11px] border border-amber-200">3 Total</span>
+</div>
+<div class="flex items-center gap-1 text-[11px] text-ink-muted">
+<span class="material-symbols-outlined text-[15px]">drag_handle</span>
+<span class="">Re-orderable</span>
+</div>
+</div>
+<!-- Filter Pill Chips -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<button class="px-2.5 py-1 rounded-full bg-primary text-on-primary text-xs font-bold shadow-xs">All (3)</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-ink-muted hover:text-ink text-xs font-semibold border border-border-soft transition-colors">Single (1)</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-ink-muted hover:text-ink text-xs font-semibold border border-border-soft transition-colors">Multi (1)</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-low hover:bg-surface-container text-ink-muted hover:text-ink text-xs font-semibold border border-border-soft transition-colors">T/F (1)</button>
+</div>
+</div>
+<!-- Question Items Stream (Master List) -->
+<div class="flex flex-col gap-2.5">
+<!-- ITEM Q1: ACTIVE -->
+<div class="group relative bg-surface hover:bg-surface-bright rounded-2xl p-3.5 border-2 border-primary shadow-sm cursor-pointer transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary rounded-l-2xl"></div>
+<div class="pl-2 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ink-muted cursor-grab hover:text-ink text-[18px]">drag_indicator</span>
+<span class="px-2 py-0.5 rounded-md bg-primary-soft text-primary font-bold text-[11px] uppercase tracking-wider border border-amber-200">Q1 • Single Choice</span>
+</div>
+<span class="inline-flex items-center gap-1 text-[10px] font-bold text-primary bg-primary-light/50 px-2 py-0.5 rounded-full border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Active
+              </span>
+</div>
+<p class="font-headline-sm text-xs font-bold text-ink line-clamp-2">
+              Which planetary body possesses the shortest orbital period around the Sun?
+            </p>
+<div class="flex items-center justify-between pt-1 border-t border-border-soft/60 text-[11px]">
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-ink font-semibold">
+<span class="material-symbols-outlined text-[13px] text-primary">stars</span> 1.0 Pt
+                </span>
+<span class="text-ink-muted">•</span>
+<span class="flex items-center gap-0.5 text-ink-muted">
+<span class="material-symbols-outlined text-[13px]">timer</span> 30s
+                </span>
+</div>
+<span class="text-[10px] font-bold text-emerald-700 bg-accent-emerald px-1.5 py-0.5 rounded flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">verified</span> 4 Options
+              </span>
+</div>
+</div>
+</div>
+<!-- ITEM Q2: INACTIVE -->
+<div class="group relative bg-surface hover:bg-surface-container-low rounded-2xl p-3.5 border border-border-soft hover:border-outline shadow-xs cursor-pointer transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-2xl opacity-60 group-hover:opacity-100"></div>
+<div class="pl-2 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ink-muted cursor-grab hover:text-ink text-[18px]">drag_indicator</span>
+<span class="px-2 py-0.5 rounded-md bg-secondary-fixed text-on-secondary-fixed font-bold text-[11px] uppercase tracking-wider">Q2 • Multiple Choice</span>
+</div>
+<span class="text-[11px] text-ink-muted group-hover:text-ink flex items-center gap-0.5">
+                Edit <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</span>
+</div>
+<p class="font-headline-sm text-xs font-semibold text-ink line-clamp-2">
+              Select all planetary bodies that are classified as Gas Giants in our solar system:
+            </p>
+<div class="flex items-center justify-between pt-1 border-t border-border-soft/60 text-[11px]">
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-ink font-semibold">
+<span class="material-symbols-outlined text-[13px] text-secondary">stars</span> 2.0 Pts
+                </span>
+<span class="text-ink-muted">•</span>
+<span class="flex items-center gap-0.5 text-ink-muted">
+<span class="material-symbols-outlined text-[13px]">timer</span> 45s
+                </span>
+</div>
+<span class="text-[10px] font-bold text-ink-muted bg-surface-container px-1.5 py-0.5 rounded">
+                Partial Credit
+              </span>
+</div>
+</div>
+</div>
+<!-- ITEM Q3: INACTIVE -->
+<div class="group relative bg-surface hover:bg-surface-container-low rounded-2xl p-3.5 border border-border-soft hover:border-outline shadow-xs cursor-pointer transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary rounded-l-2xl opacity-60 group-hover:opacity-100"></div>
+<div class="pl-2 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ink-muted cursor-grab hover:text-ink text-[18px]">drag_indicator</span>
+<span class="px-2 py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-bold text-[11px] uppercase tracking-wider">Q3 • True / False</span>
+</div>
+<span class="text-[11px] text-ink-muted group-hover:text-ink flex items-center gap-0.5">
+                Edit <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</span>
+</div>
+<p class="font-headline-sm text-xs font-semibold text-ink line-clamp-2">
+              Venus exhibits retrograde rotation, spinning in the opposite direction to most planets.
+            </p>
+<div class="flex items-center justify-between pt-1 border-t border-border-soft/60 text-[11px]">
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-0.5 text-ink font-semibold">
+<span class="material-symbols-outlined text-[13px] text-tertiary">stars</span> 1.0 Pt
+                </span>
+<span class="text-ink-muted">•</span>
+<span class="flex items-center gap-0.5 text-ink-muted">
+<span class="material-symbols-outlined text-[13px]">timer</span> 20s
+                </span>
+</div>
+<span class="text-[10px] font-bold text-ink-muted bg-surface-container px-1.5 py-0.5 rounded">
+                Binary (T/F)
+              </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Add Question Button -->
+<button class="w-full py-3 px-4 rounded-2xl border-2 border-dashed border-border-soft hover:border-primary text-primary font-bold text-xs flex items-center justify-center gap-2 bg-surface hover:bg-primary-soft transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span class="">Add Question to Deck</span>
+</button>
+</aside>
+<!-- ================= RIGHT COLUMN: EXPANDED QUESTION STUDIO (8 COLS / ~67%) ================= -->
+<div class="lg:col-span-8 flex flex-col gap-4">
+<!-- Studio Header / Stepper Switcher -->
+<div class="bg-surface rounded-2xl p-3.5 px-4 sm:px-5 border border-border-soft shadow-xs flex flex-wrap items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-headline-sm text-sm font-bold text-ink tracking-tight">Question Studio</span>
+</div>
+<span class="text-ink-muted text-xs">•</span>
+<span class="text-xs font-semibold text-ink-muted">Currently Editing <span class="font-bold text-primary">Question 1 of 3</span></span>
+</div>
+<div class="flex items-center gap-2">
+
+
+<button class="p-1.5 rounded-xl hover:bg-surface-container text-ink-muted hover:text-ink border border-border-soft" title="Next Question">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- MAIN ACTIVE QUESTION CARD: Q1 DEEP DETAIL STUDIO -->
+<article class="question-card active-card bg-surface rounded-2xl p-5 sm:p-6 border-2 border-primary shadow-sm flex flex-col gap-4 relative overflow-hidden transition-all" data-qid="1">
+<!-- Colored Type Indicator Ribbon -->
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<!-- Card Header Toolbar -->
+<div class="flex items-center justify-between flex-wrap gap-2 pl-2">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2.5 py-0.5 rounded-lg bg-primary-soft text-primary font-bold text-xs uppercase tracking-wider border border-amber-200">
+              Q1 • Single Choice
+            </span>
+<div class="flex items-center gap-1 bg-surface-container px-2.5 py-1 rounded-lg text-ink font-bold text-xs">
+<span class="material-symbols-outlined text-[14px] text-primary">stars</span>
+<span class="">1.0 Pt</span>
+</div>
+<div class="flex items-center gap-1 bg-surface-container px-2.5 py-1 rounded-lg text-ink font-semibold text-xs">
+<span class="material-symbols-outlined text-[14px] text-ink-muted">timer</span>
+<span class="">30s</span>
+</div>
+<span class="text-[11px] font-bold text-primary bg-primary-light/50 px-2 py-0.5 rounded-md flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+              Active in Preview
+            </span>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-1 text-ink-muted">
+<button class="p-1.5 rounded-lg hover:bg-surface-container hover:text-ink transition-colors" title="Duplicate Question">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-error-container hover:text-error transition-colors" title="Delete Question">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container hover:text-ink transition-colors" title="Collapse Question">
+<span class="material-symbols-outlined text-[18px]">unfold_less</span>
+</button>
+</div>
+</div>
+<!-- Question Stem & Rich Formatting Toolbar -->
+<div class="flex flex-col gap-1.5 pl-2">
+<div class="flex items-center justify-between">
+<label class="text-[11px] font-bold uppercase tracking-wider text-ink-muted">Question Stem</label>
+<!-- Rich Text Formatting Bar -->
+<div class="flex items-center gap-0.5 bg-surface-container-low px-1.5 py-0.5 rounded-lg border border-border-soft">
+<button class="p-1 hover:bg-surface rounded text-ink-muted hover:text-ink transition-colors font-bold text-xs" title="Bold">B</button>
+<button class="p-1 hover:bg-surface rounded text-ink-muted hover:text-ink transition-colors italic text-xs" title="Italic">I</button>
+<button class="p-1 hover:bg-surface rounded text-ink-muted hover:text-ink transition-colors" title="Code snippet">
+<span class="material-symbols-outlined text-[14px]">code</span>
+</button>
+<button class="p-1 hover:bg-surface rounded text-ink-muted hover:text-ink transition-colors font-mono text-[11px]" title="Math / LaTeX">$$\sqrt{x}$$</button>
+<span class="w-px h-3 bg-border-soft mx-0.5"></span>
+<button class="p-1 hover:bg-surface rounded text-ink-muted hover:text-ink transition-colors" title="Image / Media Attachment">
+<span class="material-symbols-outlined text-[14px]">image</span>
+</button>
+</div>
+</div>
+<textarea class="w-full bg-surface-container-low text-ink font-semibold text-sm rounded-xl p-3.5 border border-border-soft focus:outline-none focus:bg-surface focus:ring-2 focus:ring-primary/40 leading-relaxed resize-none" rows="2">Which planetary body possesses the shortest orbital period around the Sun?</textarea>
+</div>
+<!-- Media Attachment Context Slot -->
+<div class="pl-2">
+<div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low border border-border-soft/80">
+<img class="w-16 h-12 rounded-lg object-cover shrink-0 ring-1 ring-border-soft" data-alt="Mercury planetary orbit close to the blazing sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDh1S0kXPLqkcWveH7lWoiABFZ9pzAkcnVj3Fm6-s1sdbZ7vxBp0ATo4WL4NyRhGezag1ZZlXR9sw-XYcpNODnMcsoON6VLyqBhcU5GJevlofgk5ic6bM9VByG0_q1ARK24hfhmexWkJjEfnJ0y5EP4JzV-Lm8McZ0Or9LFxQZbSc6yRlM77nkwui2beZgSX946M-WslzBqnPd9q7KigEzSLMBkDfm9l-b_dODns4I60TRDyeQvGhhO">
+<div class="flex flex-col justify-center flex-1 min-w-0">
+<span class="text-xs font-bold text-ink truncate">mercury_perihelion_diagram.png</span>
+<span class="text-[11px] text-ink-muted">1.2 MB • High-res render</span>
+</div>
+<button class="px-3 py-1 rounded-lg bg-surface hover:bg-surface-container border border-border-soft text-ink text-[11px] font-bold uppercase tracking-wider">Change</button>
+<button class="p-1 text-ink-muted hover:text-error" title="Remove media">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- Single Choice Answer Options -->
+<div class="flex flex-col gap-2 pl-2">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-bold uppercase tracking-wider text-ink-muted">Answer Options (Pick 1 Correct)</span>
+<span class="text-[11px] text-ink-muted">Click checkmark to assign correct key</span>
+</div>
+<div class="flex flex-col gap-2">
+<!-- Option A (Correct Selected) -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-primary-soft border border-amber-200 transition-all">
+<div class="flex items-center gap-2.5 flex-1 mr-2">
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0 shadow-xs">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<span class="text-xs font-bold text-primary">A.</span>
+<input class="w-full bg-transparent text-xs text-ink font-semibold focus:outline-none" type="text" value="Mercury (88 Earth days)">
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="px-2 py-0.5 rounded-full bg-accent-emerald text-ink text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 border border-emerald-300">
+<span class="material-symbols-outlined text-[12px] text-primary">verified</span> Correct Answer
+                </span>
+<button class="text-ink-muted hover:text-ink"><span class="material-symbols-outlined text-[16px]">drag_indicator</span></button>
+<button class="text-ink-muted hover:text-error"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+</div>
+</div>
+<!-- Option B -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container border border-border-soft/70 transition-all">
+<div class="flex items-center gap-2.5 flex-1 mr-2">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center shrink-0"></div>
+<span class="text-xs font-semibold text-ink-muted">B.</span>
+<input class="w-full bg-transparent text-xs text-ink focus:outline-none" type="text" value="Venus (225 Earth days)">
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="text-ink-muted hover:text-primary text-[10px] font-bold uppercase px-2 py-0.5 rounded hover:bg-surface">Set as Correct</button>
+<button class="text-ink-muted hover:text-ink"><span class="material-symbols-outlined text-[16px]">drag_indicator</span></button>
+<button class="text-ink-muted hover:text-error"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+</div>
+</div>
+<!-- Option C -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container border border-border-soft/70 transition-all">
+<div class="flex items-center gap-2.5 flex-1 mr-2">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center shrink-0"></div>
+<span class="text-xs font-semibold text-ink-muted">C.</span>
+<input class="w-full bg-transparent text-xs text-ink focus:outline-none" type="text" value="Mars (687 Earth days)">
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="text-ink-muted hover:text-primary text-[10px] font-bold uppercase px-2 py-0.5 rounded hover:bg-surface">Set as Correct</button>
+<button class="text-ink-muted hover:text-ink"><span class="material-symbols-outlined text-[16px]">drag_indicator</span></button>
+<button class="text-ink-muted hover:text-error"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+</div>
+</div>
+<!-- Option D -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container border border-border-soft/70 transition-all">
+<div class="flex items-center gap-2.5 flex-1 mr-2">
+<div class="w-5 h-5 rounded-full border-2 border-outline-variant flex items-center justify-center shrink-0"></div>
+<span class="text-xs font-semibold text-ink-muted">D.</span>
+<input class="w-full bg-transparent text-xs text-ink focus:outline-none" type="text" value="Ceres Asteroid (1,682 Earth days)">
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="text-ink-muted hover:text-primary text-[10px] font-bold uppercase px-2 py-0.5 rounded hover:bg-surface">Set as Correct</button>
+<button class="text-ink-muted hover:text-ink"><span class="material-symbols-outlined text-[16px]">drag_indicator</span></button>
+<button class="text-ink-muted hover:text-error"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+</div>
+</div>
+</div>
+<button class="self-start mt-1 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold text-xs transition-colors border border-border-soft">
+<span class="material-symbols-outlined text-[16px]">add</span> Add Option
+          </button>
+</div>
+<!-- Educational Rationale & Student Feedback Note -->
+
+</article>
+<!-- COLLAPSIBLE PREVIEW / REFERENCE ACCORDION FOR Q2 & Q3 -->
+<div class="bg-surface rounded-2xl border border-border-soft shadow-xs overflow-hidden">
+<div class="p-3 px-4 bg-surface-alt border-b border-border-soft flex items-center justify-between cursor-pointer" onclick="document.getElementById('other-questions').classList.toggle('hidden')">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-ink-muted text-[18px]">view_list</span>
+<span class="text-xs font-bold text-ink">Other Questions in Deck (2)</span>
+<span class="text-[11px] text-ink-muted">— click to toggle reference view</span>
+</div>
+<span class="material-symbols-outlined text-ink-muted text-[18px]">expand_more</span>
+</div>
+<div class="p-4 sm:p-5 flex flex-col gap-4" id="other-questions">
+<!-- Mini Q2 Preview -->
+<div class="p-3.5 rounded-xl border border-border-soft bg-surface-container-low/60 flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed text-[11px] font-bold">Q2</span>
+<span class="text-xs font-semibold text-ink truncate max-w-md">Gas Giants in solar system (Jupiter, Saturn...)</span>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="text-xs text-ink-muted">2.0 Pts</span>
+<button class="px-2.5 py-1 rounded-lg bg-surface border border-border-soft text-primary font-bold text-xs hover:bg-primary-soft">Edit in Studio</button>
+</div>
+</div>
+<!-- Mini Q3 Preview -->
+<div class="p-3.5 rounded-xl border border-border-soft bg-surface-container-low/60 flex items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-bold">Q3</span>
+<span class="text-xs font-semibold text-ink truncate max-w-md">Venus exhibits retrograde rotation (True / False)</span>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="text-xs text-ink-muted">1.0 Pt</span>
+<button class="px-2.5 py-1 rounded-lg bg-surface border border-border-soft text-primary font-bold text-xs hover:bg-primary-soft">Edit in Studio</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-surface-alt border-t border-border-soft mt-10">
+<div class="max-w-[92rem] mx-auto px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+<p class="text-xs text-ink-muted">© 2024 Quizzo Studio Inc. All rights reserved.</p>
+<div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-on-surface-variant font-medium">
+<a class="hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">Recent Quizzes</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">Explore</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">My Decks</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">Preferences</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<span class="">•</span>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+<!-- Interactive Scripts -->
+<script>
+    (function () {
+      // Preview focus scroll trigger
+      const previewBtn = document.getElementById('preview-focus-btn');
+      if (previewBtn) {
+        previewBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 120, behavior: 'smooth' });
+        });
+      }
+    })();
+  </script>
+
+
+</body></html>

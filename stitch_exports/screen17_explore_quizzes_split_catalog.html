@@ -1,0 +1,321 @@
+<!DOCTYPE html><html lang="en" style="width: 1280px; min-height: 100vh; position: relative;"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-background":"#1e1b18","on-error-container":"#93000a","canvas":"#faf8f5","on-primary-fixed":"#2f1500","border-dark":"#272421","on-primary-container":"#fffbff","surface-dim":"#e0d9d3","surface-container-highest":"#e9e1dc","secondary-fixed-dim":"#ffb68e","on-secondary":"#ffffff","on-surface":"#1e1b18","on-secondary-fixed":"#331200","on-surface-variant":"#554336","inverse-primary":"#ffb77d","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#adc6ff","on-secondary-container":"#682c00","secondary-fixed":"#ffdbca","on-tertiary-container":"#fefcff","on-tertiary":"#ffffff","on-secondary-fixed-variant":"#763300","on-tertiary-fixed":"#001a42","surface-container-low":"#faf2ed","surface-variant":"#e9e1dc","accent-blue":"#dbeafe","on-tertiary-fixed-variant":"#004395","primary":"#8d4b00","primary-soft":"#fffbeb","secondary-container":"#fd8a42","surface":"#ffffff","surface-alt":"#f7f4ed","surface-container":"#f4ece7","background":"#fff8f4","tertiary-fixed":"#d8e2ff","primary-container":"#b15f00","outline":"#887364","primary-light":"#fef3c7","error-container":"#ffdad6","inverse-surface":"#33302c","ink-muted":"#6b665f","inverse-on-surface":"#f7efea","on-primary":"#ffffff","primary-fixed-dim":"#ffb77d","on-error":"#ffffff","primary-fixed":"#ffdcc3","surface-tint":"#904d00","tertiary":"#0058be","on-primary-fixed-variant":"#6e3900","error":"#ba1a1a","surface-container-high":"#eee7e1","outline-variant":"#dbc2b0","surface-bright":"#fff8f4","tertiary-container":"#2170e4","accent-emerald":"#d1fae5","secondary":"#9b4500","border-soft":"#e8e3d8","ink":"#1e1b18"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-2xl":"4rem","space-xl":"2.5rem","space-lg":"1.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","margin-mobile":"1rem","gutter":"1.5rem","space-md":"0.875rem","margin":"2rem","space-sm":"0.5rem"},fontFamily:{"label-xs":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-sm":["Inter"],"display-hero-mobile":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"display-hero":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"]},fontSize:{"label-xs":["0.625rem",{"lineHeight":"1.2","letterSpacing":"0.1em","fontWeight":"900"}],"headline-sm":["1rem",{"lineHeight":"1.4","fontWeight":"700"}],"headline-lg":["2.25rem",{"lineHeight":"1.15","letterSpacing":"-0.02em","fontWeight":"900"}],"body-sm":["0.75rem",{"lineHeight":"1.5","fontWeight":"400"}],"display-hero-mobile":["3rem",{"lineHeight":"1.08","letterSpacing":"-0.025em","fontWeight":"900"}],"body-md":["0.875rem",{"lineHeight":"1.5","fontWeight":"500"}],"headline-md":["1.25rem",{"lineHeight":"1.3","letterSpacing":"-0.015em","fontWeight":"800"}],"label-sm":["0.75rem",{"lineHeight":"1.2","letterSpacing":"0.05em","fontWeight":"800"}],"body-lg":["1.125rem",{"lineHeight":"1.5","fontWeight":"500"}],"display-hero":["4.25rem",{"lineHeight":"1.05","letterSpacing":"-0.03em","fontWeight":"900"}],"label-md":["0.875rem",{"lineHeight":"1.2","letterSpacing":"0.01em","fontWeight":"800"}]}}}}</script></head><body class="bg-canvas text-on-surface font-body-md text-body-md min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 max-w-[80rem] mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-xl"><a class="flex items-center gap-space-xs text-decoration-none group" data-path="dashboard" href="#"><div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary font-headline-md text-headline-md shadow-[0_3px_0_#272421] transition-transform group-hover:translate-y-0.5">Q</div><span class="font-headline-md text-headline-md text-ink tracking-tight font-black">Quizzo<span class="text-primary">.</span></span></a><nav class="hidden lg:flex items-center gap-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm rounded-xl px-space-md py-space-xs shadow-[0_2px_0_#272421]"><a class="text-on-surface-variant font-label-md text-label-md px-space-md py-space-xs rounded-xl hover:text-on-surface transition-all" data-path="dashboard" href="#">Dashboard</a><a class="text-on-surface-variant font-label-md text-label-md px-space-md py-space-xs rounded-xl hover:text-on-surface transition-all" data-path="my-quizzes" href="#">My Quizzes</a><a aria-current="page" class="transition-all bg-primary-container text-on-primary-container font-headline-sm rounded-xl px-space-md py-space-xs shadow-[0_2px_0_#272421]" data-path="explore" href="#">Explore</a></nav></div></div></header><main class="w-full pt-20 flex-1 max-w-[80rem] mx-auto px-gutter"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Title & Live Inspector Header Hub -->
+<div class="pt-space-lg pb-space-md flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<div class="inline-flex items-center gap-space-xs bg-primary-soft text-primary px-space-md py-space-xs rounded-full shadow-[0_2px_0_#272421] mb-space-sm">
+<span class="material-symbols-outlined text-[16px]">troubleshoot</span>
+<span class="font-label-xs text-label-xs uppercase tracking-widest">Interactive Workspace &amp; Quiz Inspector</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-ink tracking-tight">Explore &amp; Preview Quizzes</h1>
+<p class="font-body-md text-body-md text-ink-muted mt-1">Browse active sprints or drill into syllabus questions and verified learning outcomes before starting.</p>
+</div>
+<div class="flex items-center gap-space-sm">
+
+</div>
+</div>
+<!-- Split 2-Column Workstation Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start mt-space-sm">
+<!-- Left / Main Catalog Column (60-65% width: 7 cols) -->
+<section class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Filter & Search Toolbar with Sort and View Controls -->
+<div class="bg-surface rounded-2xl p-space-md shadow-[0_3px_0_#272421] border border-border-soft flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-ink-muted text-[20px] pointer-events-none">search</span>
+<input class="w-full pl-10 pr-space-md py-space-sm rounded-xl bg-surface-container-low text-ink placeholder:text-ink-muted font-body-md text-body-md outline-none transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] focus:bg-surface focus:ring-1 focus:ring-primary" placeholder="Search by topic, keyword, or concepts..." type="text">
+</div>
+<div class="flex items-center gap-space-xs min-w-[170px]">
+<span class="material-symbols-outlined text-ink-muted text-[18px]">sort</span>
+<div class="relative w-full">
+<select class="w-full appearance-none bg-surface-container-low text-ink font-headline-sm text-label-md px-space-md py-space-sm pr-7 rounded-xl outline-none cursor-pointer">
+<option value="highest_rated">Highest Rated</option>
+<option value="most_completed">Most Completed</option>
+<option value="newest">Newest Sprints</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-ink-muted text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Scrollable Topic Pills -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-0.5 no-scrollbar">
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-xl bg-primary text-on-primary font-headline-sm text-label-md shadow-[0_2px_0_#272421]">All (254)</button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-xl bg-surface-container-low text-ink hover:bg-surface-container font-label-md text-label-md transition-all">Astrophysics (42)</button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-xl bg-surface-container-low text-ink hover:bg-surface-container font-label-md text-label-md transition-all">Computer Science (58)</button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-xl bg-surface-container-low text-ink hover:bg-surface-container font-label-md text-label-md transition-all">History (36)</button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-xl bg-surface-container-low text-ink hover:bg-surface-container font-label-md text-label-md transition-all">Biology (28)</button>
+<button class="whitespace-nowrap px-space-md py-1.5 rounded-xl bg-surface-container-low text-ink hover:bg-surface-container font-label-md text-label-md transition-all">Economics (22)</button>
+</div>
+</div>
+<!-- Catalog List Items -->
+<div class="flex flex-col gap-space-sm">
+<!-- Card 1 (Active / Selected for Inspector) -->
+<div class="bg-surface rounded-2xl p-space-md shadow-[0_3px_0_#272421] border-2 border-primary relative flex flex-col sm:flex-row items-start sm:items-center gap-space-md transition-all">
+<div class="w-full sm:w-28 h-24 rounded-xl overflow-hidden relative flex-shrink-0 bg-surface-dim">
+<img alt="Solar System" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1W5XtnrfOjMcHS3A_48YxAbVE068GlmsSYWJc8U58NyZb-dxdcQ_fPOcBQHZ_VNJ4NkZrcYHjAKVDrrMrHNhyuv2tYvnU-0S1bVofulJoAIAmAiq-uIJGOiPui933mOgMmGLpHcZNtMAAYIgcHQmXiqAAWpL5WTt_RCNhI5slr2WhYeI9ktIm_ewKmgif8ZTzkpZKgKQ-mP0SJ7hArYy9UGPBdVfh637cyVK2p7bcUQ7f-ne9hSt4S3UeI">
+<span class="absolute top-1 left-1 bg-primary text-on-primary text-[10px] font-black px-1.5 py-0.5 rounded tracking-wider uppercase">Active</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap mb-1">
+<span class="bg-surface-container-low text-ink px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase">Astrophysics</span>
+<span class="bg-primary-light text-primary px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase font-bold">Intermediate</span>
+<span class="flex items-center gap-0.5 text-ink font-label-sm text-label-sm ml-auto">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+4.9
+</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-ink truncate">Solar System &amp; Planetary Physics</h3>
+<div class="flex items-center gap-space-md text-ink-muted text-body-sm mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">timer</span> 10 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">format_list_numbered</span> 15 Qs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">group</span> 38.2k completed</span>
+</div>
+</div>
+<div class="flex sm:flex-col gap-2 w-full sm:w-auto items-stretch">
+<button class="flex-1 sm:flex-none px-space-md py-2 rounded-xl bg-primary text-on-primary font-label-sm text-label-sm shadow-[0_2px_0_#272421] flex items-center justify-center gap-1 hover:translate-y-0.5 transition-all">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Inspecting</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Modern Web Engineering -->
+<div class="bg-surface rounded-2xl p-space-md shadow-[0_2px_0_#272421] border border-border-soft hover:border-ink/40 transition-all flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<div class="w-full sm:w-28 h-24 rounded-xl overflow-hidden relative flex-shrink-0 bg-surface-dim">
+<img alt="Modern Web Engineering" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WsHCnNg-ale9-Rz8NPS2LC1nFxTEfPfw8SJbqo1Ugj8NiBNC5Y_5iSAHhoNa0_Vw0DuZaN0-5zFUZDeadFNJKh5Sy4IwwUAbTt6iQ3esqFoDGAsugCeDG5cEzuTVsXwvOgs2Qfj2kH1O-AB1iEdvolW1_Z-0_GQbHfAdXwr77l5F4J7A1pXPFfcjBZgEwsaPYcFDi3FbLxg_NhvaU7doBb5guwmIQqs1EKSfEcFCqwodBbijlFE3LP5jg">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap mb-1">
+<span class="bg-surface-container-low text-ink px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase">Coding</span>
+<span class="bg-secondary-fixed text-on-secondary-container px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase font-bold">Advanced</span>
+<span class="flex items-center gap-0.5 text-ink font-label-sm text-label-sm ml-auto">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+4.8
+</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-ink truncate">Modern Web Engineering &amp; Runtimes</h3>
+<div class="flex items-center gap-space-md text-ink-muted text-body-sm mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">timer</span> 15 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">format_list_numbered</span> 20 Qs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">group</span> 27.4k completed</span>
+</div>
+</div>
+<div class="flex sm:flex-col gap-2 w-full sm:w-auto items-stretch">
+<button class="flex-1 sm:flex-none px-space-md py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-ink font-label-sm text-label-sm shadow-[0_2px_0_#272421] flex items-center justify-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Inspect</span>
+</button>
+</div>
+</div>
+<!-- Card 3: Global Cartography -->
+<div class="bg-surface rounded-2xl p-space-md shadow-[0_2px_0_#272421] border border-border-soft hover:border-ink/40 transition-all flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<div class="w-full sm:w-28 h-24 rounded-xl overflow-hidden relative flex-shrink-0 bg-surface-dim">
+<img alt="Global Cartography" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WFaEXQ899_j1LH6z3m-7jkxzsva5B0wJKrkLJT7_dFgryuPCDb3OtN-Vc_AmDwUJqQmimEDQW32fkewHuI7EyiOZU85IH_H5XPepzJsraMY4L-QxK-Pamn8_86rDItW7eEUIjY1ZCsWNadudO586_5c00WI7GOzh0wZnR5lMWFQTIQ_lJm1VdmwzbKyZ93w2so1qth2pRQzzoUyzH2oFpCFroRHVhJkF-0PapzjCOtmurxnuW-GQjhDA">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap mb-1">
+<span class="bg-surface-container-low text-ink px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase">Geography</span>
+<span class="bg-accent-emerald text-ink px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase font-bold">Beginner</span>
+<span class="flex items-center gap-0.5 text-ink font-label-sm text-label-sm ml-auto">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+5.0
+</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-ink truncate">Global Cartography &amp; Microstates</h3>
+<div class="flex items-center gap-space-md text-ink-muted text-body-sm mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">timer</span> 8 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">format_list_numbered</span> 10 Qs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">group</span> 45.1k completed</span>
+</div>
+</div>
+<div class="flex sm:flex-col gap-2 w-full sm:w-auto items-stretch">
+<button class="flex-1 sm:flex-none px-space-md py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-ink font-label-sm text-label-sm shadow-[0_2px_0_#272421] flex items-center justify-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Inspect</span>
+</button>
+</div>
+</div>
+<!-- Card 4: Cellular Biology -->
+<div class="bg-surface rounded-2xl p-space-md shadow-[0_2px_0_#272421] border border-border-soft hover:border-ink/40 transition-all flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<div class="w-full sm:w-28 h-24 rounded-xl overflow-hidden relative flex-shrink-0 bg-surface-dim">
+<img alt="Cellular Biology" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6usIk3XvjnBD4_mjMIGEr5flDC626qZ-XW1WZqjd158zft5zOAHnOH5M1s4JDzW1sak-8FNoy5CD7p6Iy_muvOKkNV5VNOjycaJbKHmN3gXMWY0Qd1EVrdMBQOXoFsMGjGYP-ArEK_9pSlr5yls9Bk1AmiEBrf7tl9EBJ6aoBxX6-oMmXYuiV_V_FvQU1uhF96AB6aK4k_mDCAElyuI7OMoAA_KxwaiMQUHORQJ8uqMipcgwFGyIj">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap mb-1">
+<span class="bg-surface-container-low text-ink px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase">Biology</span>
+<span class="bg-primary-light text-primary px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase font-bold">Intermediate</span>
+<span class="flex items-center gap-0.5 text-ink font-label-sm text-label-sm ml-auto">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+4.7
+</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-ink truncate">Cellular Biology &amp; Genetics</h3>
+<div class="flex items-center gap-space-md text-ink-muted text-body-sm mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">timer</span> 10 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">format_list_numbered</span> 12 Qs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">group</span> 18.0k completed</span>
+</div>
+</div>
+<div class="flex sm:flex-col gap-2 w-full sm:w-auto items-stretch">
+<button class="flex-1 sm:flex-none px-space-md py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-ink font-label-sm text-label-sm shadow-[0_2px_0_#272421] flex items-center justify-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Inspect</span>
+</button>
+</div>
+</div>
+<!-- Card 5: Machine Learning Basics -->
+<div class="bg-surface rounded-2xl p-space-md shadow-[0_2px_0_#272421] border border-border-soft hover:border-ink/40 transition-all flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<div class="w-full sm:w-28 h-24 rounded-xl overflow-hidden relative flex-shrink-0 bg-surface-dim">
+<img alt="Machine Learning" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3m8IODp3oQDYQA6CYMmqDhi3WM2vhgUy0kl_bTixZocAkesd9PgK1TYXGs0fhF6XKZG-jSORAf_DXoj98N-R77wL2IaswASYCZDsDEtyAcgHsaRDZYxk7CljFufuvb56A6bx_ubjG0Yn0vqxoV9Ilmkh0C9a2_Ge-6cmMgR9aLDVlzS7pqo9_Gz2Gaj8p4ZJhfz7WpbkZU4R0dyk0m2rCyEgEWOurNaiXLXZVOE5GQpcQwmLzWsKQ">
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap mb-1">
+<span class="bg-surface-container-low text-ink px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase">AI &amp; Tech</span>
+<span class="bg-primary-light text-primary px-2 py-0.5 rounded-md font-label-xs text-label-xs uppercase font-bold">Intermediate</span>
+<span class="flex items-center gap-0.5 text-ink font-label-sm text-label-sm ml-auto">
+<span class="material-symbols-outlined text-[14px] text-secondary-container" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+4.9
+</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-ink truncate">Machine Learning &amp; Neural Nets Basics</h3>
+<div class="flex items-center gap-space-md text-ink-muted text-body-sm mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">timer</span> 12 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">format_list_numbered</span> 14 Qs</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">group</span> 41.0k completed</span>
+</div>
+</div>
+<div class="flex sm:flex-col gap-2 w-full sm:w-auto items-stretch">
+<button class="flex-1 sm:flex-none px-space-md py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-ink font-label-sm text-label-sm shadow-[0_2px_0_#272421] flex items-center justify-center gap-1 transition-all">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span class="">Inspect</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Compact Pagination Bar -->
+<div class="flex items-center justify-between gap-space-md bg-surface rounded-2xl p-space-md shadow-[0_3px_0_#272421] border border-border-soft">
+<span class="font-body-sm text-body-sm text-ink-muted">
+Showing <strong class="text-ink">1-5</strong> of <strong class="text-ink">254</strong> quizzes
+</span>
+<div class="flex items-center gap-space-xs">
+<button class="w-8 h-8 rounded-lg bg-surface-container-low text-ink-muted flex items-center justify-center opacity-50 cursor-not-allowed">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-headline-sm text-label-sm shadow-[0_2px_0_#272421]">1</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-ink font-headline-sm text-label-sm">2</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-ink font-headline-sm text-label-sm">3</button>
+<span class="px-1 text-ink-muted font-bold text-xs">...</span>
+<button class="w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-ink font-headline-sm text-label-sm">29</button>
+<button class="px-space-sm h-8 rounded-lg bg-primary text-on-primary font-headline-sm text-label-sm shadow-[0_2px_0_#272421] flex items-center gap-1">
+<span class="">Next</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right / Sticky Interactive Inspector Panel (35-40% width: 5 cols) -->
+<aside class="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-space-md">
+<div class="bg-surface rounded-2xl p-space-lg shadow-[0_4px_0_#272421] border-2 border-border-dark flex flex-col gap-space-md">
+<!-- Inspection Header -->
+<div class="flex items-center justify-between pb-space-sm border-b border-border-soft">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-xs text-label-xs uppercase tracking-widest text-ink-muted font-black">Live Quiz Inspector</span>
+</div>
+<span class="bg-primary-soft text-primary font-label-xs text-label-xs px-2.5 py-1 rounded-full font-bold">ID: #AST-882</span>
+</div>
+<!-- Hero Thumbnail & Quiz Meta -->
+<div>
+<div class="h-40 rounded-xl overflow-hidden relative mb-space-sm shadow-[0_2px_0_#272421]">
+<img alt="Planetary orbits" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1W5XtnrfOjMcHS3A_48YxAbVE068GlmsSYWJc8U58NyZb-dxdcQ_fPOcBQHZ_VNJ4NkZrcYHjAKVDrrMrHNhyuv2tYvnU-0S1bVofulJoAIAmAiq-uIJGOiPui933mOgMmGLpHcZNtMAAYIgcHQmXiqAAWpL5WTt_RCNhI5slr2WhYeI9ktIm_ewKmgif8ZTzkpZKgKQ-mP0SJ7hArYy9UGPBdVfh637cyVK2p7bcUQ7f-ne9hSt4S3UeI">
+<div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-2 right-2 flex items-center justify-between text-surface-bright">
+<span class="font-headline-sm text-headline-sm font-black drop-shadow">Solar System &amp; Planetary Physics</span>
+<span class="bg-surface-container-lowest/90 text-ink px-2 py-0.5 rounded font-label-xs text-label-xs uppercase font-bold">15 Qs</span>
+</div>
+</div>
+<!-- Verified Authority Badge -->
+
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 gap-2 text-center py-1">
+<div class="p-2 bg-surface-container-low rounded-xl border border-border-soft">
+<div class="font-headline-sm text-headline-sm text-ink font-black">89%</div>
+<div class="text-[11px] text-ink-muted uppercase font-bold tracking-wider">Pass Rate</div>
+</div>
+<div class="p-2 bg-surface-container-low rounded-xl border border-border-soft">
+<div class="font-headline-sm text-headline-sm text-ink font-black">10m</div>
+<div class="text-[11px] text-ink-muted uppercase font-bold tracking-wider">Est. Duration</div>
+</div>
+<div class="p-2 bg-surface-container-low rounded-xl border border-border-soft">
+<div class="font-headline-sm text-headline-sm text-primary font-black">4.9 ★</div>
+<div class="text-[11px] text-ink-muted uppercase font-bold tracking-wider">User Score</div>
+</div>
+</div>
+<!-- Sample Question Preview (Interactive) -->
+<div class="bg-surface-container-low rounded-xl p-space-md border border-border-soft">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-xs text-label-xs uppercase text-ink-muted tracking-wider font-bold">Sample Question Preview (Q3 of 15)</span>
+<span class="font-label-xs text-label-xs text-primary font-bold">Concept Drill</span>
+</div>
+<p class="font-headline-sm text-body-md text-ink mb-space-sm">
+"Which planetary body exhibits retrograded orbital spin with a rotational period longer than its orbital year?"
+</p>
+<!-- Clickable Option Pills -->
+<div class="space-y-1.5">
+<button class="w-full text-left px-space-sm py-2 rounded-lg bg-surface border border-border-soft font-body-sm text-body-sm text-ink flex items-center justify-between hover:border-primary transition-all">
+<span class="">A. Mercury</span>
+<span class="material-symbols-outlined text-ink-muted text-[16px]">radio_button_unchecked</span>
+</button>
+<button class="w-full text-left px-space-sm py-2 rounded-lg bg-primary-soft border border-primary font-body-sm text-body-sm text-ink flex items-center justify-between font-semibold shadow-[0_1px_0_#272421]">
+<span class="text-primary">B. Venus (Correct Answer)</span>
+<span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+</button>
+<button class="w-full text-left px-space-sm py-2 rounded-lg bg-surface border border-border-soft font-body-sm text-body-sm text-ink flex items-center justify-between hover:border-primary transition-all">
+<span class="">C. Uranus</span>
+<span class="material-symbols-outlined text-ink-muted text-[16px]">radio_button_unchecked</span>
+</button>
+</div>
+</div>
+<!-- Syllabus Topics & Learning Outcomes -->
+<div class="space-y-2">
+<span class="font-label-xs text-label-xs uppercase text-ink-muted tracking-wider font-bold block">Syllabus Breakdown</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="text-xs bg-surface-container text-ink px-2 py-1 rounded-md font-medium">Kepler's Elliptical Laws</span>
+<span class="text-xs bg-surface-container text-ink px-2 py-1 rounded-md font-medium">Tidal Locking Dynamics</span>
+<span class="text-xs bg-surface-container text-ink px-2 py-1 rounded-md font-medium">Atmospheric Escapes</span>
+<span class="text-xs bg-surface-container text-ink px-2 py-1 rounded-md font-medium">Magnetospheres</span>
+</div>
+</div>
+<!-- Primary Action Button -->
+<div class="pt-space-xs flex flex-col gap-2">
+<a class="w-full py-3 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm text-center shadow-[0_3px_0_#272421] hover:translate-y-0.5 active:translate-y-1 transition-all flex items-center justify-center gap-2" href="#">
+<span class="">Launch Full Quiz (15 Qs)</span>
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</a>
+<button class="w-full py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-ink font-label-md text-label-md text-center border border-border-soft transition-colors flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">bookmark_add</span>
+<span class="">Save to My Practice Queue</span>
+</button>
+</div>
+</div>
+<!-- Quick Mascot AI Generator Callout -->
+<div class="bg-primary-soft rounded-2xl p-space-md shadow-[0_2px_0_#272421] border border-border-soft flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center font-bold text-lg shadow-[0_2px_0_#272421] flex-shrink-0">
+💡
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-headline-sm text-label-md text-ink leading-tight">Need a custom deck?</h4>
+<p class="font-body-sm text-body-sm text-ink-muted truncate">Paste syllabus notes or slides for instant quiz generation.</p>
+</div>
+<button class="px-space-sm py-1.5 bg-ink text-surface-bright rounded-lg font-label-xs text-label-xs uppercase font-bold hover:bg-primary transition-colors whitespace-nowrap">
+Generate
+</button>
+</div>
+</aside>
+</div>
+</div></main><footer class="w-full bg-surface-container-low mt-space-2xl"><div class="max-w-[80rem] mx-auto px-gutter py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex items-center gap-space-xs"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">Q</div><span class="font-headline-sm text-headline-sm text-ink">Quizzo Studio</span></div><nav class="flex flex-wrap items-center justify-center gap-space-lg" data-active-classes="text-primary font-bold"><a class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-path="recent-quizzes" href="#">Recent Quizzes</a><a aria-current="page" class="transition-colors text-primary font-bold" data-path="explore" href="#">Explore</a><a class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-path="decks" href="#">Decks</a><a class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-path="help-center" href="#">Help Center</a><a class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" data-path="privacy" href="#">Privacy</a></nav><div class="font-body-sm text-body-sm text-ink-muted text-center md:text-right">© 2024 Quizzo Studio. Active Knowledge Sprints.</div></div></footer>
+
+
+
+
+</body></html>

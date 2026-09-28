@@ -17,51 +17,57 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize with "all" filter and 3 decks', () => {
+  it('should initialize with 3 recent attempts and 3 popular quizzes', () => {
     const fixture = TestBed.createComponent(DashboardComponent);
     const component = fixture.componentInstance;
-    expect(component['activeFilter']()).toBe('all');
-    expect(component['filteredDecks']().length).toBe(3);
+    expect(component['recentAttempts']().length).toBe(3);
+    expect(component['popularQuizzes']().length).toBe(3);
+    expect(component['weeklyCompletedCount']()).toBe(3);
   });
 
-  it('should filter decks by "review" category correctly', () => {
+  it('should open and close quiz modal', () => {
     const fixture = TestBed.createComponent(DashboardComponent);
     const component = fixture.componentInstance;
-    component.setFilter('review');
-    expect(component['activeFilter']()).toBe('review');
-    expect(component['filteredDecks']().length).toBe(2);
-    expect(component['filteredDecks']().every((d) => d.badgeType === 'review' || d.badgeType === 'decay')).toBe(true);
+    expect(component['isModalOpen']()).toBe(false);
+
+    const quiz = component['popularQuizzes']()[0];
+    component.openQuizModal(quiz);
+    expect(component['isModalOpen']()).toBe(true);
+    expect(component['selectedQuiz']()?.title).toBe('Solar System & Planetary Orbits');
+
+    component.closeQuizModal();
+    expect(component['isModalOpen']()).toBe(false);
+    expect(component['selectedQuiz']()).toBeNull();
   });
 
-  it('should filter decks by "new" category correctly', () => {
+  it('should switch active tab correctly', () => {
     const fixture = TestBed.createComponent(DashboardComponent);
     const component = fixture.componentInstance;
-    component.setFilter('new');
-    expect(component['activeFilter']()).toBe('new');
-    expect(component['filteredDecks']().length).toBe(1);
-    expect(component['filteredDecks']()[0].badgeType).toBe('new');
+    expect(component['activeTab']()).toBe('dashboard');
+
+    component.setActiveTab('recent');
+    expect(component['activeTab']()).toBe('recent');
+
+    component.setActiveTab('explore');
+    expect(component['activeTab']()).toBe('explore');
   });
 
-  it('should toggle priority sorting order', () => {
+  it('should dismiss unauthorized alert', () => {
     const fixture = TestBed.createComponent(DashboardComponent);
     const component = fixture.componentInstance;
-    expect(component['prioritySorted']()).toBe(false);
+    component['showUnauthorizedAlert'].set(true);
 
-    component.togglePriority();
-    expect(component['prioritySorted']()).toBe(true);
-    // When priority sorted, astrophysics (priorityOrder: 1) comes first
-    expect(component['filteredDecks']()[0].id).toBe('astrophysics-1');
-
-    component.togglePriority();
-    expect(component['prioritySorted']()).toBe(false);
+    component.dismissUnauthorizedAlert();
+    expect(component['showUnauthorizedAlert']()).toBe(false);
   });
 
-  it('should render user information and streak in the template', () => {
+  it('should render user information and welcome banner in template', () => {
     const fixture = TestBed.createComponent(DashboardComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Alex Morgan');
-    expect(compiled.textContent).toContain('5-Day');
-    expect(compiled.textContent).toContain('Adaptive Daily Spaced Sprint');
+    expect(compiled.textContent).toContain('Welcome back');
+    expect(compiled.textContent).toContain('Recently Attempted Quizzes');
+    expect(compiled.textContent).toContain('Popular Quizzes');
+    expect(compiled.textContent).toContain('Solar System & Planetary Physics');
   });
 });

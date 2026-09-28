@@ -1,27 +1,21 @@
-﻿namespace QuizApi.Models
+namespace QuizApi.Models;
+
+public class Quiz
 {
-    public class Quiz
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
+    public int OwnerId { get; set; }
+    public int CategoryId { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public string QuizCode { get; set; } = string.Empty;
+    public QuizVisibility Visibility { get; set; }
+    public int Duration { get; set; }
+    public int MaxAttempts { get; set; }
+    public bool IsActive { get; set; } = true;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public string Title { get; set; } = string.Empty;
-
-        public string? Description { get; set; }
-
-        public int Duration { get; set; }
-
-        public bool IsActive { get; set; } = true;
-
-
-        public int UserId { get; set; }
-
-        public User? User { get; set; }
-
-
-        public ICollection<QuizQuestion> QuizQuestions { get; set; }
-            = new List<QuizQuestion>();
-
-        public ICollection<QuizAttempt> QuizAttempts { get; set; }
-            = new List<QuizAttempt>();
-    }
+    public User Owner { get; set; } = null!;
+    public Category Category { get; set; } = null!;
+    public ICollection<QuizQuestion> QuizQuestions { get; set; } = new List<QuizQuestion>();
+    public ICollection<QuizAttempt> QuizAttempts { get; set; } = new List<QuizAttempt>();
 }
