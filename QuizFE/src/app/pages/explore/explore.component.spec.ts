@@ -20,6 +20,8 @@ const mockQuizService = {
       visibility: 1 as const,
       categoryId: 1,
       categoryName: 'Science & Physics',
+      ownerDisplayName: 'Dr. Stella Vance',
+      ownerName: 'Dr. Stella Vance',
       questionCount: 12,
       createdAt: '',
       updatedAt: ''
@@ -74,5 +76,17 @@ describe('ExploreComponent', () => {
 
     component.searchQuery.set('ASTRO9');
     expect(component.filteredQuizzes().length).toBe(0);
+  });
+
+  it('should correctly format author name and initial', () => {
+    const fixture = TestBed.createComponent(ExploreComponent);
+    const component = fixture.componentInstance;
+
+    expect(component.getAuthorName({ ownerDisplayName: 'Dr. Stella Vance' } as any)).toBe('Dr. Stella Vance');
+    expect(component.getAuthorInitial({ ownerDisplayName: 'Dr. Stella Vance' } as any)).toBe('D');
+    expect(component.getAuthorName({ ownerName: 'Marcus Brody' } as any)).toBe('Marcus Brody');
+    expect(component.getAuthorInitial({ ownerName: 'Marcus Brody' } as any)).toBe('M');
+    expect(component.getAuthorName({} as any)).toBe('Staff Curator');
+    expect(component.getAuthorInitial({} as any)).toBe('S');
   });
 });

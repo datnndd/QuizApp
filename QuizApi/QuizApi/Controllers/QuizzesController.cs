@@ -276,6 +276,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             IsActive = q.IsActive,
             OwnerId = q.OwnerId,
             OwnerName = q.Owner.DisplayName,
+            OwnerDisplayName = q.Owner.DisplayName,
             QuestionCount = q.QuizQuestions.Count
         });
 
@@ -293,6 +294,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             IsActive = q.IsActive,
             OwnerId = q.OwnerId,
             OwnerName = q.Owner.DisplayName,
+            OwnerDisplayName = q.Owner.DisplayName,
             QuestionCount = q.QuizQuestions.Count,
             Questions = q.QuizQuestions.OrderBy(qq => qq.Order)
                 .Select(qq => new QuizQuestionResponse

@@ -85,6 +85,7 @@ export interface QuizSummary {
   categoryId: number;
   categoryName: string;
   ownerId?: number;
+  ownerName?: string;
   ownerDisplayName?: string;
   questionCount: number;
   createdAt: string;

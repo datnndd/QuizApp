@@ -34,10 +34,22 @@ export class ExploreComponent implements OnInit {
       const matchQuery = !query ||
         quiz.title.toLowerCase().includes(query) ||
         quiz.description.toLowerCase().includes(query) ||
-        quiz.categoryName.toLowerCase().includes(query);
+        quiz.categoryName.toLowerCase().includes(query) ||
+        this.getAuthorName(quiz).toLowerCase().includes(query);
       return matchCat && matchQuery;
     });
   });
+
+  getAuthorName(quiz?: QuizSummary | null): string {
+    if (!quiz) return 'Staff Curator';
+    const name = quiz.ownerDisplayName || quiz.ownerName;
+    return name && name.trim().length > 0 ? name.trim() : 'Staff Curator';
+  }
+
+  getAuthorInitial(quiz?: QuizSummary | null): string {
+    const name = this.getAuthorName(quiz);
+    return name ? name.charAt(0).toUpperCase() : 'Q';
+  }
 
   ngOnInit(): void {
     this.loadData();

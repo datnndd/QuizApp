@@ -114,9 +114,9 @@
           <div class="flex items-center justify-between pt-3 border-t border-[#e8e3d8]">
             <div class="flex items-center gap-2 text-xs font-headline font-medium text-[#6b665f]">
               <span class="w-6 h-6 rounded-full bg-amber-200 border border-[#272421] flex items-center justify-center text-[10px] font-bold text-[#1e1b18]">
-                {{ quiz.ownerDisplayName ? quiz.ownerDisplayName.slice(0,1) : 'Q' }}
+                {{ getAuthorInitial(quiz) }}
               </span>
-              <span>{{ quiz.ownerDisplayName || 'Staff Curator' }}</span>
+              <span>{{ getAuthorName(quiz) }}</span>
             </div>
 
             <button
@@ -136,6 +136,12 @@
             <span class="px-3 py-1 rounded-full text-[11px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
               {{ quiz.categoryName }}
             </span>
+            <div class="flex items-center gap-1.5 text-xs font-headline font-semibold text-[#6b665f]">
+              <span class="w-5 h-5 rounded-full bg-amber-200 border border-[#272421] flex items-center justify-center text-[9px] font-bold text-[#1e1b18]">
+                {{ getAuthorInitial(quiz) }}
+              </span>
+              <span>{{ getAuthorName(quiz) }}</span>
+            </div>
           </div>
 
           <h2 class="font-headline font-black text-2xl text-[#1e1b18] mb-3 leading-snug">

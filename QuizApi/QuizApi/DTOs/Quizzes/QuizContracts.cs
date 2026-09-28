@@ -64,6 +64,7 @@ public class QuizResponse
     public bool IsActive { get; set; }
     public int OwnerId { get; set; }
     public string OwnerName { get; set; } = string.Empty;
+    public string OwnerDisplayName { get; set; } = string.Empty;
     public int QuestionCount { get; set; }
     public List<QuizQuestionResponse> Questions { get; set; } = [];
 }
