@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { QuizService } from '../../core/services/quiz.service';
-import { QuizDetail, QuizSummary } from '../../core/models/quiz.models';
+import { getQuestionTypeDisplay, QuizDetail, QuizSummary } from '../../core/models/quiz.models';
 
 @Component({
   selector: 'app-my-decks',
@@ -106,5 +106,9 @@ export class MyDecksComponent implements OnInit {
         this.deleteModalQuiz.set(null);
       }
     });
+  }
+
+  getQuestionTypeLabel(type?: any): string {
+    return getQuestionTypeDisplay(type);
   }
 }

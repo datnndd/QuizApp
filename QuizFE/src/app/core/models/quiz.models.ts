@@ -1,6 +1,71 @@
-export type QuizVisibility = 0 | 1; // 0 = Private, 1 = Public
-export type QuizAttemptStatus = 0 | 1; // 0 = InProgress, 1 = Submitted
-export type QuestionType = 0 | 1; // 0 = SingleChoice, 1 = MultipleChoice
+export type QuizVisibility = 0 | 1 | 'Private' | 'Public'; // 0 = Private, 1 = Public
+export type QuizAttemptStatus = 0 | 1 | 'InProgress' | 'Submitted'; // 0 = InProgress, 1 = Submitted
+export type QuestionType = 0 | 1 | 2 | 'SingleChoice' | 'MultipleChoice' | 'TrueFalse'; // 0 = SingleChoice, 1 = MultipleChoice, 2 = TrueFalse
+
+export function isAttemptCompleted(status?: QuizAttemptStatus | string | number | null, submittedAt?: string | null): boolean {
+  if (submittedAt && typeof submittedAt === 'string' && submittedAt.trim().length > 0) return true;
+  if (status === 1 || status === '1') return true;
+  if (typeof status === 'string') {
+    const s = status.trim().toLowerCase();
+    return s === 'submitted' || s === 'completed';
+  }
+  return false;
+}
+
+export function isAttemptInProgress(status?: QuizAttemptStatus | string | number | null, submittedAt?: string | null): boolean {
+  if (isAttemptCompleted(status, submittedAt)) return false;
+  if (status === 0 || status === '0') return true;
+  if (typeof status === 'string') {
+    const s = status.trim().toLowerCase();
+    return s === 'inprogress' || s === 'in_progress' || s === 'in progress';
+  }
+  return false;
+}
+
+export function isSingleChoice(type?: QuestionType | string | number | null): boolean {
+  if (type === undefined || type === null || type === 0 || type === '0') return true;
+  if (typeof type === 'string') {
+    const s = type.trim().toLowerCase();
+    return s === 'singlechoice' || s === 'single_choice' || s === 'single choice' || s === 'single';
+  }
+  return false;
+}
+
+export function isMultipleChoice(type?: QuestionType | string | number | null): boolean {
+  if (type === 1 || type === '1') return true;
+  if (typeof type === 'string') {
+    const s = type.trim().toLowerCase();
+    return s === 'multiplechoice' || s === 'multiple_choice' || s === 'multiple choice' || s === 'multiple';
+  }
+  return false;
+}
+
+export function isTrueFalse(type?: QuestionType | string | number | null): boolean {
+  if (type === 2 || type === '2') return true;
+  if (typeof type === 'string') {
+    const s = type.trim().toLowerCase();
+    return s === 'truefalse' || s === 'true_false' || s === 'true/false' || s === 'true false' || s === 'boolean';
+  }
+  return false;
+}
+
+export function getQuestionTypeDisplay(type?: QuestionType | string | number | null): string {
+  if (isTrueFalse(type)) return 'True / False';
+  if (isMultipleChoice(type)) return 'Multiple Choice';
+  return 'Single Choice';
+}
+
+export function calculateAccuracy(correct?: number | null, total?: number | null, rawScore?: number | null): number {
+  if (total && total > 0) {
+    if (correct !== undefined && correct !== null) {
+      return Math.round((correct / total) * 100);
+    }
+    if (rawScore !== undefined && rawScore !== null && rawScore <= total) {
+      return Math.round((rawScore / total) * 100);
+    }
+  }
+  return Math.round(rawScore || 0);
+}
 
 export interface Category {
   id: number;
@@ -45,6 +110,18 @@ export interface QuestionAnswerOption {
   isCorrect?: boolean;
 }
 
+export interface CreateQuizQuestionInput {
+  id?: number | null;
+  order?: number;
+  content: string;
+  questionType: QuestionType;
+  answers: {
+    id?: number | null;
+    content: string;
+    isCorrect: boolean;
+  }[];
+}
+
 export interface CreateQuizRequest {
   title: string;
   description: string;
@@ -52,7 +129,8 @@ export interface CreateQuizRequest {
   maxAttempts: number;
   visibility: QuizVisibility;
   categoryId: number;
-  questionIds: number[];
+  questionIds?: number[];
+  questions?: CreateQuizQuestionInput[];
 }
 
 export interface UpdateQuizRequest {
@@ -62,7 +140,8 @@ export interface UpdateQuizRequest {
   maxAttempts: number;
   visibility: QuizVisibility;
   categoryId: number;
-  questionIds: number[];
+  questionIds?: number[];
+  questions?: CreateQuizQuestionInput[];
 }
 
 export interface StartAttemptRequest {

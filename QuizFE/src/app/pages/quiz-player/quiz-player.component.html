@@ -21,22 +21,39 @@
 
   <!-- Main Workstation Layout -->
   <main *ngIf="!isLoading()" class="w-full flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6">
-    <!-- Top Examination Status Bar -->
-    <div class="w-full flex flex-wrap items-center justify-between gap-3 py-2.5 px-4 mb-6 bg-white border-2 border-[#272421] rounded-2xl shadow-tactile-sm text-xs font-headline font-bold">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="text-emerald-800 uppercase tracking-wider">Live Examination Sprint</span>
-        <span class="text-gray-300">•</span>
-        <span class="text-[#6b665f]">Autosave active</span>
+    <!-- Empty Questions State -->
+    <div *ngIf="totalQuestions() === 0" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-12 text-center max-w-lg mx-auto my-12">
+      <div class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-[#272421] flex items-center justify-center mx-auto mb-4 text-amber-700 shadow-tactile-sm">
+        <span class="material-symbols-outlined text-3xl">quiz</span>
       </div>
-      <div class="flex items-center gap-2 text-[#6b665f]">
-        <span class="material-symbols-outlined text-sm text-amber-600">flag</span>
-        <span>{{ flaggedQuestionIndices().size }} Flagged for review</span>
-      </div>
+      <h3 class="font-headline font-black text-xl text-[#1e1b18] mb-2">No Questions in this Quiz</h3>
+      <p class="font-headline text-xs sm:text-sm text-[#6b665f] mb-6">
+        This quiz does not have any questions configured yet. Please check back later or edit the quiz.
+      </p>
+      <button
+        (click)="onLeave()"
+        class="px-5 py-2.5 rounded-2xl bg-amber-600 text-white font-headline font-black text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 transition-all">
+        Back to Dashboard
+      </button>
     </div>
 
-    <!-- Split 2-Column Workstation & Palette -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div *ngIf="totalQuestions() > 0">
+      <!-- Top Examination Status Bar -->
+      <div class="w-full flex flex-wrap items-center justify-between gap-3 py-2.5 px-4 mb-6 bg-white border-2 border-[#272421] rounded-2xl shadow-tactile-sm text-xs font-headline font-bold">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-emerald-800 uppercase tracking-wider">Live Examination Sprint</span>
+          <span class="text-gray-300">•</span>
+          <span class="text-[#6b665f]">Autosave active</span>
+        </div>
+        <div class="flex items-center gap-2 text-[#6b665f]">
+          <span class="material-symbols-outlined text-sm text-amber-600">flag</span>
+          <span>{{ flaggedQuestionIndices().size }} Flagged for review</span>
+        </div>
+      </div>
+
+      <!-- Split 2-Column Workstation & Palette -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       <!-- Left Column: Question Workstation (8 cols) -->
       <div class="lg:col-span-8 flex flex-col gap-6">
         <div *ngIf="currentQuestion() as q" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-6 sm:p-8">
@@ -46,7 +63,7 @@
               Question {{ currentQuestionIndex() + 1 }}
             </span>
             <span class="px-3 py-1 rounded-full text-[11px] font-headline font-bold bg-[#faf8f5] text-[#6b665f] border border-gray-200">
-              {{ q.questionType === 0 ? 'Single Choice' : 'Multiple Choice (Select all that apply)' }}
+              {{ getQuestionTypeLabel(q.questionType) }}
             </span>
           </div>
 
@@ -61,7 +78,7 @@
               *ngFor="let ans of q.answers; let optIdx = index"
               (click)="toggleAnswer(ans.id)"
               type="button"
-              class="w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between gap-4 group"
+              class="w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between gap-4 group cursor-pointer"
               [ngClass]="isAnswerSelected(ans.id)
                 ? 'bg-amber-50/80 border-amber-600 ring-2 ring-amber-500/20 shadow-tactile-sm'
                 : 'bg-white border-[#272421] shadow-tactile-sm hover:bg-[#faf8f5]'">
@@ -69,17 +86,20 @@
                 <div
                   class="w-8 h-8 rounded-xl font-headline font-black text-xs flex items-center justify-center border-2 border-[#272421] shrink-0"
                   [ngClass]="isAnswerSelected(ans.id) ? 'bg-amber-600 text-white' : 'bg-[#faf8f5] text-[#1e1b18] group-hover:bg-amber-100'">
-                  {{ getOptionLetter(optIdx) }}
+                  {{ isTrueFalse(q.questionType) ? (ans.content.toLowerCase().startsWith('t') ? 'T' : 'F') : getOptionLetter(optIdx) }}
                 </div>
                 <span class="font-headline font-bold text-sm sm:text-base text-[#1e1b18] leading-snug">
                   {{ ans.content }}
                 </span>
               </div>
 
-              <!-- Selection Icon -->
+              <!-- Selection Icon (Radio for Single/TrueFalse, Checkbox for Multiple) -->
               <div
-                class="w-6 h-6 rounded-lg border-2 border-[#272421] flex items-center justify-center shrink-0"
-                [ngClass]="isAnswerSelected(ans.id) ? 'bg-amber-600 text-white' : 'bg-[#faf8f5] text-transparent'">
+                class="w-6 h-6 border-2 border-[#272421] flex items-center justify-center shrink-0"
+                [ngClass]="[
+                  isSingleChoice(q.questionType) || isTrueFalse(q.questionType) ? 'rounded-full' : 'rounded-lg',
+                  isAnswerSelected(ans.id) ? 'bg-amber-600 text-white' : 'bg-[#faf8f5] text-transparent'
+                ]">
                 <span class="material-symbols-outlined text-sm font-black">check</span>
               </div>
             </button>
@@ -182,6 +202,7 @@
         </div>
       </div>
     </div>
+    </div>
   </main>
 </div>
 
@@ -205,8 +226,13 @@
       <div class="text-xs font-headline font-bold uppercase tracking-wider text-[#6b665f] mb-1">
         Final Accuracy Score
       </div>
-      <div class="font-headline font-black text-5xl text-emerald-600 mb-4">
-        {{ res.score }}%
+      <div class="font-headline font-black text-5xl text-emerald-600 mb-2">
+        {{ getAccuracy(res) }}%
+      </div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-headline font-black mb-4 border"
+           [ngClass]="isPassed(res) ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-rose-100 text-rose-800 border-rose-300'">
+        <span class="material-symbols-outlined text-sm">{{ isPassed(res) ? 'check_circle' : 'cancel' }}</span>
+        <span>{{ isPassed(res) ? 'Passed (>=70%)' : 'Failed (<70%)' }}</span>
       </div>
       <div class="grid grid-cols-2 gap-4 pt-4 border-t border-[#e8e3d8] text-xs font-headline font-bold">
         <div>

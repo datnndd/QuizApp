@@ -29,7 +29,7 @@
           {{ quizTitle() }}
         </span>
         <span class="text-[11px] font-headline font-bold text-amber-700">
-          Question {{ currentQuestionIndex() + 1 }} of {{ totalQuestions() }}
+          Question {{ totalQuestions() > 0 ? currentQuestionIndex() + 1 : 0 }} of {{ totalQuestions() }}
         </span>
       </div>
     </div>

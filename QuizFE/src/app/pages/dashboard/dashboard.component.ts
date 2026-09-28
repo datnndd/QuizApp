@@ -4,7 +4,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { QuizService } from '../../core/services/quiz.service';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
-import { AttemptSummary, QuizSummary } from '../../core/models/quiz.models';
+import {
+  AttemptSummary,
+  calculateAccuracy,
+  isAttemptCompleted,
+  isAttemptInProgress,
+  QuizSummary
+} from '../../core/models/quiz.models';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,5 +73,17 @@ export class DashboardComponent implements OnInit {
 
   closeQuizModal(): void {
     this.selectedQuizModal.set(null);
+  }
+
+  isAttemptCompleted(status?: any): boolean {
+    return isAttemptCompleted(status);
+  }
+
+  isAttemptInProgress(status?: any): boolean {
+    return isAttemptInProgress(status);
+  }
+
+  getAccuracy(att: AttemptSummary): number {
+    return calculateAccuracy(att.correctAnswers, att.totalQuestions, att.score);
   }
 }

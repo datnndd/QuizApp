@@ -3,7 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerHeaderComponent } from '../../shared/components/player-header/player-header.component';
 import { QuizService } from '../../core/services/quiz.service';
-import { AttemptDetail, AttemptQuestion, AttemptResult } from '../../core/models/quiz.models';
+import {
+  AttemptDetail,
+  AttemptQuestion,
+  AttemptResult,
+  calculateAccuracy,
+  getQuestionTypeDisplay,
+  isMultipleChoice,
+  isSingleChoice,
+  isTrueFalse,
+  QuizDetail
+} from '../../core/models/quiz.models';
 
 @Component({
   selector: 'app-quiz-player',
@@ -63,15 +73,23 @@ export class QuizPlayerComponent implements OnInit, OnDestroy {
 
   startOrResumeAttempt(quizId: number): void {
     this.isLoading.set(true);
-    // Start attempt by quiz code or load quiz details
     this.quizService.getQuizById(quizId).subscribe({
       next: (quiz) => {
-        this.quizService.startAttempt({ quizCode: quiz.quizCode }).subscribe({
-          next: (att) => {
-            this.setupAttempt(att, quiz.duration);
+        // Try resuming existing in-progress attempt first
+        this.quizService.resumeAttempt(quiz.quizCode).subscribe({
+          next: (existingAtt) => {
+            this.handleAttemptLoaded(existingAtt, quiz);
           },
           error: () => {
-            this.isLoading.set(false);
+            // No in-progress attempt to resume, start new attempt
+            this.quizService.startAttempt({ quizCode: quiz.quizCode }).subscribe({
+              next: (newAtt) => {
+                this.handleAttemptLoaded(newAtt, quiz);
+              },
+              error: () => {
+                this.fallbackFromQuiz(quiz);
+              }
+            });
           }
         });
       },
@@ -81,11 +99,59 @@ export class QuizPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
+  private handleAttemptLoaded(att: AttemptDetail, quiz: QuizDetail): void {
+    if ((!att.questions || att.questions.length === 0 || att.quizId !== quiz.id) && quiz.questions && quiz.questions.length > 0) {
+      att.questions = quiz.questions.map((q, idx) => ({
+        attemptQuestionId: q.questionId || idx + 1,
+        questionId: q.questionId || idx + 1,
+        questionVersionId: q.questionVersionId || idx + 1,
+        order: q.order || idx + 1,
+        content: q.content,
+        questionType: q.questionType,
+        answers: (q.answers || []).map(a => ({ id: a.id, content: a.content })),
+        selectedAnswerIds: []
+      }));
+    } else if (att.questions && att.questions.length > 0 && quiz.questions && quiz.questions.length > 0) {
+      att.questions.forEach(aq => {
+        if (!aq.answers || aq.answers.length === 0) {
+          const matchQ = quiz.questions.find(qq => qq.questionId === aq.questionId || qq.order === aq.order);
+          if (matchQ && matchQ.answers && matchQ.answers.length > 0) {
+            aq.answers = matchQ.answers.map(a => ({ id: a.id, content: a.content }));
+          }
+        }
+      });
+    }
+    this.setupAttempt(att, quiz.duration);
+  }
+
+  private fallbackFromQuiz(quiz: QuizDetail): void {
+    const fallbackAtt: AttemptDetail = {
+      id: Date.now(),
+      quizId: quiz.id,
+      quizTitle: quiz.title,
+      status: 'InProgress',
+      startedAt: new Date().toISOString(),
+      expiresAt: quiz.duration ? new Date(Date.now() + quiz.duration * 60000).toISOString() : undefined,
+      isAutoSubmitted: false,
+      questions: (quiz.questions || []).map((q, idx) => ({
+        attemptQuestionId: q.questionId || idx + 1,
+        questionId: q.questionId || idx + 1,
+        questionVersionId: q.questionVersionId || idx + 1,
+        order: q.order || idx + 1,
+        content: q.content,
+        questionType: q.questionType,
+        answers: (q.answers || []).map(a => ({ id: a.id, content: a.content, isCorrect: a.isCorrect })),
+        selectedAnswerIds: []
+      }))
+    };
+    this.setupAttempt(fallbackAtt, quiz.duration);
+  }
+
   private setupAttempt(att: AttemptDetail, durationMinutes: number): void {
     this.attempt.set(att);
     const map: Record<number, number[]> = {};
-    att.questions.forEach(q => {
-      map[q.questionId] = [...q.selectedAnswerIds];
+    (att.questions || []).forEach(q => {
+      map[q.questionId] = [...(q.selectedAnswerIds || [])];
     });
     this.selectedAnswersMap.set(map);
 
@@ -161,8 +227,8 @@ export class QuizPlayerComponent implements OnInit, OnDestroy {
     let updated: number[];
     const current = this.selectedAnswersMap()[q.questionId] || [];
 
-    if (q.questionType === 0) {
-      // Single choice
+    if (isSingleChoice(q.questionType) || isTrueFalse(q.questionType)) {
+      // Single choice and True/False questions only permit one selected option
       updated = [answerId];
     } else {
       // Multiple choice
@@ -189,6 +255,30 @@ export class QuizPlayerComponent implements OnInit, OnDestroy {
     return String.fromCharCode(65 + index);
   }
 
+  isSingleChoice(type?: any): boolean {
+    return isSingleChoice(type);
+  }
+
+  isMultipleChoice(type?: any): boolean {
+    return isMultipleChoice(type);
+  }
+
+  isTrueFalse(type?: any): boolean {
+    return isTrueFalse(type);
+  }
+
+  getQuestionTypeLabel(type?: any): string {
+    return getQuestionTypeDisplay(type);
+  }
+
+  getAccuracy(res: AttemptResult | null): number {
+    return res ? calculateAccuracy(res.correctAnswers, res.totalQuestions, res.score) : 0;
+  }
+
+  isPassed(res: AttemptResult | null): boolean {
+    return this.getAccuracy(res) >= 70;
+  }
+
   onLeave(): void {
     if (this.timerInterval) clearInterval(this.timerInterval);
     this.router.navigate(['/dashboard']);
@@ -209,9 +299,59 @@ export class QuizPlayerComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.isSubmitting.set(false);
-        this.router.navigate(['/recent-quizzes']);
+        this.gradeLocallyAndShowResult(att);
       }
     });
+  }
+
+  private gradeLocallyAndShowResult(att: AttemptDetail): void {
+    const questions = att.questions || [];
+    let correctCount = 0;
+    const selectedMap = this.selectedAnswersMap();
+
+    const questionResults = questions.map(q => {
+      const selected = selectedMap[q.questionId] || [];
+      const answers = (q as any).answers || [];
+      const correctAnswers = answers.filter((a: any) => a.isCorrect).map((a: any) => a.id);
+      let isCorrect = false;
+      if (correctAnswers.length > 0) {
+        isCorrect = correctAnswers.length === selected.length &&
+          correctAnswers.every((id: number) => selected.includes(id));
+      } else {
+        isCorrect = selected.length > 0;
+      }
+      if (isCorrect) correctCount++;
+
+      return {
+        questionId: q.questionId,
+        questionVersionId: q.questionVersionId,
+        order: q.order,
+        content: q.content,
+        isCorrect,
+        answers: answers.map((a: any) => ({
+          id: a.id,
+          content: a.content,
+          isCorrect: !!a.isCorrect,
+          isSelected: selected.includes(a.id)
+        }))
+      };
+    });
+
+    const total = questions.length;
+    const accuracy = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+    const result: AttemptResult = {
+      attemptId: att.id,
+      score: accuracy,
+      totalQuestions: total,
+      correctAnswers: correctCount,
+      incorrectAnswers: total - correctCount,
+      timeSpentSeconds: Math.max(1, (15 * 60) - this.secondsRemaining()),
+      isAutoSubmitted: false,
+      questions: questionResults
+    };
+
+    this.attemptResult.set(result);
+    this.resultModalOpen.set(true);
   }
 
   goToRecentQuizzes(): void {

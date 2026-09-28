@@ -72,6 +72,42 @@ public class QuizAttemptsControllerTests
         Assert.Single(context.QuizAttempts);
     }
 
+    [Fact]
+    public async Task Resume_WhenExpired_ReturnsNotFoundAndAutoSubmits()
+    {
+        await using var context = CreateContext();
+        await SeedQuiz(context, QuizVisibility.Public);
+        var startedAt = new DateTime(2026, 9, 22, 9, 0, 0, DateTimeKind.Utc);
+        context.QuizAttempts.Add(new QuizAttempt
+        {
+            Id = 55,
+            QuizId = 20,
+            UserId = 2,
+            StartedAt = startedAt,
+            ExpiresAt = startedAt.AddMinutes(15),
+            Status = QuizAttemptStatus.InProgress,
+            TotalQuestions = 1,
+            Questions =
+            [
+                new QuizAttemptQuestion
+                {
+                    QuestionId = 10,
+                    QuestionVersionId = 100,
+                    Order = 1
+                }
+            ]
+        });
+        await context.SaveChangesAsync(CancellationToken.None);
+        var controller = Controller(context, userId: 2);
+
+        var action = await controller.Resume("QUIZ22", CancellationToken.None);
+        Assert.IsType<NotFoundObjectResult>(action.Result);
+
+        var attemptInDb = await context.QuizAttempts.SingleAsync(a => a.Id == 55);
+        Assert.Equal(QuizAttemptStatus.Submitted, attemptInDb.Status);
+        Assert.True(attemptInDb.IsAutoSubmitted);
+    }
+
     private static QuizAttemptsController Controller(AppDbContext context, int userId)
     {
         var timeProvider = new FixedTimeProvider(new DateTime(2026, 9, 22, 10, 0, 0, DateTimeKind.Utc));

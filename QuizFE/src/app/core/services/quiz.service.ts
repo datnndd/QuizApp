@@ -130,15 +130,15 @@ export class QuizService {
   }
 
   startAttempt(request: StartAttemptRequest): Observable<AttemptDetail> {
-    return this.http.post<AttemptDetail>(`${this.baseUrl}/quiz-attempts`, request).pipe(
-      catchError(() => of(this.getMockActiveAttempt()))
-    );
+    return this.http.post<AttemptDetail>(`${this.baseUrl}/quiz-attempts`, request);
+  }
+
+  resumeAttempt(quizCode: string): Observable<AttemptDetail> {
+    return this.http.get<AttemptDetail>(`${this.baseUrl}/quiz-attempts/resume/${quizCode}`);
   }
 
   getAttempt(id: number): Observable<AttemptDetail> {
-    return this.http.get<AttemptDetail>(`${this.baseUrl}/quiz-attempts/${id}`).pipe(
-      catchError(() => of(this.getMockActiveAttempt()))
-    );
+    return this.http.get<AttemptDetail>(`${this.baseUrl}/quiz-attempts/${id}`);
   }
 
   saveAnswer(attemptId: number, attemptQuestionId: number, selectedAnswerIds: number[]): Observable<void> {
@@ -151,9 +151,7 @@ export class QuizService {
   }
 
   submitAttempt(attemptId: number): Observable<AttemptResult> {
-    return this.http.post<AttemptResult>(`${this.baseUrl}/quiz-attempts/${attemptId}/submit`, {}).pipe(
-      catchError(() => of(this.getMockAttemptResult(attemptId)))
-    );
+    return this.http.post<AttemptResult>(`${this.baseUrl}/quiz-attempts/${attemptId}/submit`, {});
   }
 
   getAttemptResult(attemptId: number): Observable<AttemptResult> {

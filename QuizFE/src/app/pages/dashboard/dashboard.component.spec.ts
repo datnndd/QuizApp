@@ -95,4 +95,17 @@ describe('DashboardComponent', () => {
     expect(compiled.textContent).toContain('Recently Attempted Quizzes');
     expect(compiled.textContent).toContain('Popular Study Decks');
   });
+
+  it('should accurately detect submitted and in-progress statuses', () => {
+    const fixture = TestBed.createComponent(DashboardComponent);
+    const component = fixture.componentInstance;
+
+    expect(component.isAttemptCompleted('Submitted')).toBe(true);
+    expect(component.isAttemptCompleted(1)).toBe(true);
+    expect(component.isAttemptCompleted('InProgress')).toBe(false);
+
+    expect(component.isAttemptInProgress('InProgress')).toBe(true);
+    expect(component.isAttemptInProgress(0)).toBe(true);
+    expect(component.isAttemptInProgress('Submitted')).toBe(false);
+  });
 });

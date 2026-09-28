@@ -90,25 +90,25 @@
                   </span>
                 </td>
                 <td class="py-4 px-6">
-                  <span *ngIf="att.status === 1" class="font-black text-sm text-emerald-700">
-                    {{ att.score }}% Accuracy
+                  <span *ngIf="isAttemptCompleted(att.status)" class="font-black text-sm text-emerald-700">
+                    {{ getAccuracy(att) }}% Accuracy
                   </span>
-                  <span *ngIf="att.status === 0" class="text-amber-700 font-bold">
+                  <span *ngIf="isAttemptInProgress(att.status)" class="text-amber-700 font-bold">
                     {{ att.totalQuestions }} questions
                   </span>
                 </td>
                 <td class="py-4 px-6">
                   <span
                     class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider"
-                    [ngClass]="att.status === 1 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'">
-                    {{ att.status === 1 ? 'Completed' : 'In Progress' }}
+                    [ngClass]="isAttemptCompleted(att.status) ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'">
+                    {{ isAttemptCompleted(att.status) ? 'Completed' : 'In Progress' }}
                   </span>
                 </td>
                 <td class="py-4 px-6 text-right">
                   <button
                     (click)="resumeAttempt(att)"
                     class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border-2 border-[#272421] bg-white text-[#1e1b18] font-bold text-xs shadow-tactile-sm hover:bg-[#faf8f5] transition-all">
-                    <span>{{ att.status === 1 ? 'Retake' : 'Resume' }}</span>
+                    <span>{{ isAttemptCompleted(att.status) ? 'Retake' : 'Resume' }}</span>
                     <span class="material-symbols-outlined text-xs">arrow_forward</span>
                   </button>
                 </td>

@@ -56,6 +56,7 @@ public class QuizAttemptService(AppDbContext context, TimeProvider timeProvider)
             attempt.Status = QuizAttemptStatus.Submitted;
             attempt.SubmittedAt = submittedAt;
             attempt.TimeSpentSeconds = (int)Math.Max(0, (submittedAt - attempt.StartedAt).TotalSeconds);
+            attempt.TotalQuestions = attempt.Questions.Count > 0 ? attempt.Questions.Count : attempt.TotalQuestions;
             attempt.CorrectAnswers = attempt.Questions.Count(q => q.IsCorrect == true);
             attempt.Score = attempt.CorrectAnswers;
             attempt.IsAutoSubmitted = isAutoSubmitted;

@@ -16,6 +16,24 @@ public class CreateQuizRequest
     public int MaxAttempts { get; set; }
     [EnumDataType(typeof(QuizVisibility))]
     public QuizVisibility Visibility { get; set; }
+    public List<int>? QuestionIds { get; set; }
+    public List<QuizQuestionInput>? Questions { get; set; }
+}
+
+public class QuizQuestionInput
+{
+    public int? Id { get; set; }
+    public int Order { get; set; }
+    public string Content { get; set; } = string.Empty;
+    public QuestionType QuestionType { get; set; }
+    public List<QuizAnswerInput> Answers { get; set; } = [];
+}
+
+public class QuizAnswerInput
+{
+    public int? Id { get; set; }
+    public string Content { get; set; } = string.Empty;
+    public bool IsCorrect { get; set; }
 }
 
 public class UpdateQuizRequest : CreateQuizRequest;
@@ -61,6 +79,14 @@ public class QuizQuestionResponse
     public int Order { get; set; }
     public string Content { get; set; } = string.Empty;
     public QuestionType QuestionType { get; set; }
+    public List<QuizQuestionAnswerResponse> Answers { get; set; } = [];
+}
+
+public class QuizQuestionAnswerResponse
+{
+    public int Id { get; set; }
+    public string Content { get; set; } = string.Empty;
+    public bool IsCorrect { get; set; }
 }
 
 public class QuizPreviewResponse

@@ -4,7 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { QuizService } from '../../core/services/quiz.service';
-import { Category, QuestionType, QuizDetail } from '../../core/models/quiz.models';
+import {
+  Category,
+  getQuestionTypeDisplay,
+  isMultipleChoice,
+  isSingleChoice,
+  isTrueFalse,
+  QuestionType,
+  QuizDetail
+} from '../../core/models/quiz.models';
 
 export interface EditableQuestion {
   id: number;
@@ -81,21 +89,21 @@ export class EditQuizComponent implements OnInit {
         this.categoryId.set(quiz.categoryId || 1);
         this.duration.set(quiz.duration);
         this.maxAttempts.set(quiz.maxAttempts);
-        this.visibility.set(quiz.visibility);
+        this.visibility.set(quiz.visibility === 1 || quiz.visibility === 'Public' ? 1 : 0);
         this.quizCode.set(quiz.quizCode);
 
-        const loadedQuestions: EditableQuestion[] = quiz.questions.map((q, qIdx) => ({
+        const loadedQuestions: EditableQuestion[] = (quiz.questions || []).map((q, qIdx) => ({
           id: q.questionId || qIdx + 1,
           content: q.content,
           questionType: q.questionType,
-          answers: q.answers.map((a, aIdx) => ({
+          answers: (q.answers || []).map((a, aIdx) => ({
             id: a.id || aIdx + 1,
             content: a.content,
             isCorrect: !!a.isCorrect
           }))
         }));
 
-        this.questions.set(loadedQuestions.length > 0 ? loadedQuestions : this.getDefaultQuestions());
+        this.questions.set(loadedQuestions);
         this.isLoading.set(false);
       },
       error: () => {
@@ -113,33 +121,24 @@ export class EditQuizComponent implements OnInit {
     this.maxAttempts.set(3);
     this.visibility.set(1);
     this.quizCode.set('DECK' + Math.floor(100 + Math.random() * 900));
-    this.questions.set(this.getDefaultQuestions());
+    this.questions.set([]);
+    this.activeQuestionIndex.set(0);
   }
 
-  private getDefaultQuestions(): EditableQuestion[] {
-    return [
-      {
-        id: 1,
-        content: 'What is the primary factor driving convective currents?',
-        questionType: 0,
-        answers: [
-          { id: 1, content: 'Temperature gradients and buoyancy differences', isCorrect: true },
-          { id: 2, content: 'Centrifugal force of planetary rotation', isCorrect: false },
-          { id: 3, content: 'Direct magnetic field interaction', isCorrect: false },
-          { id: 4, content: 'Tidal friction from orbiting moons', isCorrect: false }
-        ]
-      },
-      {
-        id: 2,
-        content: 'Which of the following characteristics apply to this system? (Select all that apply)',
-        questionType: 1,
-        answers: [
-          { id: 5, content: 'Conservation of angular momentum', isCorrect: true },
-          { id: 6, content: 'Thermodynamic equilibrium', isCorrect: true },
-          { id: 7, content: 'Zero kinetic energy loss', isCorrect: false }
-        ]
-      }
-    ];
+  isSingleChoice(type?: QuestionType): boolean {
+    return isSingleChoice(type);
+  }
+
+  isMultipleChoice(type?: QuestionType): boolean {
+    return isMultipleChoice(type);
+  }
+
+  isTrueFalse(type?: QuestionType): boolean {
+    return isTrueFalse(type);
+  }
+
+  getQuestionTypeLabel(type?: QuestionType): string {
+    return getQuestionTypeDisplay(type);
   }
 
   selectQuestion(index: number): void {
@@ -148,12 +147,16 @@ export class EditQuizComponent implements OnInit {
     }
   }
 
-  addQuestion(): void {
+  addQuestion(type: QuestionType = 0): void {
+    const isTf = this.isTrueFalse(type);
     const newQ: EditableQuestion = {
       id: Date.now(),
-      content: 'New question statement text...',
-      questionType: 0,
-      answers: [
+      content: isTf ? 'State whether the following statement is true or false.' : 'New question statement text...',
+      questionType: type,
+      answers: isTf ? [
+        { id: 1, content: 'True', isCorrect: true },
+        { id: 2, content: 'False', isCorrect: false }
+      ] : [
         { id: 1, content: 'Option A statement', isCorrect: true },
         { id: 2, content: 'Option B statement', isCorrect: false },
         { id: 3, content: 'Option C statement', isCorrect: false }
@@ -166,11 +169,10 @@ export class EditQuizComponent implements OnInit {
 
   removeQuestion(index: number): void {
     const list = this.questions();
-    if (list.length <= 1) return; // keep at least 1 question
     const updated = list.filter((_, idx) => idx !== index);
     this.questions.set(updated);
     if (this.activeQuestionIndex() >= updated.length) {
-      this.activeQuestionIndex.set(updated.length - 1);
+      this.activeQuestionIndex.set(Math.max(0, updated.length - 1));
     }
   }
 
@@ -178,7 +180,7 @@ export class EditQuizComponent implements OnInit {
     const q = this.activeQuestion();
     if (!q) return;
     q.questionType = type;
-    if (type === 0) {
+    if (this.isSingleChoice(type)) {
       // If switching to single choice, ensure only one answer is marked correct
       let foundOne = false;
       q.answers.forEach(a => {
@@ -190,15 +192,37 @@ export class EditQuizComponent implements OnInit {
       if (!foundOne && q.answers.length > 0) {
         q.answers[0].isCorrect = true;
       }
+    } else if (this.isTrueFalse(type)) {
+      // For True/False questions, enforce exactly two options: True and False
+      const hasTrue = q.answers.some(a => a.content.trim().toLowerCase() === 'true');
+      const hasFalse = q.answers.some(a => a.content.trim().toLowerCase() === 'false');
+      if (!hasTrue || !hasFalse || q.answers.length !== 2) {
+        q.answers = [
+          { id: 1, content: 'True', isCorrect: true },
+          { id: 2, content: 'False', isCorrect: false }
+        ];
+      } else {
+        let foundOne = false;
+        q.answers.forEach(a => {
+          if (a.isCorrect) {
+            if (!foundOne) foundOne = true;
+            else a.isCorrect = false;
+          }
+        });
+        if (!foundOne && q.answers.length > 0) {
+          q.answers[0].isCorrect = true;
+        }
+      }
     }
+    this.questions.update(list => [...list]);
   }
 
   toggleAnswerCorrect(ansIdx: number): void {
     const q = this.activeQuestion();
     if (!q) return;
 
-    if (q.questionType === 0) {
-      // Single choice
+    if (this.isSingleChoice(q.questionType) || this.isTrueFalse(q.questionType)) {
+      // Single choice & True/False: exactly one is marked correct
       q.answers.forEach((a, idx) => {
         a.isCorrect = idx === ansIdx;
       });
@@ -206,36 +230,53 @@ export class EditQuizComponent implements OnInit {
       // Multiple choice
       q.answers[ansIdx].isCorrect = !q.answers[ansIdx].isCorrect;
     }
+    this.questions.update(list => [...list]);
   }
 
   addAnswerOption(): void {
     const q = this.activeQuestion();
-    if (!q) return;
+    if (!q || this.isTrueFalse(q.questionType)) return;
     q.answers.push({
       id: Date.now(),
       content: 'New answer option text',
       isCorrect: false
     });
+    this.questions.update(list => [...list]);
   }
 
   removeAnswerOption(ansIdx: number): void {
     const q = this.activeQuestion();
-    if (!q || q.answers.length <= 2) return; // Keep at least 2 options
+    if (!q || this.isTrueFalse(q.questionType) || q.answers.length <= 2) return; // Keep at least 2 options
     q.answers.splice(ansIdx, 1);
+    this.questions.update(list => [...list]);
   }
 
   saveQuiz(): void {
     this.isSaving.set(true);
     this.saveSuccess.set(false);
 
+    const questionsList = this.questions();
     const payload = {
       title: this.title(),
       description: this.description(),
-      categoryId: this.categoryId(),
+      categoryId: Number(this.categoryId()),
       duration: this.duration(),
       maxAttempts: this.maxAttempts(),
       visibility: this.visibility() as 0 | 1,
-      questionIds: [1, 2] // sample
+      questionIds: questionsList
+        .map(q => q.id)
+        .filter(id => id > 0 && id <= 2147483647),
+      questions: questionsList.map((q, idx) => ({
+        id: (q.id > 0 && q.id <= 2147483647) ? q.id : null,
+        order: idx + 1,
+        content: q.content,
+        questionType: q.questionType,
+        answers: q.answers.map(a => ({
+          id: (a.id > 0 && a.id <= 2147483647) ? a.id : null,
+          content: a.content,
+          isCorrect: !!a.isCorrect
+        }))
+      }))
     };
 
     const action = this.isNew()

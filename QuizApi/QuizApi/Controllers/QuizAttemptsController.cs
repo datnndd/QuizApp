@@ -115,7 +115,8 @@ public class QuizAttemptsController(
             .FirstOrDefaultAsync(cancellationToken);
 
         if (attemptId is null) return NotFound(new { message = "No unfinished attempt was found." });
-        await attemptService.SubmitIfExpired(attemptId.Value, cancellationToken);
+        if (await attemptService.SubmitIfExpired(attemptId.Value, cancellationToken))
+            return NotFound(new { message = "No unfinished attempt was found." });
         return Ok(await LoadAttempt(attemptId.Value, userId, cancellationToken));
     }
 

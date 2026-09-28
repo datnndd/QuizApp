@@ -83,6 +83,8 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         context.Quizzes.Add(quiz);
         await context.SaveChangesAsync(cancellationToken);
 
+        await SyncQuizQuestions(quiz, request, cancellationToken);
+
         return CreatedAtAction(nameof(GetById), new { id = quiz.Id },
             await LoadAccessibleQuiz(quiz.Id, quiz.OwnerId, cancellationToken));
     }
@@ -102,6 +104,18 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         quiz.Visibility = request.Visibility;
         quiz.Duration = request.Duration;
         quiz.MaxAttempts = request.MaxAttempts;
+
+        if (request.Questions is not null || request.QuestionIds is not null)
+        {
+            var existingQuizQuestions = await context.QuizQuestions
+                .Where(qq => qq.QuizId == id)
+                .ToListAsync(cancellationToken);
+            context.QuizQuestions.RemoveRange(existingQuizQuestions);
+            await context.SaveChangesAsync(cancellationToken);
+
+            await SyncQuizQuestions(quiz, request, cancellationToken);
+        }
+
         await context.SaveChangesAsync(cancellationToken);
         return NoContent();
     }
@@ -315,10 +329,141 @@ public class QuizzesController(AppDbContext context) : ControllerBase
                     QuestionId = qq.QuestionId,
                     QuestionVersionId = qq.QuestionVersionId,
                     VersionNumber = qq.QuestionVersion.VersionNumber,
-                    LatestVersionNumber = qq.Question.Versions.Max(v => v.VersionNumber),
+                    LatestVersionNumber = qq.Question.Versions.Max(v => (int?)v.VersionNumber) ?? qq.QuestionVersion.VersionNumber,
                     Order = qq.Order,
                     Content = qq.QuestionVersion.Content,
-                    QuestionType = qq.QuestionVersion.QuestionType
+                    QuestionType = qq.QuestionVersion.QuestionType,
+                    Answers = qq.QuestionVersion.Answers.OrderBy(a => a.Id)
+                        .Select(a => new QuizQuestionAnswerResponse
+                        {
+                            Id = a.Id,
+                            Content = a.Content,
+                            IsCorrect = a.IsCorrect
+                        }).ToList()
                 }).ToList()
         });
+
+    private async Task SyncQuizQuestions(Quiz quiz, CreateQuizRequest request, CancellationToken cancellationToken)
+    {
+        if (request.Questions is { Count: > 0 })
+        {
+            var order = 1;
+            foreach (var qInput in request.Questions)
+            {
+                int questionId;
+                int versionId;
+
+                var answers = qInput.Answers ?? [];
+                if (qInput.QuestionType == QuestionType.TrueFalse && answers.Count == 0)
+                {
+                    answers =
+                    [
+                        new QuizAnswerInput { Content = "True", IsCorrect = true },
+                        new QuizAnswerInput { Content = "False", IsCorrect = false }
+                    ];
+                }
+
+                Question? existingQuestion = null;
+                if (qInput.Id is > 0)
+                {
+                    existingQuestion = await context.Questions
+                        .Include(q => q.CurrentVersion)
+                        .FirstOrDefaultAsync(q => q.Id == qInput.Id && q.IsActive, cancellationToken);
+                }
+
+                if (existingQuestion is not null)
+                {
+                    questionId = existingQuestion.Id;
+                    var maxVer = await context.QuestionVersions
+                        .Where(v => v.QuestionId == existingQuestion.Id)
+                        .MaxAsync(v => (int?)v.VersionNumber, cancellationToken) ?? 1;
+
+                    var newVersion = new QuestionVersion
+                    {
+                        QuestionId = existingQuestion.Id,
+                        VersionNumber = maxVer + 1,
+                        Content = string.IsNullOrWhiteSpace(qInput.Content) ? "Untitled question" : qInput.Content.Trim(),
+                        QuestionType = qInput.QuestionType,
+                        Answers = answers.Select(a => new Answer
+                        {
+                            Content = string.IsNullOrWhiteSpace(a.Content) ? "Option" : a.Content.Trim(),
+                            IsCorrect = a.IsCorrect
+                        }).ToList()
+                    };
+                    context.QuestionVersions.Add(newVersion);
+                    await context.SaveChangesAsync(cancellationToken);
+
+                    existingQuestion.CurrentVersionId = newVersion.Id;
+                    await context.SaveChangesAsync(cancellationToken);
+
+                    versionId = newVersion.Id;
+                }
+                else
+                {
+                    var newQ = new Question
+                    {
+                        OwnerId = quiz.OwnerId,
+                        CategoryId = quiz.CategoryId,
+                        IsActive = true
+                    };
+                    context.Questions.Add(newQ);
+                    await context.SaveChangesAsync(cancellationToken);
+
+                    var version = new QuestionVersion
+                    {
+                        QuestionId = newQ.Id,
+                        VersionNumber = 1,
+                        Content = string.IsNullOrWhiteSpace(qInput.Content) ? "Untitled question" : qInput.Content.Trim(),
+                        QuestionType = qInput.QuestionType,
+                        Answers = answers.Select(a => new Answer
+                        {
+                            Content = string.IsNullOrWhiteSpace(a.Content) ? "Option" : a.Content.Trim(),
+                            IsCorrect = a.IsCorrect
+                        }).ToList()
+                    };
+                    context.QuestionVersions.Add(version);
+                    await context.SaveChangesAsync(cancellationToken);
+
+                    newQ.CurrentVersionId = version.Id;
+                    await context.SaveChangesAsync(cancellationToken);
+
+                    questionId = newQ.Id;
+                    versionId = version.Id;
+                }
+
+                context.QuizQuestions.Add(new QuizQuestion
+                {
+                    QuizId = quiz.Id,
+                    QuestionId = questionId,
+                    QuestionVersionId = versionId,
+                    Order = qInput.Order > 0 ? qInput.Order : order++
+                });
+            }
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        else if (request.QuestionIds is { Count: > 0 })
+        {
+            var validQuestions = await context.Questions
+                .Where(q => request.QuestionIds.Contains(q.Id) && q.IsActive && q.CurrentVersionId.HasValue)
+                .Select(q => new { q.Id, CurrentVersionId = q.CurrentVersionId!.Value })
+                .ToListAsync(cancellationToken);
+
+            var order = 1;
+            foreach (var qId in request.QuestionIds)
+            {
+                var q = validQuestions.FirstOrDefault(vq => vq.Id == qId);
+                if (q != null)
+                {
+                    context.QuizQuestions.Add(new QuizQuestion
+                    {
+                        QuizId = quiz.Id,
+                        QuestionId = q.Id,
+                        QuestionVersionId = q.CurrentVersionId,
+                        Order = order++
+                    });
+                }
+            }
+            await context.SaveChangesAsync(cancellationToken);
+        }
+    }
 }

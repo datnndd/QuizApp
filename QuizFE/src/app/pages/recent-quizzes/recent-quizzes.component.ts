@@ -4,7 +4,13 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { QuizService } from '../../core/services/quiz.service';
-import { AttemptResult, AttemptSummary } from '../../core/models/quiz.models';
+import {
+  AttemptResult,
+  AttemptSummary,
+  calculateAccuracy,
+  isAttemptCompleted,
+  isAttemptInProgress
+} from '../../core/models/quiz.models';
 
 @Component({
   selector: 'app-recent-quizzes',
@@ -40,24 +46,11 @@ export class RecentQuizzesComponent implements OnInit {
         item.quizCode.toLowerCase().includes(query);
 
       const matchStatus = status === 'all' ||
-        (status === 'completed' && item.status === 1) ||
-        (status === 'in_progress' && item.status === 0);
+        (status === 'completed' && isAttemptCompleted(item.status)) ||
+        (status === 'in_progress' && isAttemptInProgress(item.status));
 
       return matchQuery && matchStatus;
     });
-  });
-
-  // Summary Metrics
-  readonly completedCount = computed(() => this.attempts().filter(a => a.status === 1).length);
-  readonly averageAccuracy = computed(() => {
-    const completed = this.attempts().filter(a => a.status === 1 && a.score !== undefined);
-    if (completed.length === 0) return 0;
-    const sum = completed.reduce((acc, curr) => acc + (curr.score || 0), 0);
-    return Math.round(sum / completed.length);
-  });
-  readonly totalTimeMinutes = computed(() => {
-    const totalSecs = this.attempts().reduce((acc, curr) => acc + (curr.timeSpentSeconds || 0), 0);
-    return Math.round(totalSecs / 60);
   });
 
   ngOnInit(): void {
@@ -119,5 +112,22 @@ export class RecentQuizzesComponent implements OnInit {
 
   retakeQuiz(attempt: AttemptSummary): void {
     this.router.navigate(['/quiz/play', attempt.quizId]);
+  }
+
+  isAttemptCompleted(status?: any): boolean {
+    return isAttemptCompleted(status);
+  }
+
+  isAttemptInProgress(status?: any): boolean {
+    return isAttemptInProgress(status);
+  }
+
+  getAccuracy(item: AttemptSummary | AttemptResult | null): number {
+    if (!item) return 0;
+    return calculateAccuracy(item.correctAnswers, item.totalQuestions, item.score);
+  }
+
+  isPassed(item: AttemptSummary | AttemptResult | null): boolean {
+    return this.getAccuracy(item) >= 70;
   }
 }
