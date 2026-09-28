@@ -18,8 +18,8 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
-  protected readonly identifier = signal<string>('alex.rider@heroacademy.edu');
-  protected readonly password = signal<string>('supersecretcipher123');
+  protected readonly identifier = signal<string>('');
+  protected readonly password = signal<string>('');
   protected readonly showPassword = signal<boolean>(false);
   protected readonly isLoading = signal<boolean>(false);
   protected readonly errorMessage = signal<string | null>(null);

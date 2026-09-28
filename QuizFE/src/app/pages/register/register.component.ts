@@ -18,14 +18,14 @@ export class RegisterComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
-  protected readonly firstName = signal<string>('Alex');
-  protected readonly lastName = signal<string>('Rider');
-  protected readonly username = signal<string>('quiz_champion_99');
-  protected readonly phone = signal<string>('+1 (555) 019-2834');
-  protected readonly email = signal<string>('alex.rider@heroacademy.edu');
-  protected readonly password = signal<string>('SuperSecret2025!');
-  protected readonly confirmPassword = signal<string>('SuperSecret2025!');
-  protected readonly agreeTerms = signal<boolean>(true);
+  protected readonly firstName = signal<string>('');
+  protected readonly lastName = signal<string>('');
+  protected readonly username = signal<string>('');
+  protected readonly phone = signal<string>('');
+  protected readonly email = signal<string>('');
+  protected readonly password = signal<string>('');
+  protected readonly confirmPassword = signal<string>('');
+  protected readonly agreeTerms = signal<boolean>(false);
 
   protected readonly showPassword = signal<boolean>(false);
   protected readonly showConfirmPassword = signal<boolean>(false);

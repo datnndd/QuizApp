@@ -30,9 +30,20 @@ describe('RegisterComponent', () => {
     expect(component['showConfirmPassword']()).toBe(true);
   });
 
+  it('should show error when required fields are empty on submit', () => {
+    const fixture = TestBed.createComponent(RegisterComponent);
+    const component = fixture.componentInstance;
+    component.onSubmit();
+    expect(component['errorMessage']()).toBe('Please fill out all required fields.');
+  });
+
   it('should validate passwords matching on submit', () => {
     const fixture = TestBed.createComponent(RegisterComponent);
     const component = fixture.componentInstance;
+    component['firstName'].set('Alex');
+    component['lastName'].set('Rider');
+    component['username'].set('quiz_champ');
+    component['email'].set('alex@example.com');
     component['password'].set('password123');
     component['confirmPassword'].set('differentPassword');
 

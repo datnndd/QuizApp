@@ -26,9 +26,7 @@
     </div>
 
     <!-- Right: Close Button -->
-    <button
-      type="button"
-      (click)="closeModal.emit()"
+    <button type="button" (click)="closeModal.emit()"
       class="pointer-events-auto mb-2 w-10 h-10 rounded-2xl bg-[#fffcf7] hover:bg-amber-100 active:bg-amber-200 border-2 border-[#272421] shadow-tactile flex items-center justify-center text-[#1e1b18] hover:rotate-90 transition-all cursor-pointer"
       aria-label="Close modal">
       <span class="material-symbols-outlined text-xl font-bold">close</span>
@@ -45,29 +43,31 @@
         LOG IN TO YOUR ACCOUNT
       </h1>
       <p class="text-stone-600 font-sans font-semibold text-xs sm:text-sm max-w-sm mx-auto">
-        Resume your quiz master quest!
+        Resume your quiz!
       </p>
     </div>
 
     <!-- Social Login -->
     <div class="mb-5">
       <button
-        class="w-full bg-[#fffcf7] hover:bg-amber-50 text-stone-900 font-sans font-bold text-sm sm:text-base py-3 px-4 rounded-xl comic-border-input comic-shadow-btn flex items-center justify-center gap-3 transition cursor-pointer"
+        class="relative w-full bg-[#fffcf7] hover:bg-amber-50 text-stone-900 font-sans font-bold text-sm sm:text-base py-3 px-4 rounded-xl comic-border-input comic-shadow-btn flex items-center justify-center transition cursor-pointer"
         type="button">
-        <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-          <path
-            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-            fill="#4285F4"></path>
-          <path
-            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-            fill="#34A853"></path>
-          <path
-            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-            fill="#FBBC05"></path>
-          <path
-            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-            fill="#EA4335"></path>
-        </svg>
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4"></path>
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853"></path>
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              fill="#FBBC05"></path>
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              fill="#EA4335"></path>
+          </svg>
+        </div>
         <span>Sign in with Google</span>
       </button>
     </div>
@@ -75,25 +75,27 @@
     <!-- Comic Divider -->
     <div class="relative flex items-center justify-center my-5">
       <div class="w-full border-t-2 border-dashed border-amber-200"></div>
-      <span class="absolute bg-[#fffdfa] px-3 text-[11px] font-sans font-extrabold uppercase tracking-widest text-amber-800">
-        ★ OR ENTER HERO CREDENTIALS ★
+      <span
+        class="absolute bg-[#fffdfa] px-3 text-[11px] font-sans font-extrabold uppercase tracking-widest text-amber-800">
+        ★ OR ENTER YOUR ACCOUNT ★
       </span>
     </div>
 
     <!-- LoginForm -->
     <form class="space-y-4" (ngSubmit)="onSubmit()">
       @if (errorMessage()) {
-        <div class="p-3 bg-orange-50 border-2 border-orange-500 rounded-xl text-orange-900 font-sans text-xs font-bold flex items-center gap-2 shadow-xs">
-          <span class="text-base">⚠️</span>
-          <span>{{ errorMessage() }}</span>
-        </div>
+      <div
+        class="p-3 bg-orange-50 border-2 border-orange-500 rounded-xl text-orange-900 font-sans text-xs font-bold flex items-center gap-2 shadow-xs">
+        <span class="text-base">⚠️</span>
+        <span>{{ errorMessage() }}</span>
+      </div>
       }
 
       <!-- Username or Email Field -->
       <div>
         <label class="block font-pill font-bold text-xs uppercase tracking-wider text-stone-900 mb-1.5"
           for="hero-identifier">
-          Hero Username or Email <span class="text-orange-600">*</span>
+          Username or Email <span class="text-orange-600">*</span>
         </label>
         <div class="relative rounded-xl">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
@@ -113,9 +115,8 @@
       <!-- Password Field -->
       <div>
         <div class="flex items-center justify-between mb-1.5">
-          <label class="block font-pill font-bold text-xs uppercase tracking-wider text-stone-900"
-            for="hero-password">
-            Hero Secret Password <span class="text-orange-600">*</span>
+          <label class="block font-pill font-bold text-xs uppercase tracking-wider text-stone-900" for="hero-password">
+            Password <span class="text-orange-600">*</span>
           </label>
         </div>
         <div class="relative rounded-xl">
@@ -148,7 +149,7 @@
       <div class="flex flex-wrap items-center justify-end gap-2 pt-0.5 pb-1">
         <a class="font-pill font-bold text-xs text-amber-700 hover:text-amber-900 underline decoration-2 underline-offset-2"
           href="#">
-          Forgot Secret Cipher?
+          Forgot Password?
         </a>
       </div>
 
@@ -156,13 +157,12 @@
       <div class="pt-1">
         <button
           class="w-full py-3.5 px-6 rounded-2xl comic-border-thick comic-shadow-btn bg-gradient-to-r from-orange-600 via-amber-600 to-amber-500 text-white font-display text-lg sm:text-xl tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-          [disabled]="isLoading()"
-          type="submit">
+          [disabled]="isLoading()" type="submit">
           @if (isLoading()) {
-            <span>AUTHENTICATING...</span>
+          <span>AUTHENTICATING...</span>
           } @else {
-            <span>ENTER THE QUIZZO ARENA</span>
-            <span class="text-lg">💥</span>
+          <span>ENTER THE QUIZZO</span>
+          <span class="text-lg">💥</span>
           }
         </button>
       </div>
@@ -171,12 +171,10 @@
     <!-- Bottom Switcher to Register -->
     <div
       class="mt-6 pt-5 border-t-2 border-dashed border-amber-200 flex flex-wrap items-center justify-center gap-2 text-center">
-      <span class="font-sans font-bold text-xs text-stone-900">★ New recruit ready to join Quizzo?</span>
-      <button
-        type="button"
-        (click)="switchToRegister.emit()"
+      <span class="font-sans font-bold text-xs text-stone-900">★ New user ready to join Quizzo?</span>
+      <button type="button" (click)="switchToRegister.emit()"
         class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-pill font-extrabold text-xs px-3.5 py-1 rounded-full border-2 border-stone-900 transition inline-flex items-center gap-1.5 shadow-sm cursor-pointer">
-        <span>ENLIST NOW</span>
+        <span>REGISTER NOW</span>
         <span>→</span>
       </button>
       <span class="text-stone-900 font-sans font-bold text-xs">★</span>
