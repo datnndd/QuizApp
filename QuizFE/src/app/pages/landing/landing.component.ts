@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -8,7 +8,7 @@ export interface QuizOptionFeedback {
   desc: string;
   icon: string;
   correct: boolean;
-  xp: string;
+  xp?: string;
   badge: string;
 }
 
@@ -31,12 +31,9 @@ export interface StarterDeck {
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
-export class LandingComponent implements OnInit, OnDestroy {
+export class LandingComponent {
   // Interactive Hero Quiz State
   protected readonly selectedOption = signal<'A' | 'B' | 'C'>('A');
-  protected readonly timerDisplay = signal<string>('00:24');
-  private timerInterval: ReturnType<typeof setInterval> | null = null;
-  private secondsLeft = 24;
 
   // Preview Modal State
   protected readonly previewModalOpen = signal<boolean>(false);
@@ -127,24 +124,6 @@ export class LandingComponent implements OnInit, OnDestroy {
       ]
     }
   ];
-
-  ngOnInit(): void {
-    this.timerInterval = setInterval(() => {
-      if (this.secondsLeft > 0) {
-        this.secondsLeft--;
-      } else {
-        this.secondsLeft = 30;
-      }
-      const formatted = `00:${this.secondsLeft < 10 ? '0' : ''}${this.secondsLeft}`;
-      this.timerDisplay.set(formatted);
-    }, 1000);
-  }
-
-  ngOnDestroy(): void {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
-    }
-  }
 
   selectOption(option: 'A' | 'B' | 'C'): void {
     this.selectedOption.set(option);
