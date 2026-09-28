@@ -1,6 +1,9 @@
-import { Component, signal, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal, computed, inject, OnInit, HostListener } from '@angular/core';
+import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs';
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
 
 export interface QuizOptionFeedback {
   speech: string;
@@ -27,17 +30,73 @@ export interface StarterDeck {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LoginComponent, RegisterComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
+  private readonly router = inject(Router);
+
+  // Auth Modal State: 'login' | 'register' | null
+  readonly authModal = signal<'login' | 'register' | null>(null);
+
   // Interactive Hero Quiz State
   protected readonly selectedOption = signal<'A' | 'B' | 'C'>('A');
 
   // Preview Modal State
   protected readonly previewModalOpen = signal<boolean>(false);
   protected readonly previewDeck = signal<StarterDeck | null>(null);
+
+  ngOnInit(): void {
+    this.syncAuthModalFromUrl(this.router.url);
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.syncAuthModalFromUrl(event.urlAfterRedirects || event.url);
+      });
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    if (this.authModal() !== null) {
+      this.closeAuthModal();
+    } else if (this.previewModalOpen()) {
+      this.closePreview();
+    }
+  }
+
+  private syncAuthModalFromUrl(url: string): void {
+    const cleanPath = url.split('?')[0].split('#')[0];
+    if (cleanPath === '/login') {
+      this.authModal.set('login');
+    } else if (cleanPath === '/register') {
+      this.authModal.set('register');
+    } else {
+      this.authModal.set(null);
+    }
+  }
+
+  openLogin(): void {
+    this.authModal.set('login');
+    if (this.router.url !== '/login') {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  openRegister(): void {
+    this.authModal.set('register');
+    if (this.router.url !== '/register') {
+      this.router.navigate(['/register']);
+    }
+  }
+
+  closeAuthModal(): void {
+    this.authModal.set(null);
+    if (this.router.url === '/login' || this.router.url === '/register') {
+      this.router.navigate(['/']);
+    }
+  }
 
   protected readonly optionData: Record<'A' | 'B' | 'C', QuizOptionFeedback> = {
     A: {

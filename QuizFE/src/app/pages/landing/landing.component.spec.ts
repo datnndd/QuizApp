@@ -1,12 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { LandingComponent } from './landing.component';
 
 describe('LandingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LandingComponent],
-      providers: [provideRouter([])]
+      providers: [
+        provideRouter([
+          { path: '', component: LandingComponent },
+          { path: 'login', component: LandingComponent },
+          { path: 'register', component: LandingComponent }
+        ]),
+        provideHttpClient()
+      ]
     }).compileComponents();
   });
 
@@ -38,5 +46,30 @@ describe('LandingComponent', () => {
 
     component.closePreview();
     expect(component['previewModalOpen']()).toBe(false);
+  });
+
+  it('should open login, register, and close auth modal', async () => {
+    const fixture = TestBed.createComponent(LandingComponent);
+    const component = fixture.componentInstance;
+    expect(component.authModal()).toBeNull();
+
+    component.openLogin();
+    expect(component.authModal()).toBe('login');
+
+    component.openRegister();
+    expect(component.authModal()).toBe('register');
+
+    component.closeAuthModal();
+    expect(component.authModal()).toBeNull();
+  });
+
+  it('should close auth modal on escape key press', () => {
+    const fixture = TestBed.createComponent(LandingComponent);
+    const component = fixture.componentInstance;
+    component.openLogin();
+    expect(component.authModal()).toBe('login');
+
+    component.onEscapeKey();
+    expect(component.authModal()).toBeNull();
   });
 });

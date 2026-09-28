@@ -1,401 +1,423 @@
-<!-- 1. ULTRA-MINIMAL TOP BAR -->
-<header class="sticky top-0 z-40 w-full bg-[#faf8f5]/85 backdrop-blur-md border-b border-[#e8e3d8]/60 px-4 sm:px-8">
-  <div class="max-w-6xl mx-auto h-20 flex items-center justify-between">
-    <!-- Brand with Mini Mascot Emblem -->
-    <a routerLink="/" class="flex items-center gap-3 group">
-      <div
-        class="w-11 h-11 rounded-2xl bg-amber-600 flex items-center justify-center shadow-tactile border-2 border-[#272421] relative group-hover:scale-105 transition-transform">
-        <!-- Mascot Emblem: Mini Sparky Robot/Beanie -->
-        <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 32 32">
-          <rect fill="white" height="18" rx="8" stroke="#272421" stroke-width="2" width="22" x="5" y="9"></rect>
-          <circle cx="11" cy="17" fill="#272421" r="2.5"></circle>
-          <circle cx="21" cy="17" fill="#272421" r="2.5"></circle>
-          <path d="M13 21C14 22.5 18 22.5 19 21" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
-          <path d="M16 4V9" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
-          <circle cx="16" cy="4" fill="#fef08a" r="2.5" stroke="#272421" stroke-width="1.5"></circle>
-          <circle cx="8" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
-          <circle cx="24" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
-        </svg>
-      </div>
-      <div class="flex flex-col">
-        <span class="font-headline font-black text-xl tracking-tight leading-none text-[#1e1b18]">Quizzo</span>
-        <span class="text-[10px] font-headline font-bold text-amber-600 uppercase tracking-widest mt-0.5">Focus
-          Studio</span>
-      </div>
-    </a>
+<!-- SURROUNDING LANDING PAGE CONTENT (BLURS WHEN AUTH MODAL IS OPEN) -->
+<div class="relative transition-all duration-300 ease-out min-h-screen flex flex-col"
+  [class.filter]="authModal() !== null"
+  [class.blur-sm]="authModal() !== null"
+  [class.scale-[0.995]]="authModal() !== null"
+  [class.pointer-events-none]="authModal() !== null"
+  [attr.aria-hidden]="authModal() !== null">
 
-    <!-- Compact Navigation -->
-    <nav class="hidden md:flex items-center gap-8 font-headline font-semibold text-sm text-[#6b665f]">
-      <a class="hover:text-[#1e1b18] transition-colors" href="#decks">Decks</a>
-      <a class="hover:text-[#1e1b18] transition-colors" href="#why">Why It Works</a>
-      <a routerLink="/login" class="hover:text-[#1e1b18] transition-colors">Sign In</a>
-      <a routerLink="/register" class="hover:text-[#1e1b18] transition-colors">Create Account</a>
-    </nav>
-
-    <!-- Minimal CTA -->
-    <div class="flex items-center gap-3">
-      <a routerLink="/login"
-        class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl font-headline font-bold text-xs sm:text-sm bg-amber-600 text-white border-2 border-[#272421] shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover active:translate-y-1 transition-all">
-        <span>Start Practice</span>
-        <span class="material-symbols-outlined text-base">arrow_forward</span>
-      </a>
-    </div>
-  </div>
-</header>
-
-<main class="w-full">
-  <!-- 2. HERO: ULTRA-TIGHT HEADLINE + INTERACTIVE QUIZ & CUTE STUDY GUIDE -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-16 pb-16 sm:pb-24">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-      <!-- Left: Extreme Clarity 3-Line Title -->
-      <div class="lg:col-span-6 flex flex-col items-start text-left">
-        <!-- Cute Mascot Badge -->
+  <!-- 1. ULTRA-MINIMAL TOP BAR -->
+  <header class="sticky top-0 z-40 w-full bg-[#faf8f5]/85 backdrop-blur-md border-b border-[#e8e3d8]/60 px-4 sm:px-8">
+    <div class="max-w-6xl mx-auto h-20 flex items-center justify-between">
+      <!-- Brand with Mini Mascot Emblem -->
+      <a routerLink="/" class="flex items-center gap-3 group">
         <div
-          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border-2 border-[#272421] shadow-sm mb-6">
-          <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-          <span class="font-headline font-bold text-xs text-[#1e1b18]">5-minute active recall sprints</span>
+          class="w-11 h-11 rounded-2xl bg-amber-600 flex items-center justify-center shadow-tactile border-2 border-[#272421] relative group-hover:scale-105 transition-transform">
+          <!-- Mascot Emblem: Mini Sparky Robot/Beanie -->
+          <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 32 32">
+            <rect fill="white" height="18" rx="8" stroke="#272421" stroke-width="2" width="22" x="5" y="9"></rect>
+            <circle cx="11" cy="17" fill="#272421" r="2.5"></circle>
+            <circle cx="21" cy="17" fill="#272421" r="2.5"></circle>
+            <path d="M13 21C14 22.5 18 22.5 19 21" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+            <path d="M16 4V9" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+            <circle cx="16" cy="4" fill="#fef08a" r="2.5" stroke="#272421" stroke-width="1.5"></circle>
+            <circle cx="8" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
+            <circle cx="24" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
+          </svg>
         </div>
-
-        <h1
-          class="font-headline text-5xl sm:text-6xl lg:text-[68px] font-black tracking-tight leading-[1.05] text-[#1e1b18] mb-6">
-          Think.<br>
-          Test.<br>
-          <span
-            class="text-amber-600 underline decoration-amber-600/30 decoration-wavy decoration-4 underline-offset-8">Master</span>.
-        </h1>
-
-        <p class="font-headline text-base sm:text-lg text-[#6b665f] font-medium max-w-md mb-8 leading-snug">
-          Science-backed bite-sized recall without study burnout. Zero ads, zero fluff.
-        </p>
-
-        <!-- Dual Button Action -->
-        <div class="flex flex-wrap items-center gap-3.5 w-full sm:w-auto mb-8">
-          <a routerLink="/register"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-amber-600 text-white font-headline font-extrabold text-sm sm:text-base border-2 border-[#272421] shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover transition-all">
-            <span>Try a 2-min Quiz</span>
-            <span class="material-symbols-outlined text-lg">bolt</span>
-          </a>
-          <a href="#decks"
-            class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white text-[#1e1b18] font-headline font-bold text-sm sm:text-base border-2 border-[#272421] shadow-tactile hover:bg-[#f7f4ed] hover:translate-y-0.5 hover:shadow-tactile-hover transition-all">
-            <span>Explore Decks</span>
-          </a>
+        <div class="flex flex-col">
+          <span class="font-headline font-black text-xl tracking-tight leading-none text-[#1e1b18]">Quizzo</span>
+          <span class="text-[10px] font-headline font-bold text-amber-600 uppercase tracking-widest mt-0.5">Focus
+            Studio</span>
         </div>
+      </a>
 
-        <!-- Micro Social Proof -->
-        <div class="flex items-center gap-3 text-xs font-headline font-semibold text-[#6b665f]">
-          <div class="flex -space-x-1.5">
-            <span
-              class="w-6 h-6 rounded-full bg-amber-100 border border-[#272421] flex items-center justify-center text-[10px]">🦊</span>
-            <span
-              class="w-6 h-6 rounded-full bg-blue-100 border border-[#272421] flex items-center justify-center text-[10px]">🚀</span>
-            <span
-              class="w-6 h-6 rounded-full bg-emerald-100 border border-[#272421] flex items-center justify-center text-[10px]">🦉</span>
+      <!-- Compact Navigation -->
+      <nav class="hidden md:flex items-center gap-8 font-headline font-semibold text-sm text-[#6b665f]">
+        <a class="hover:text-[#1e1b18] transition-colors" href="#decks">Decks</a>
+        <a class="hover:text-[#1e1b18] transition-colors" href="#why">Why It Works</a>
+        <button type="button" (click)="openLogin()" class="hover:text-[#1e1b18] transition-colors cursor-pointer font-headline font-semibold text-sm">Sign In</button>
+        <button type="button" (click)="openRegister()" class="hover:text-[#1e1b18] transition-colors cursor-pointer font-headline font-semibold text-sm">Create Account</button>
+      </nav>
+
+      <!-- Minimal CTA -->
+      <div class="flex items-center gap-3">
+        <button type="button" (click)="openLogin()"
+          class="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-xl font-headline font-bold text-xs sm:text-sm bg-amber-600 text-white border-2 border-[#272421] shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover active:translate-y-1 transition-all cursor-pointer">
+          <span>Start Practice</span>
+          <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full flex-1">
+    <!-- 2. HERO: ULTRA-TIGHT HEADLINE + INTERACTIVE QUIZ & CUTE STUDY GUIDE -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-16 pb-16 sm:pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <!-- Left: Extreme Clarity 3-Line Title -->
+        <div class="lg:col-span-6 flex flex-col items-start text-left">
+          <!-- Cute Mascot Badge -->
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border-2 border-[#272421] shadow-sm mb-6">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            <span class="font-headline font-bold text-xs text-[#1e1b18]">5-minute active recall sprints</span>
           </div>
-          <span>Over 240,000 active daily recallers</span>
+
+          <h1
+            class="font-headline text-5xl sm:text-6xl lg:text-[68px] font-black tracking-tight leading-[1.05] text-[#1e1b18] mb-6">
+            Think.<br>
+            Test.<br>
+            <span
+              class="text-amber-600 underline decoration-amber-600/30 decoration-wavy decoration-4 underline-offset-8">Master</span>.
+          </h1>
+
+          <p class="font-headline text-base sm:text-lg text-[#6b665f] font-medium max-w-md mb-8 leading-snug">
+            Science-backed bite-sized recall without study burnout. Zero ads, zero fluff.
+          </p>
+
+          <!-- Dual Button Action -->
+          <div class="flex flex-wrap items-center gap-3.5 w-full sm:w-auto mb-8">
+            <button type="button" (click)="openRegister()"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-amber-600 text-white font-headline font-extrabold text-sm sm:text-base border-2 border-[#272421] shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover transition-all cursor-pointer">
+              <span>Try a 2-min Quiz</span>
+              <span class="material-symbols-outlined text-lg">bolt</span>
+            </button>
+            <a href="#decks"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-white text-[#1e1b18] font-headline font-bold text-sm sm:text-base border-2 border-[#272421] shadow-tactile hover:bg-[#f7f4ed] hover:translate-y-0.5 hover:shadow-tactile-hover transition-all cursor-pointer">
+              <span>Explore Decks</span>
+            </a>
+          </div>
+
+          <!-- Micro Social Proof -->
+          <div class="flex items-center gap-3 text-xs font-headline font-semibold text-[#6b665f]">
+            <div class="flex -space-x-1.5">
+              <span
+                class="w-6 h-6 rounded-full bg-amber-100 border border-[#272421] flex items-center justify-center text-[10px]">🦊</span>
+              <span
+                class="w-6 h-6 rounded-full bg-blue-100 border border-[#272421] flex items-center justify-center text-[10px]">🚀</span>
+              <span
+                class="w-6 h-6 rounded-full bg-emerald-100 border border-[#272421] flex items-center justify-center text-[10px]">🦉</span>
+            </div>
+            <span>Over 240,000 active daily recallers</span>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Quiz Preview with Floating Mascot Guide -->
+        <div class="lg:col-span-6 relative">
+          <!-- FLOATING CHARACTER GUIDE: "Leo the Cosmic Owl / Fox" -->
+          <div class="absolute -top-10 -right-2 sm:-right-4 z-20 animate-bob flex items-center gap-2.5">
+            <!-- Speech bubble -->
+            <div
+              class="bg-white border-2 border-[#272421] px-3 py-1.5 rounded-2xl shadow-tactile text-xs font-headline font-extrabold text-[#1e1b18] flex items-center gap-1.5">
+              <span>{{ currentFeedback().speech }}</span>
+            </div>
+            <!-- Custom Illustrated Mascot Emblem -->
+            <div
+              class="w-14 h-14 rounded-2xl bg-[#fef3c7] border-2 border-[#272421] shadow-tactile flex items-center justify-center shrink-0">
+              <svg class="w-10 h-10" fill="none" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" fill="#f59e0b" r="14" stroke="#272421" stroke-width="2"></circle>
+                <polygon fill="#d97706" points="8,8 14,14 7,16" stroke="#272421" stroke-width="1.5"></polygon>
+                <polygon fill="#d97706" points="28,8 22,14 29,16" stroke="#272421" stroke-width="1.5"></polygon>
+                <path d="M7 19C11 18 13 22 13 25C10 26 7 24 7 19Z" fill="white"></path>
+                <path d="M29 19C25 18 23 22 23 25C26 26 29 24 29 19Z" fill="white"></path>
+                <circle cx="14" cy="17" fill="none" r="3.5" stroke="#272421" stroke-width="1.5"></circle>
+                <circle cx="22" cy="17" fill="none" r="3.5" stroke="#272421" stroke-width="1.5"></circle>
+                <line stroke="#272421" stroke-width="1.5" x1="17.5" x2="18.5" y1="17" y2="17"></line>
+                <circle cx="14" cy="17" fill="#272421" r="1.5"></circle>
+                <circle cx="22" cy="17" fill="#272421" r="1.5"></circle>
+                <polygon fill="#272421" points="18,21 16.5,23 19.5,23"></polygon>
+                <polygon fill="#272421" points="18,4 25,8 18,11 11,8"></polygon>
+                <line stroke="#f59e0b" stroke-width="1.5" x1="18" x2="26" y1="11" y2="13"></line>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Interactive Card -->
+          <div class="bg-white rounded-3xl border-2 border-[#272421] p-6 sm:p-7 shadow-tactile relative z-10">
+            <div class="flex items-center justify-between pb-4 border-b border-[#e8e3d8] mb-5">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
+                <span class="font-headline font-bold text-xs uppercase tracking-wider text-amber-600">Daily Question 3 of
+                  5</span>
+              </div>
+            </div>
+
+            <h2 class="font-headline text-lg sm:text-xl font-extrabold text-[#1e1b18] leading-snug mb-5">
+              Which planet in our solar system has the greatest number of confirmed moons?
+            </h2>
+
+            <div class="space-y-2.5 mb-5">
+              <!-- Option A: Correct -->
+              <button type="button" (click)="selectOption('A')"
+                [class]="selectedOption() === 'A'
+                  ? 'w-full p-3.5 rounded-2xl bg-[#fffbeb] border-2 border-amber-600 flex items-center justify-between font-headline font-bold text-sm text-[#1e1b18] transition-all shadow-sm cursor-pointer'
+                  : 'w-full p-3.5 rounded-2xl bg-white hover:bg-[#f7f4ed] border-2 border-[#e8e3d8] flex items-center justify-between font-headline font-semibold text-sm text-[#1e1b18] transition-all cursor-pointer'">
+                <div class="flex items-center gap-3">
+                  <span
+                    [class]="selectedOption() === 'A'
+                    ? 'w-7 h-7 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black text-xs border border-[#272421]'
+                    : 'w-7 h-7 rounded-xl bg-[#f7f4ed] text-[#6b665f] flex items-center justify-center font-bold text-xs border border-[#e8e3d8]'">A</span>
+                  <span>Saturn</span>
+                </div>
+                <span *ngIf="selectedOption() === 'A'"
+                  class="w-6 h-6 rounded-lg bg-amber-600 text-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-sm font-black">check</span>
+                </span>
+                <span *ngIf="selectedOption() !== 'A'" class="w-5 h-5 rounded-full border border-[#e8e3d8]"></span>
+              </button>
+
+              <!-- Option B -->
+              <button type="button" (click)="selectOption('B')"
+                [class]="selectedOption() === 'B'
+                  ? 'w-full p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-400 flex items-center justify-between font-headline font-bold text-sm text-[#1e1b18] transition-all shadow-sm cursor-pointer'
+                  : 'w-full p-3.5 rounded-2xl bg-white hover:bg-[#f7f4ed] border-2 border-[#e8e3d8] flex items-center justify-between font-headline font-semibold text-sm text-[#1e1b18] transition-all cursor-pointer'">
+                <div class="flex items-center gap-3">
+                  <span
+                    [class]="selectedOption() === 'B'
+                    ? 'w-7 h-7 rounded-xl bg-[#1e1b18] text-white flex items-center justify-center font-bold text-xs border border-[#272421]'
+                    : 'w-7 h-7 rounded-xl bg-[#f7f4ed] text-[#6b665f] flex items-center justify-center font-bold text-xs border border-[#e8e3d8]'">B</span>
+                  <span>Jupiter</span>
+                </div>
+                <span *ngIf="selectedOption() === 'B'"
+                  class="w-6 h-6 rounded-lg bg-[#1e1b18] text-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-sm font-black">close</span>
+                </span>
+                <span *ngIf="selectedOption() !== 'B'" class="w-5 h-5 rounded-full border border-[#e8e3d8]"></span>
+              </button>
+
+              <!-- Option C -->
+              <button type="button" (click)="selectOption('C')"
+                [class]="selectedOption() === 'C'
+                  ? 'w-full p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-400 flex items-center justify-between font-headline font-bold text-sm text-[#1e1b18] transition-all shadow-sm cursor-pointer'
+                  : 'w-full p-3.5 rounded-2xl bg-white hover:bg-[#f7f4ed] border-2 border-[#e8e3d8] flex items-center justify-between font-headline font-semibold text-sm text-[#1e1b18] transition-all cursor-pointer'">
+                <div class="flex items-center gap-3">
+                  <span
+                    [class]="selectedOption() === 'C'
+                    ? 'w-7 h-7 rounded-xl bg-[#1e1b18] text-white flex items-center justify-center font-bold text-xs border border-[#272421]'
+                    : 'w-7 h-7 rounded-xl bg-[#f7f4ed] text-[#6b665f] flex items-center justify-center font-bold text-xs border border-[#e8e3d8]'">C</span>
+                  <span>Neptune</span>
+                </div>
+                <span *ngIf="selectedOption() === 'C'"
+                  class="w-6 h-6 rounded-lg bg-[#1e1b18] text-white flex items-center justify-center">
+                  <span class="material-symbols-outlined text-sm font-black">close</span>
+                </span>
+                <span *ngIf="selectedOption() !== 'C'" class="w-5 h-5 rounded-full border border-[#e8e3d8]"></span>
+              </button>
+            </div>
+
+            <!-- Instant Feedback Panel -->
+            <div class="p-3.5 rounded-2xl bg-[#f7f4ed] border border-[#e8e3d8] flex items-start gap-3">
+              <div
+                [class]="currentFeedback().correct
+                ? 'w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 mt-0.5 font-bold'
+                : 'w-8 h-8 rounded-xl bg-[#1e1b18] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold'">
+                <span class="material-symbols-outlined text-base">{{ currentFeedback().icon }}</span>
+              </div>
+              <div>
+                <p class="font-headline text-xs font-extrabold text-[#1e1b18]">{{ currentFeedback().title }}</p>
+                <p class="font-body text-xs text-[#6b665f] mt-0.5">{{ currentFeedback().desc }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Right: Interactive Quiz Preview with Floating Mascot Guide -->
-      <div class="lg:col-span-6 relative">
-        <!-- FLOATING CHARACTER GUIDE: "Leo the Cosmic Owl / Fox" -->
-        <div class="absolute -top-10 -right-2 sm:-right-4 z-20 animate-bob flex items-center gap-2.5">
-          <!-- Speech bubble -->
+    <!-- 3. 'WHY QUIZZO' COMPRESSED INTO 3 STAT CHIPS WITH MASCOT ICONS -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10" id="why">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Chip 1: Cheerful Clock Mascot -->
+        <div
+          class="bg-white rounded-2xl border-2 border-[#272421] p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
           <div
-            class="bg-white border-2 border-[#272421] px-3 py-1.5 rounded-2xl shadow-tactile text-xs font-headline font-extrabold text-[#1e1b18] flex items-center gap-1.5">
-            <span>{{ currentFeedback().speech }}</span>
-          </div>
-          <!-- Custom Illustrated Mascot Emblem -->
-          <div
-            class="w-14 h-14 rounded-2xl bg-[#fef3c7] border-2 border-[#272421] shadow-tactile flex items-center justify-center shrink-0">
-            <svg class="w-10 h-10" fill="none" viewBox="0 0 36 36">
-              <circle cx="18" cy="18" fill="#f59e0b" r="14" stroke="#272421" stroke-width="2"></circle>
-              <polygon fill="#d97706" points="8,8 14,14 7,16" stroke="#272421" stroke-width="1.5"></polygon>
-              <polygon fill="#d97706" points="28,8 22,14 29,16" stroke="#272421" stroke-width="1.5"></polygon>
-              <path d="M7 19C11 18 13 22 13 25C10 26 7 24 7 19Z" fill="white"></path>
-              <path d="M29 19C25 18 23 22 23 25C26 26 29 24 29 19Z" fill="white"></path>
-              <circle cx="14" cy="17" fill="none" r="3.5" stroke="#272421" stroke-width="1.5"></circle>
-              <circle cx="22" cy="17" fill="none" r="3.5" stroke="#272421" stroke-width="1.5"></circle>
-              <line stroke="#272421" stroke-width="1.5" x1="17.5" x2="18.5" y1="17" y2="17"></line>
-              <circle cx="14" cy="17" fill="#272421" r="1.5"></circle>
-              <circle cx="22" cy="17" fill="#272421" r="1.5"></circle>
-              <polygon fill="#272421" points="18,21 16.5,23 19.5,23"></polygon>
-              <polygon fill="#272421" points="18,4 25,8 18,11 11,8"></polygon>
-              <line stroke="#f59e0b" stroke-width="1.5" x1="18" x2="26" y1="11" y2="13"></line>
+            class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-[#272421] flex items-center justify-center shrink-0">
+            <svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
+              <circle cx="16" cy="16" fill="#fef3c7" r="12" stroke="#272421" stroke-width="2"></circle>
+              <circle cx="12" cy="14" fill="#272421" r="1.5"></circle>
+              <circle cx="20" cy="14" fill="#272421" r="1.5"></circle>
+              <path d="M13 18C14 20 18 20 19 18" stroke="#272421" stroke-linecap="round" stroke-width="1.8"></path>
+              <line stroke="#d97706" stroke-linecap="round" stroke-width="2" x1="16" x2="16" y1="16" y2="10"></line>
+              <line stroke="#d97706" stroke-linecap="round" stroke-width="2" x1="16" x2="20" y1="16" y2="16"></line>
+              <path d="M8 8L6 6" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+              <path d="M24 8L26 6" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
             </svg>
           </div>
-        </div>
-
-        <!-- Interactive Card -->
-        <div class="bg-white rounded-3xl border-2 border-[#272421] p-6 sm:p-7 shadow-tactile relative z-10">
-          <div class="flex items-center justify-between pb-4 border-b border-[#e8e3d8] mb-5">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
-              <span class="font-headline font-bold text-xs uppercase tracking-wider text-amber-600">Daily Question 3 of
-                5</span>
+          <div>
+            <div class="font-headline font-black text-xl text-[#1e1b18]">5 Min Sprints</div>
+            <div class="font-headline text-xs font-semibold text-[#6b665f] mt-0.5">Quick sessions built for busy days.
             </div>
           </div>
+        </div>
 
-          <h2 class="font-headline text-lg sm:text-xl font-extrabold text-[#1e1b18] leading-snug mb-5">
-            Which planet in our solar system has the greatest number of confirmed moons?
+        <!-- Chip 2: Cosmic Astronaut Learner -->
+        <div
+          class="bg-white rounded-2xl border-2 border-[#272421] p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
+          <div
+            class="w-14 h-14 rounded-2xl bg-blue-100 border-2 border-[#272421] flex items-center justify-center shrink-0">
+            <svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
+              <rect fill="#dbeafe" height="16" rx="8" stroke="#272421" stroke-width="2" width="18" x="7" y="8"></rect>
+              <rect fill="#3b82f6" height="7" rx="3.5" stroke="#272421" stroke-width="1.5" width="12" x="10" y="11">
+              </rect>
+              <circle cx="13" cy="13" fill="white" r="1"></circle>
+              <line stroke="#272421" stroke-width="2" x1="16" x2="16" y1="4" y2="8"></line>
+              <circle cx="16" cy="4" fill="#f59e0b" r="1.5"></circle>
+              <circle cx="16" cy="20" fill="#10b981" r="1.5"></circle>
+            </svg>
+          </div>
+          <div>
+            <div class="font-headline font-black text-xl text-[#1e1b18]">Zero Ads</div>
+            <div class="font-headline text-xs font-semibold text-[#6b665f] mt-0.5">Pure focus with verified explanations.
+            </div>
+          </div>
+        </div>
+
+        <!-- Chip 3: Curious Fox Scholar -->
+        <div
+          class="bg-white rounded-2xl border-2 border-[#272421] p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
+          <div
+            class="w-14 h-14 rounded-2xl bg-emerald-100 border-2 border-[#272421] flex items-center justify-center shrink-0">
+            <svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
+              <path d="M11 12C9 12 7 14 7 17C7 20 9 22 11 22C11 24 13 25 15 25V9C13 9 11 10 11 12Z" fill="#d1fae5"
+                stroke="#272421" stroke-width="1.8"></path>
+              <path d="M21 12C23 12 25 14 25 17C25 20 23 22 21 22C21 24 19 25 17 25V9C19 9 21 10 21 12Z" fill="#d1fae5"
+                stroke="#272421" stroke-width="1.8"></path>
+              <path d="M16 4L17 7L20 8L17 9L16 12L15 9L12 8L15 7L16 4Z" fill="#f59e0b"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="font-headline font-black text-xl text-[#1e1b18]">98% Recall</div>
+            <div class="font-headline text-xs font-semibold text-[#6b665f] mt-0.5">Proven spaced repetition algorithms.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MINIMALIST 3-CARD DECK SPOTLIGHT WITH ILLUSTRATED CHARACTER EMBLEMS -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-8 py-14" id="decks">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <span class="text-xs font-headline font-black text-amber-600 uppercase tracking-widest">Instant Play</span>
+          <h2 class="font-headline text-3xl sm:text-4xl font-black text-[#1e1b18] mt-1 tracking-tight">Popular Starter
+            Decks</h2>
+        </div>
+        <a routerLink="/dashboard"
+          class="hidden sm:inline-flex items-center gap-1 text-xs font-headline font-extrabold text-[#1e1b18] hover:text-amber-600 transition-colors">
+          <span>View all in Dashboard</span>
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div *ngFor="let deck of decks"
+          class="bg-white rounded-3xl border-2 border-[#272421] p-6 shadow-tactile flex flex-col justify-between group hover:-translate-y-1 transition-all">
+          <div>
+            <!-- Mascot Header Image -->
+            <div class="relative w-full h-40 rounded-xl overflow-hidden mb-4 border border-[#e8e3d8]">
+              <img [src]="deck.imageUrl" [alt]="deck.title"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <div class="text-xs font-headline font-bold text-amber-600 mb-1">{{ deck.category }}</div>
+            <h3 class="font-headline text-xl font-black text-[#1e1b18] mb-2">{{ deck.title }}</h3>
+            <p class="font-body text-xs text-[#6b665f] leading-relaxed mb-6">
+              {{ deck.description }}
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button type="button" (click)="openPreview(deck)"
+              class="w-1/2 py-3 rounded-2xl bg-[#f7f4ed] hover:bg-white text-[#1e1b18] font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1 border-2 border-[#272421] shadow-tactile hover:shadow-tactile-hover transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-sm">visibility</span>
+              <span>Preview</span>
+            </button>
+            <button type="button" (click)="openLogin()"
+              class="w-1/2 py-3 rounded-2xl bg-amber-600 text-white font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 border-2 border-[#272421] shadow-tactile hover:bg-amber-700 transition-all cursor-pointer">
+              <span>Start</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. MINIMALIST FINAL CALL-TO-ACTION WITH MASCOT DUO -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-8 py-12">
+      <div
+        class="bg-white rounded-3xl border-2 border-[#272421] p-8 sm:p-14 shadow-tactile text-center relative overflow-hidden">
+        <!-- Floating Mascot Left -->
+        <div class="hidden sm:block absolute left-8 top-1/2 -translate-y-1/2 animate-bob">
+          <div
+            class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-[#272421] flex items-center justify-center shadow-sm">
+            <span class="text-3xl">🦊</span>
+          </div>
+        </div>
+
+        <!-- Floating Mascot Right -->
+        <div class="hidden sm:block absolute right-8 top-1/2 -translate-y-1/2 animate-bob" style="animation-delay: -2s;">
+          <div
+            class="w-16 h-16 rounded-2xl bg-blue-100 border-2 border-[#272421] flex items-center justify-center shadow-sm">
+            <span class="text-3xl">🚀</span>
+          </div>
+        </div>
+
+        <div class="max-w-md mx-auto relative z-10 flex flex-col items-center">
+          <span
+            class="px-3 py-1 rounded-full bg-[#fffbeb] text-amber-600 font-headline font-black text-xs border border-amber-600/30 uppercase tracking-widest mb-4">
+            Zero Onboarding Friction
+          </span>
+          <h2 class="font-headline text-3xl sm:text-4xl font-black text-[#1e1b18] tracking-tight mb-3">
+            Start your daily streak.
           </h2>
-
-          <div class="space-y-2.5 mb-5">
-            <!-- Option A: Correct -->
-            <button type="button" (click)="selectOption('A')"
-              [class]="selectedOption() === 'A'
-                ? 'w-full p-3.5 rounded-2xl bg-[#fffbeb] border-2 border-amber-600 flex items-center justify-between font-headline font-bold text-sm text-[#1e1b18] transition-all shadow-sm'
-                : 'w-full p-3.5 rounded-2xl bg-white hover:bg-[#f7f4ed] border-2 border-[#e8e3d8] flex items-center justify-between font-headline font-semibold text-sm text-[#1e1b18] transition-all'">
-              <div class="flex items-center gap-3">
-                <span
-                  [class]="selectedOption() === 'A'
-                  ? 'w-7 h-7 rounded-xl bg-amber-600 text-white flex items-center justify-center font-black text-xs border border-[#272421]'
-                  : 'w-7 h-7 rounded-xl bg-[#f7f4ed] text-[#6b665f] flex items-center justify-center font-bold text-xs border border-[#e8e3d8]'">A</span>
-                <span>Saturn</span>
-              </div>
-              <span *ngIf="selectedOption() === 'A'"
-                class="w-6 h-6 rounded-lg bg-amber-600 text-white flex items-center justify-center">
-                <span class="material-symbols-outlined text-sm font-black">check</span>
-              </span>
-              <span *ngIf="selectedOption() !== 'A'" class="w-5 h-5 rounded-full border border-[#e8e3d8]"></span>
-            </button>
-
-            <!-- Option B -->
-            <button type="button" (click)="selectOption('B')"
-              [class]="selectedOption() === 'B'
-                ? 'w-full p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-400 flex items-center justify-between font-headline font-bold text-sm text-[#1e1b18] transition-all shadow-sm'
-                : 'w-full p-3.5 rounded-2xl bg-white hover:bg-[#f7f4ed] border-2 border-[#e8e3d8] flex items-center justify-between font-headline font-semibold text-sm text-[#1e1b18] transition-all'">
-              <div class="flex items-center gap-3">
-                <span
-                  [class]="selectedOption() === 'B'
-                  ? 'w-7 h-7 rounded-xl bg-[#1e1b18] text-white flex items-center justify-center font-bold text-xs border border-[#272421]'
-                  : 'w-7 h-7 rounded-xl bg-[#f7f4ed] text-[#6b665f] flex items-center justify-center font-bold text-xs border border-[#e8e3d8]'">B</span>
-                <span>Jupiter</span>
-              </div>
-              <span *ngIf="selectedOption() === 'B'"
-                class="w-6 h-6 rounded-lg bg-[#1e1b18] text-white flex items-center justify-center">
-                <span class="material-symbols-outlined text-sm font-black">close</span>
-              </span>
-              <span *ngIf="selectedOption() !== 'B'" class="w-5 h-5 rounded-full border border-[#e8e3d8]"></span>
-            </button>
-
-            <!-- Option C -->
-            <button type="button" (click)="selectOption('C')"
-              [class]="selectedOption() === 'C'
-                ? 'w-full p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-400 flex items-center justify-between font-headline font-bold text-sm text-[#1e1b18] transition-all shadow-sm'
-                : 'w-full p-3.5 rounded-2xl bg-white hover:bg-[#f7f4ed] border-2 border-[#e8e3d8] flex items-center justify-between font-headline font-semibold text-sm text-[#1e1b18] transition-all'">
-              <div class="flex items-center gap-3">
-                <span
-                  [class]="selectedOption() === 'C'
-                  ? 'w-7 h-7 rounded-xl bg-[#1e1b18] text-white flex items-center justify-center font-bold text-xs border border-[#272421]'
-                  : 'w-7 h-7 rounded-xl bg-[#f7f4ed] text-[#6b665f] flex items-center justify-center font-bold text-xs border border-[#e8e3d8]'">C</span>
-                <span>Neptune</span>
-              </div>
-              <span *ngIf="selectedOption() === 'C'"
-                class="w-6 h-6 rounded-lg bg-[#1e1b18] text-white flex items-center justify-center">
-                <span class="material-symbols-outlined text-sm font-black">close</span>
-              </span>
-              <span *ngIf="selectedOption() !== 'C'" class="w-5 h-5 rounded-full border border-[#e8e3d8]"></span>
-            </button>
-          </div>
-
-          <!-- Instant Feedback Panel -->
-          <div class="p-3.5 rounded-2xl bg-[#f7f4ed] border border-[#e8e3d8] flex items-start gap-3">
-            <div
-              [class]="currentFeedback().correct
-              ? 'w-8 h-8 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 mt-0.5 font-bold'
-              : 'w-8 h-8 rounded-xl bg-[#1e1b18] text-white flex items-center justify-center shrink-0 mt-0.5 font-bold'">
-              <span class="material-symbols-outlined text-base">{{ currentFeedback().icon }}</span>
-            </div>
-            <div>
-              <p class="font-headline text-xs font-extrabold text-[#1e1b18]">{{ currentFeedback().title }}</p>
-              <p class="font-body text-xs text-[#6b665f] mt-0.5">{{ currentFeedback().desc }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. 'WHY QUIZZO' COMPRESSED INTO 3 STAT CHIPS WITH MASCOT ICONS -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-8 py-10" id="why">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <!-- Chip 1: Cheerful Clock Mascot -->
-      <div
-        class="bg-white rounded-2xl border-2 border-[#272421] p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
-        <div
-          class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-[#272421] flex items-center justify-center shrink-0">
-          <svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
-            <circle cx="16" cy="16" fill="#fef3c7" r="12" stroke="#272421" stroke-width="2"></circle>
-            <circle cx="12" cy="14" fill="#272421" r="1.5"></circle>
-            <circle cx="20" cy="14" fill="#272421" r="1.5"></circle>
-            <path d="M13 18C14 20 18 20 19 18" stroke="#272421" stroke-linecap="round" stroke-width="1.8"></path>
-            <line stroke="#d97706" stroke-linecap="round" stroke-width="2" x1="16" x2="16" y1="16" y2="10"></line>
-            <line stroke="#d97706" stroke-linecap="round" stroke-width="2" x1="16" x2="20" y1="16" y2="16"></line>
-            <path d="M8 8L6 6" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
-            <path d="M24 8L26 6" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
-          </svg>
-        </div>
-        <div>
-          <div class="font-headline font-black text-xl text-[#1e1b18]">5 Min Sprints</div>
-          <div class="font-headline text-xs font-semibold text-[#6b665f] mt-0.5">Quick sessions built for busy days.
-          </div>
-        </div>
-      </div>
-
-      <!-- Chip 2: Cosmic Astronaut Learner -->
-      <div
-        class="bg-white rounded-2xl border-2 border-[#272421] p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
-        <div
-          class="w-14 h-14 rounded-2xl bg-blue-100 border-2 border-[#272421] flex items-center justify-center shrink-0">
-          <svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
-            <rect fill="#dbeafe" height="16" rx="8" stroke="#272421" stroke-width="2" width="18" x="7" y="8"></rect>
-            <rect fill="#3b82f6" height="7" rx="3.5" stroke="#272421" stroke-width="1.5" width="12" x="10" y="11">
-            </rect>
-            <circle cx="13" cy="13" fill="white" r="1"></circle>
-            <line stroke="#272421" stroke-width="2" x1="16" x2="16" y1="4" y2="8"></line>
-            <circle cx="16" cy="4" fill="#f59e0b" r="1.5"></circle>
-            <circle cx="16" cy="20" fill="#10b981" r="1.5"></circle>
-          </svg>
-        </div>
-        <div>
-          <div class="font-headline font-black text-xl text-[#1e1b18]">Zero Ads</div>
-          <div class="font-headline text-xs font-semibold text-[#6b665f] mt-0.5">Pure focus with verified explanations.
-          </div>
-        </div>
-      </div>
-
-      <!-- Chip 3: Curious Fox Scholar -->
-      <div
-        class="bg-white rounded-2xl border-2 border-[#272421] p-5 shadow-tactile flex items-center gap-4 hover:-translate-y-1 transition-transform">
-        <div
-          class="w-14 h-14 rounded-2xl bg-emerald-100 border-2 border-[#272421] flex items-center justify-center shrink-0">
-          <svg class="w-9 h-9" fill="none" viewBox="0 0 32 32">
-            <path d="M11 12C9 12 7 14 7 17C7 20 9 22 11 22C11 24 13 25 15 25V9C13 9 11 10 11 12Z" fill="#d1fae5"
-              stroke="#272421" stroke-width="1.8"></path>
-            <path d="M21 12C23 12 25 14 25 17C25 20 23 22 21 22C21 24 19 25 17 25V9C19 9 21 10 21 12Z" fill="#d1fae5"
-              stroke="#272421" stroke-width="1.8"></path>
-            <path d="M16 4L17 7L20 8L17 9L16 12L15 9L12 8L15 7L16 4Z" fill="#f59e0b"></path>
-          </svg>
-        </div>
-        <div>
-          <div class="font-headline font-black text-xl text-[#1e1b18]">98% Recall</div>
-          <div class="font-headline text-xs font-semibold text-[#6b665f] mt-0.5">Proven spaced repetition algorithms.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. MINIMALIST 3-CARD DECK SPOTLIGHT WITH ILLUSTRATED CHARACTER EMBLEMS -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-8 py-14" id="decks">
-    <div class="flex items-end justify-between mb-8">
-      <div>
-        <span class="text-xs font-headline font-black text-amber-600 uppercase tracking-widest">Instant Play</span>
-        <h2 class="font-headline text-3xl sm:text-4xl font-black text-[#1e1b18] mt-1 tracking-tight">Popular Starter
-          Decks</h2>
-      </div>
-      <a routerLink="/dashboard"
-        class="hidden sm:inline-flex items-center gap-1 text-xs font-headline font-extrabold text-[#1e1b18] hover:text-amber-600 transition-colors">
-        <span>View all in Dashboard</span>
-        <span class="material-symbols-outlined text-sm">arrow_forward</span>
-      </a>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div *ngFor="let deck of decks"
-        class="bg-white rounded-3xl border-2 border-[#272421] p-6 shadow-tactile flex flex-col justify-between group hover:-translate-y-1 transition-all">
-        <div>
-          <!-- Mascot Header Image -->
-          <div class="relative w-full h-40 rounded-xl overflow-hidden mb-4 border border-[#e8e3d8]">
-            <img [src]="deck.imageUrl" [alt]="deck.title"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-          </div>
-          <div class="text-xs font-headline font-bold text-amber-600 mb-1">{{ deck.category }}</div>
-          <h3 class="font-headline text-xl font-black text-[#1e1b18] mb-2">{{ deck.title }}</h3>
-          <p class="font-body text-xs text-[#6b665f] leading-relaxed mb-6">
-            {{ deck.description }}
+          <p class="font-body text-sm text-[#6b665f] mb-8 leading-relaxed">
+            Pick a topic and lock in your first memory sprint in under two minutes.
+          </p>
+          <button type="button" (click)="openRegister()"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-amber-600 text-white font-headline font-black text-base border-2 border-[#272421] shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover transition-all w-full sm:w-auto cursor-pointer">
+            <span>Start a Free Sprint</span>
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </button>
+          <p class="text-[11px] font-headline font-semibold text-[#6b665f]/70 mt-4">
+            No credit card • No account needed • Instant feedback
           </p>
         </div>
-
-        <div class="flex items-center gap-2">
-          <button type="button" (click)="openPreview(deck)"
-            class="w-1/2 py-3 rounded-2xl bg-[#f7f4ed] hover:bg-white text-[#1e1b18] font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1 border-2 border-[#272421] shadow-tactile hover:shadow-tactile-hover transition-all">
-            <span class="material-symbols-outlined text-sm">visibility</span>
-            <span>Preview</span>
-          </button>
-          <a routerLink="/login"
-            class="w-1/2 py-3 rounded-2xl bg-amber-600 text-white font-headline font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 border-2 border-[#272421] shadow-tactile hover:bg-amber-700 transition-all">
-            <span>Start</span>
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-          </a>
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- 5. MINIMALIST FINAL CALL-TO-ACTION WITH MASCOT DUO -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-8 py-12">
+  <!-- 6. ULTRA-CLEAN FOOTER -->
+  <footer class="w-full border-t border-[#e8e3d8]/80 bg-[#faf8f5] py-10 px-4 sm:px-8">
     <div
-      class="bg-white rounded-3xl border-2 border-[#272421] p-8 sm:p-14 shadow-tactile text-center relative overflow-hidden">
-      <!-- Floating Mascot Left -->
-      <div class="hidden sm:block absolute left-8 top-1/2 -translate-y-1/2 animate-bob">
+      class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-headline text-xs font-semibold text-[#6b665f]">
+      <div class="flex items-center gap-3 text-[#1e1b18] font-bold group">
         <div
-          class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-[#272421] flex items-center justify-center shadow-sm">
-          <span class="text-3xl">🦊</span>
+          class="w-11 h-11 rounded-2xl bg-amber-600 flex items-center justify-center shadow-tactile border-2 border-[#272421] relative group-hover:scale-105 transition-transform">
+          <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 32 32">
+            <rect fill="white" height="18" rx="8" stroke="#272421" stroke-width="2" width="22" x="5" y="9"></rect>
+            <circle cx="11" cy="17" fill="#272421" r="2.5"></circle>
+            <circle cx="21" cy="17" fill="#272421" r="2.5"></circle>
+            <path d="M13 21C14 22.5 18 22.5 19 21" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+            <path d="M16 4V9" stroke="#272421" stroke-linecap="round" stroke-width="2"></path>
+            <circle cx="16" cy="4" fill="#fef08a" r="2.5" stroke="#272421" stroke-width="1.5"></circle>
+            <circle cx="8" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
+            <circle cx="24" cy="19" fill="#f87171" opacity="0.6" r="1.5"></circle>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-headline font-black text-base tracking-tight leading-none text-[#1e1b18]">Quizzo</span>
+          <span class="text-[9px] font-headline font-bold text-amber-600 uppercase tracking-widest mt-0.5">Focus Studio</span>
         </div>
       </div>
-
-      <!-- Floating Mascot Right -->
-      <div class="hidden sm:block absolute right-8 top-1/2 -translate-y-1/2 animate-bob" style="animation-delay: -2s;">
-        <div
-          class="w-16 h-16 rounded-2xl bg-blue-100 border-2 border-[#272421] flex items-center justify-center shadow-sm">
-          <span class="text-3xl">🚀</span>
-        </div>
+      <div class="flex items-center gap-6">
+        <a class="hover:text-[#1e1b18] transition-colors" href="#decks">Decks</a>
+        <a class="hover:text-[#1e1b18] transition-colors" href="#why">Why It Works</a>
+        <button type="button" (click)="openLogin()" class="hover:text-[#1e1b18] transition-colors cursor-pointer font-headline font-semibold text-xs">Sign In</button>
+        <button type="button" (click)="openRegister()" class="hover:text-[#1e1b18] transition-colors cursor-pointer font-headline font-semibold text-xs">Register</button>
       </div>
-
-      <div class="max-w-md mx-auto relative z-10 flex flex-col items-center">
-        <span
-          class="px-3 py-1 rounded-full bg-[#fffbeb] text-amber-600 font-headline font-black text-xs border border-amber-600/30 uppercase tracking-widest mb-4">
-          Zero Onboarding Friction
-        </span>
-        <h2 class="font-headline text-3xl sm:text-4xl font-black text-[#1e1b18] tracking-tight mb-3">
-          Start your daily streak.
-        </h2>
-        <p class="font-body text-sm text-[#6b665f] mb-8 leading-relaxed">
-          Pick a topic and lock in your first memory sprint in under two minutes.
-        </p>
-        <a routerLink="/register"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-amber-600 text-white font-headline font-black text-base border-2 border-[#272421] shadow-tactile hover:translate-y-0.5 hover:shadow-tactile-hover transition-all w-full sm:w-auto">
-          <span>Start a Free Sprint</span>
-          <span class="material-symbols-outlined text-lg">arrow_forward</span>
-        </a>
-        <p class="text-[11px] font-headline font-semibold text-[#6b665f]/70 mt-4">
-          No credit card • No account needed • Instant feedback
-        </p>
-      </div>
+      <p class="text-[#6b665f]/70">© 2026 Quizzo Inc.</p>
     </div>
-  </section>
-</main>
-
-<!-- 6. ULTRA-CLEAN FOOTER -->
-<footer class="w-full border-t border-[#e8e3d8]/80 bg-[#faf8f5] py-10 px-4 sm:px-8">
-  <div
-    class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-headline text-xs font-semibold text-[#6b665f]">
-    <div class="flex items-center gap-2 text-[#1e1b18] font-bold">
-      <div
-        class="w-6 h-6 rounded-lg bg-amber-600 text-white flex items-center justify-center font-black text-xs border border-[#272421]">
-        Q</div>
-      <span>Quizzo Studio</span>
-    </div>
-    <div class="flex items-center gap-6">
-      <a class="hover:text-[#1e1b18] transition-colors" href="#decks">Decks</a>
-      <a class="hover:text-[#1e1b18] transition-colors" href="#why">Why It Works</a>
-      <a routerLink="/login" class="hover:text-[#1e1b18] transition-colors">Sign In</a>
-      <a routerLink="/register" class="hover:text-[#1e1b18] transition-colors">Register</a>
-    </div>
-    <p class="text-[#6b665f]/70">© 2026 Quizzo Inc.</p>
-  </div>
-</footer>
+  </footer>
+</div>
 
 <!-- 7. PREVIEW MODAL -->
 <div *ngIf="previewModalOpen() && previewDeck()"
@@ -403,7 +425,7 @@
   <div
     class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile max-w-lg w-full p-6 sm:p-7 relative animate-spark">
     <button type="button" (click)="closePreview()"
-      class="absolute top-5 right-5 w-8 h-8 rounded-xl bg-[#f7f4ed] hover:bg-amber-100 border border-[#272421] flex items-center justify-center text-[#1e1b18] transition-colors">
+      class="absolute top-5 right-5 w-8 h-8 rounded-xl bg-[#f7f4ed] hover:bg-amber-100 border border-[#272421] flex items-center justify-center text-[#1e1b18] transition-colors cursor-pointer">
       <span class="material-symbols-outlined text-base">close</span>
     </button>
 
@@ -434,14 +456,38 @@
 
     <div class="flex items-center justify-end gap-3">
       <button type="button" (click)="closePreview()"
-        class="px-4 py-2.5 rounded-xl border border-[#272421] bg-white hover:bg-[#f7f4ed] font-headline font-bold text-xs text-[#1e1b18] shadow-tactile-sm">
+        class="px-4 py-2.5 rounded-xl border border-[#272421] bg-white hover:bg-[#f7f4ed] font-headline font-bold text-xs text-[#1e1b18] shadow-tactile-sm cursor-pointer">
         Close
       </button>
-      <a routerLink="/login"
-        class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-headline font-bold text-xs border-2 border-[#272421] shadow-tactile-sm flex items-center gap-1.5">
+      <button type="button" (click)="closePreview(); openLogin()"
+        class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-headline font-bold text-xs border-2 border-[#272421] shadow-tactile-sm flex items-center gap-1.5 cursor-pointer">
         <span>Start This Deck</span>
         <span class="material-symbols-outlined text-sm">arrow_forward</span>
-      </a>
+      </button>
     </div>
+  </div>
+</div>
+
+<!-- 8. AUTH MODAL (LOGIN & REGISTER) WITH SEAMLESS BLURRED LANDING PAGE -->
+<div *ngIf="authModal() !== null"
+  class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-stone-900/40 backdrop-blur-md overflow-y-auto animate-fade-in"
+  (click)="closeAuthModal()"
+  role="dialog"
+  aria-modal="true">
+  <div
+    class="relative w-full my-auto py-6"
+    [class.max-w-[560px]]="authModal() === 'login'"
+    [class.max-w-2xl]="authModal() === 'register'"
+    (click)="$event.stopPropagation()">
+    <app-login
+      *ngIf="authModal() === 'login'"
+      (closeModal)="closeAuthModal()"
+      (switchToRegister)="openRegister()">
+    </app-login>
+    <app-register
+      *ngIf="authModal() === 'register'"
+      (closeModal)="closeAuthModal()"
+      (switchToLogin)="openLogin()">
+    </app-register>
   </div>
 </div>

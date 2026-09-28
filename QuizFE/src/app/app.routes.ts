@@ -15,8 +15,8 @@ import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent, pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LandingComponent },
+  { path: 'register', component: LandingComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'explore', component: ExploreComponent },
   { path: 'recent-quizzes', component: RecentQuizzesComponent },
