@@ -86,4 +86,8 @@ export class DashboardComponent implements OnInit {
   getAccuracy(att: AttemptSummary): number {
     return calculateAccuracy(att.correctAnswers, att.totalQuestions, att.score);
   }
+
+  isPassed(att: AttemptSummary): boolean {
+    return this.getAccuracy(att) >= 70;
+  }
 }

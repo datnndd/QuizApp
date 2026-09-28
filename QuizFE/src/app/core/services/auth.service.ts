@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthResponse, LoginRequest, RegisterRequest, UserInfo } from '../models/auth.models';
+import { AuthResponse, LoginRequest, RegisterRequest, UpdateProfileRequest, UserInfo } from '../models/auth.models';
 
 const TOKEN_KEY = 'quizzo_access_token';
 const USER_KEY = 'quizzo_user_profile';
@@ -38,6 +38,15 @@ export class AuthService {
 
   getMe(): Observable<UserInfo> {
     return this.http.get<UserInfo>(`${environment.apiUrl}/auth/me`).pipe(
+      tap((user) => {
+        this.currentUserSignal.set(user);
+        this.persistUser(user);
+      })
+    );
+  }
+
+  updateProfile(request: UpdateProfileRequest): Observable<UserInfo> {
+    return this.http.put<UserInfo>(`${environment.apiUrl}/auth/me`, request).pipe(
       tap((user) => {
         this.currentUserSignal.set(user);
         this.persistUser(user);

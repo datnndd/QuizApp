@@ -182,7 +182,7 @@
                   </div>
                 </td>
                 <td class="py-4 px-6">
-                  <span class="inline-block px-2.5 py-0.5 rounded-md bg-[#e2dfff] text-[#3323cc] font-semibold text-[11px]">
+                  <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
                     {{ q.categoryName }}
                   </span>
                 </td>
@@ -194,8 +194,8 @@
                 </td>
                 <td class="py-4 px-6">
                   <span
-                    class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
-                    [ngClass]="q.visibility === 1 ? 'bg-emerald-100 text-emerald-800' : 'bg-gray-100 text-gray-700'">
+                    class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider"
+                    [ngClass]="q.visibility === 1 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-gray-100 text-gray-700 border border-gray-300'">
                     {{ q.visibility === 1 ? 'Public' : 'Private' }}
                   </span>
                 </td>

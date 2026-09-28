@@ -127,6 +127,14 @@
                 <span class="material-symbols-outlined text-sm">check_circle</span>
                 <span>+ T/F</span>
               </button>
+              <button
+                type="button"
+                (click)="openBankModal()"
+                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-[#faf8f5] text-[#1e1b18] font-headline font-bold text-xs border-2 border-[#272421] shadow-tactile-sm hover:bg-amber-100 transition-all"
+                title="Import from Question Bank">
+                <span class="material-symbols-outlined text-sm">account_balance</span>
+                <span>+ From Bank</span>
+              </button>
             </div>
           </div>
 
@@ -134,8 +142,8 @@
           <div *ngIf="questions().length === 0" class="p-6 text-center text-[#6b665f] bg-[#faf8f5] rounded-2xl border-2 border-dashed border-[#272421]/30">
             <span class="material-symbols-outlined text-3xl text-amber-600 mb-2">quiz</span>
             <p class="font-headline font-bold text-xs">No questions yet</p>
-            <p class="text-[11px] text-[#8c827a] mt-1 mb-3">Add your first question or True/False question above.</p>
-            <div class="flex items-center justify-center gap-2">
+            <p class="text-[11px] text-[#8c827a] mt-1 mb-3">Add your first question, True/False question, or import from Question Bank.</p>
+            <div class="flex items-center justify-center gap-2 flex-wrap">
               <button
                 type="button"
                 (click)="addQuestion(0)"
@@ -147,6 +155,12 @@
                 (click)="addQuestion(2)"
                 class="px-2.5 py-1 rounded-xl bg-white text-[#1e1b18] font-headline font-bold text-xs border border-[#272421]">
                 + True / False
+              </button>
+              <button
+                type="button"
+                (click)="openBankModal()"
+                class="px-2.5 py-1 rounded-xl bg-amber-100 text-amber-900 font-headline font-bold text-xs border border-[#272421] hover:bg-amber-200 transition-colors">
+                + From Question Bank
               </button>
             </div>
           </div>
@@ -175,13 +189,23 @@
                 </div>
               </div>
 
-              <!-- Delete Question Button -->
-              <button
-                (click)="removeQuestion(idx); $event.stopPropagation()"
-                class="text-gray-400 hover:text-rose-600 p-1 transition-colors"
-                title="Delete question">
-                <span class="material-symbols-outlined text-sm">delete</span>
-              </button>
+              <!-- Actions: Duplicate & Delete -->
+              <div class="flex items-center gap-1 shrink-0">
+                <button
+                  type="button"
+                  (click)="duplicateQuestion(idx); $event.stopPropagation()"
+                  class="text-gray-400 hover:text-amber-700 p-1 transition-colors"
+                  title="Duplicate question">
+                  <span class="material-symbols-outlined text-sm">content_copy</span>
+                </button>
+                <button
+                  type="button"
+                  (click)="removeQuestion(idx); $event.stopPropagation()"
+                  class="text-gray-400 hover:text-rose-600 p-1 transition-colors"
+                  title="Delete question">
+                  <span class="material-symbols-outlined text-sm">delete</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -192,12 +216,23 @@
         <div *ngIf="activeQuestion() as q; else noActiveQuestion" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-6 sm:p-8">
           <!-- Question Header -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-[#e8e3d8]">
-            <span class="font-headline font-black text-base text-[#1e1b18] flex items-center gap-2">
-              <span class="w-7 h-7 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xs font-black border-2 border-[#272421]">
-                {{ activeQuestionIndex() + 1 }}
+            <div class="flex items-center gap-3">
+              <span class="font-headline font-black text-base text-[#1e1b18] flex items-center gap-2">
+                <span class="w-7 h-7 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xs font-black border-2 border-[#272421]">
+                  {{ activeQuestionIndex() + 1 }}
+                </span>
+                <span>Edit Question Details</span>
               </span>
-              <span>Edit Question Details</span>
-            </span>
+
+              <button
+                type="button"
+                (click)="duplicateQuestion(activeQuestionIndex())"
+                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl border-2 border-[#272421] bg-[#faf8f5] text-[#1e1b18] font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-100 hover:translate-y-0.5 active:translate-y-1 transition-all"
+                title="Duplicate this question">
+                <span class="material-symbols-outlined text-sm">content_copy</span>
+                <span>Duplicate</span>
+              </button>
+            </div>
 
             <!-- Question Type Selector -->
             <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-[#faf8f5] border-2 border-[#272421] shadow-tactile-sm">
@@ -324,7 +359,7 @@
             <p class="text-sm text-[#6b665f] max-w-md mx-auto mb-6">
               Create a new question to start designing your quiz questions with multiple options or True/False answers.
             </p>
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex items-center justify-center gap-3 flex-wrap">
               <button
                 (click)="addQuestion(0)"
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-amber-600 text-white font-headline font-black text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 hover:translate-y-0.5 active:translate-y-1 transition-all">
@@ -337,10 +372,262 @@
                 <span class="material-symbols-outlined text-base">check_circle</span>
                 <span>Add True / False</span>
               </button>
+              <button
+                (click)="openBankModal()"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-amber-100 text-amber-900 font-headline font-black text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-200 hover:translate-y-0.5 active:translate-y-1 transition-all">
+                <span class="material-symbols-outlined text-base">account_balance</span>
+                <span>From Question Bank</span>
+              </button>
             </div>
           </div>
         </ng-template>
       </div>
     </div>
   </main>
+
+  <!-- Question Bank Modal UI -->
+  <div
+    *ngIf="isBankModalOpen()"
+    class="fixed inset-0 z-50 bg-[#1e1b18]/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="bank-modal-title">
+    <div
+      (click)="$event.stopPropagation()"
+      class="w-full max-w-4xl bg-white rounded-3xl border-2 border-[#272421] shadow-tactile flex flex-col max-h-[90vh] overflow-hidden animate-in zoom-in-95">
+
+      <!-- Modal Header Strip -->
+      <div class="p-5 sm:p-6 bg-white border-b-2 border-[#272421] flex items-center justify-between gap-4 shrink-0">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-11 h-11 rounded-2xl bg-amber-600 text-white border-2 border-[#272421] shadow-tactile-sm flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-2xl">account_balance</span>
+          </div>
+          <div class="min-w-0">
+            <span class="text-[10px] font-headline font-black uppercase tracking-widest text-amber-700 block">
+              Quiz Library • Repository
+            </span>
+            <h2 id="bank-modal-title" class="font-headline font-black text-xl sm:text-2xl text-[#1e1b18] truncate">
+              Question Bank
+            </h2>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="closeBankModal()"
+          class="w-9 h-9 rounded-xl border-2 border-[#272421] bg-[#faf8f5] flex items-center justify-center text-[#1e1b18] hover:bg-amber-100 shadow-tactile-sm transition-colors shrink-0"
+          title="Close modal">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+
+      <!-- Controls Strip: Source Tabs, Content Search & Category Filter -->
+      <div class="p-4 sm:p-5 bg-[#faf8f5] border-b-2 border-[#272421] flex flex-col gap-3 shrink-0">
+        <!-- Source Tabs -->
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            (click)="setBankSourceTab('public')"
+            [ngClass]="bankSourceTab() === 'public'
+              ? 'bg-amber-600 text-white shadow-tactile-sm'
+              : 'bg-white text-[#1e1b18] hover:bg-amber-50'"
+            class="px-4 py-2 rounded-xl font-headline font-black text-xs sm:text-sm border-2 border-[#272421] transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">public</span>
+            <span>Public Question Bank</span>
+          </button>
+          <button
+            type="button"
+            (click)="setBankSourceTab('mine')"
+            [ngClass]="bankSourceTab() === 'mine'
+              ? 'bg-amber-600 text-white shadow-tactile-sm'
+              : 'bg-white text-[#1e1b18] hover:bg-amber-50'"
+            class="px-4 py-2 rounded-xl font-headline font-black text-xs sm:text-sm border-2 border-[#272421] transition-all flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">person</span>
+            <span>My Questions</span>
+          </button>
+        </div>
+
+        <!-- Real-Time Search & Category Filters -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <!-- Content Search Input -->
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#6b665f] text-base">search</span>
+            <input
+              type="text"
+              [(ngModel)]="bankSearchQuery"
+              (ngModelChange)="onBankSearchOrFilterChange()"
+              placeholder="Search question statement..."
+              class="w-full pl-9 pr-3 py-2 rounded-xl border-2 border-[#272421] bg-white font-headline font-bold text-xs text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
+          </div>
+
+          <!-- Category Dropdown Filter -->
+          <div class="w-full sm:w-60 shrink-0">
+            <select
+              [(ngModel)]="bankCategoryFilter"
+              (ngModelChange)="onBankSearchOrFilterChange()"
+              class="w-full px-3 py-2 rounded-xl border-2 border-[#272421] bg-white font-headline font-bold text-xs text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm">
+              <option value="all">All Categories</option>
+              <option *ngFor="let cat of categories()" [value]="cat.id">{{ cat.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Cards List -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#faf8f5]/60 flex flex-col gap-3.5">
+        <!-- Loading Indicator -->
+        <div *ngIf="isBankLoading()" class="p-12 text-center text-[#6b665f]">
+          <span class="material-symbols-outlined text-4xl animate-spin text-amber-600 mb-2">progress_activity</span>
+          <p class="font-headline font-bold text-sm">Loading questions from bank...</p>
+        </div>
+
+        <ng-container *ngIf="!isBankLoading()">
+          <!-- Empty State -->
+          <div
+            *ngIf="filteredBankQuestions().length === 0"
+            class="p-10 text-center text-[#6b665f] bg-white rounded-2xl border-2 border-dashed border-[#272421]/30">
+            <span class="material-symbols-outlined text-4xl text-amber-600 mb-2">find_in_page</span>
+            <p class="font-headline font-black text-sm text-[#1e1b18]">No matching questions found</p>
+            <p class="text-xs text-[#8c827a] mt-1">Try adjusting your search query or selecting "All Categories".</p>
+          </div>
+
+          <!-- Question Cards -->
+          <div
+            *ngFor="let q of filteredBankQuestions()"
+            class="p-4 sm:p-5 rounded-2xl border-2 border-[#272421] bg-white shadow-tactile-sm hover:border-[#1e1b18] transition-all flex flex-col gap-2">
+
+            <!-- Top Row: Checkbox, Meta Badges & + Add Button -->
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-start gap-3 min-w-0">
+                <!-- Multi-select Checkbox -->
+                <label class="flex items-center cursor-pointer shrink-0 mt-0.5" title="Select question">
+                  <input
+                    type="checkbox"
+                    [checked]="isBankQuestionSelected(q.id)"
+                    (change)="toggleBankQuestionSelection(q)"
+                    class="sr-only" />
+                  <div
+                    class="w-5 h-5 rounded-lg border-2 border-[#272421] flex items-center justify-center transition-colors"
+                    [ngClass]="isBankQuestionSelected(q.id) ? 'bg-amber-600 text-white' : 'bg-[#faf8f5] text-transparent hover:bg-amber-100'">
+                    <span class="material-symbols-outlined text-xs font-black">check</span>
+                  </div>
+                </label>
+
+                <!-- Meta Badges & Content -->
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
+                    <span class="px-2 py-0.5 rounded-lg text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+                      {{ q.categoryName }}
+                    </span>
+                    <span class="px-2 py-0.5 rounded-lg text-[10px] font-headline font-bold uppercase tracking-wider bg-stone-100 text-stone-800 border border-stone-300">
+                      {{ getQuestionTypeLabel(q.questionType) }}
+                    </span>
+                    <span class="text-[11px] font-headline text-[#6b665f] flex items-center gap-0.5">
+                      <span class="material-symbols-outlined text-xs">person</span>
+                      <span>{{ q.authorName || 'Anonymous' }}</span>
+                    </span>
+                    <span *ngIf="q.publicQuizCount" class="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                      Used in {{ q.publicQuizCount }} {{ q.publicQuizCount === 1 ? 'quiz' : 'quizzes' }}
+                    </span>
+                  </div>
+
+                  <p class="font-headline font-bold text-xs sm:text-sm text-[#1e1b18] leading-snug">
+                    {{ q.content }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Instant Single-Click + Add Button -->
+              <button
+                type="button"
+                (click)="importSingleQuestion(q)"
+                [disabled]="isImportingQuestion(q.id)"
+                class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-600 text-white font-headline font-black text-xs border-2 border-[#272421] shadow-tactile-sm hover:bg-amber-700 active:translate-y-0.5 transition-all disabled:opacity-50"
+                title="Add this question to deck">
+                <span *ngIf="isImportingQuestion(q.id)" class="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+                <span *ngIf="!isImportingQuestion(q.id)" class="material-symbols-outlined text-sm">add</span>
+                <span>+ Add</span>
+              </button>
+            </div>
+
+            <!-- Expandable Preview Answers Accordion -->
+            <div class="mt-1 pt-2 border-t border-[#e8e3d8]">
+              <button
+                type="button"
+                (click)="toggleAnswerPreview(q)"
+                class="inline-flex items-center gap-1 text-xs font-headline font-bold text-[#6b665f] hover:text-[#1e1b18] transition-colors py-0.5">
+                <span
+                  class="material-symbols-outlined text-sm transition-transform duration-200"
+                  [class.rotate-180]="isAnswerPreviewExpanded(q.id)">
+                  expand_more
+                </span>
+                <span>{{ isAnswerPreviewExpanded(q.id) ? 'Hide Answers' : 'Preview Answers' }}</span>
+                <span *ngIf="getQuestionAnswers(q) as ans" class="text-[11px] text-[#8c827a]">
+                  ({{ ans.length }} choices)
+                </span>
+              </button>
+
+              <!-- Accordion Content: Answer Choices with Checkmark Indicators -->
+              <div *ngIf="isAnswerPreviewExpanded(q.id)" class="mt-2 pl-4 sm:pl-6 flex flex-col gap-1.5 animate-in fade-in">
+                <div *ngIf="isLoadingAnswers(q.id)" class="text-xs text-[#6b665f] py-2 flex items-center gap-2">
+                  <span class="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+                  <span>Loading answer choices...</span>
+                </div>
+
+                <div *ngIf="!isLoadingAnswers(q.id) && getQuestionAnswers(q) as answers" class="flex flex-col gap-1.5">
+                  <div
+                    *ngFor="let ans of answers"
+                    class="p-2 sm:p-2.5 rounded-xl border flex items-center gap-2 text-xs font-headline"
+                    [ngClass]="ans.isCorrect ? 'bg-emerald-50 border-emerald-500 text-emerald-950 font-bold' : 'bg-[#faf8f5] border-[#272421]/30 text-[#1e1b18]'">
+                    <span
+                      class="w-5 h-5 rounded-md flex items-center justify-center shrink-0 border"
+                      [ngClass]="ans.isCorrect ? 'bg-emerald-600 border-emerald-700 text-white' : 'bg-white border-gray-300 text-transparent'">
+                      <span class="material-symbols-outlined text-xs font-black">check</span>
+                    </span>
+                    <span class="flex-1">{{ ans.content }}</span>
+                    <span *ngIf="ans.isCorrect" class="text-[10px] font-black uppercase text-emerald-700 tracking-wider">Correct</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Footer Action Bar -->
+      <div class="p-4 sm:p-5 bg-white border-t-2 border-[#272421] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="font-headline font-bold text-xs sm:text-sm text-[#1e1b18]">
+            {{ selectedBankQuestionIds().size }} question{{ selectedBankQuestionIds().size === 1 ? '' : 's' }} selected
+          </span>
+          <button
+            *ngIf="selectedBankQuestionIds().size > 0"
+            type="button"
+            (click)="clearBankSelection()"
+            class="text-xs text-amber-700 hover:underline font-bold">
+            Clear selection
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 self-end sm:self-auto">
+          <button
+            type="button"
+            (click)="closeBankModal()"
+            class="px-4 py-2 rounded-xl border-2 border-[#272421] bg-[#faf8f5] text-[#1e1b18] font-headline font-bold text-xs sm:text-sm shadow-tactile-sm hover:bg-amber-50 active:translate-y-0.5 transition-all">
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            (click)="importSelectedQuestions()"
+            [disabled]="selectedBankQuestionIds().size === 0 || isBulkImporting()"
+            class="px-5 py-2 rounded-xl bg-amber-600 text-white font-headline font-black text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 active:translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5">
+            <span *ngIf="isBulkImporting()" class="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+            <span *ngIf="!isBulkImporting()" class="material-symbols-outlined text-sm">download</span>
+            <span>Import ({{ selectedBankQuestionIds().size }}) Questions</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

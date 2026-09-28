@@ -74,6 +74,37 @@ namespace QuizApi.Controllers
             return Ok(userInfo);
         }
 
+        [Authorize]
+        [HttpPut("me")]
+        [HttpPut("profile")]
+        public async Task<ActionResult<UserInfoResponse>> UpdateProfile([FromBody] UpdateProfileRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId))
+            {
+                return Unauthorized(new { message = "User identifier missing from token." });
+            }
+
+            try
+            {
+                var response = await _authService.UpdateProfileAsync(userId, request);
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+        }
+
         [Authorize(Roles = "User")]
         [HttpGet("user-only")]
         public IActionResult UserOnlyEndpoint()

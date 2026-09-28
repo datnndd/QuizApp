@@ -105,6 +105,14 @@
           </a>
 
           <a
+            routerLink="/settings"
+            (click)="userMenuOpen.set(false)"
+            class="flex items-center gap-2.5 px-4 py-2 text-xs font-headline font-bold text-[#1e1b18] hover:bg-amber-50 transition-colors">
+            <span class="material-symbols-outlined text-base text-amber-600">settings</span>
+            <span>Account Settings</span>
+          </a>
+
+          <a
             *ngIf="isAdmin()"
             routerLink="/admin"
             (click)="userMenuOpen.set(false)"
@@ -162,6 +170,13 @@
       routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
       class="px-4 py-2 rounded-xl text-[#6b665f] hover:text-[#1e1b18]">
       My Decks
+    </a>
+    <a
+      routerLink="/settings"
+      (click)="mobileMenuOpen.set(false)"
+      routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
+      class="px-4 py-2 rounded-xl text-[#6b665f] hover:text-[#1e1b18]">
+      Settings
     </a>
 
     <div class="pt-2 flex flex-col gap-2">

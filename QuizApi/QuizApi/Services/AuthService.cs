@@ -175,5 +175,82 @@ namespace QuizApi.Services
                 Roles = roles
             };
         }
+
+        public async Task<UserInfoResponse> UpdateProfileAsync(int userId, UpdateProfileRequest request)
+        {
+            var user = await _context.Users
+                .Include(u => u.UserRoles)
+                .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || !user.IsActive || user.IsDeleted)
+            {
+                throw new InvalidOperationException("User not found or account is deactivated.");
+            }
+
+            var newEmail = request.Email.Trim().ToLowerInvariant();
+            if (!string.Equals(user.Email, newEmail, StringComparison.OrdinalIgnoreCase))
+            {
+                var emailExists = await _context.Users.AnyAsync(u => u.Id != userId && u.Email.ToLower() == newEmail);
+                if (emailExists)
+                {
+                    throw new InvalidOperationException("Email is already registered by another user.");
+                }
+                user.Email = newEmail;
+            }
+
+            // Password change handling if requested
+            if (!string.IsNullOrWhiteSpace(request.NewPassword))
+            {
+                if (string.IsNullOrWhiteSpace(request.CurrentPassword))
+                {
+                    throw new UnauthorizedAccessException("Current password is required to set a new password.");
+                }
+
+                var isCurrentPasswordValid = BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash);
+                if (!isCurrentPasswordValid)
+                {
+                    throw new UnauthorizedAccessException("Current password is incorrect.");
+                }
+
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            }
+
+            user.FirstName = request.FirstName.Trim();
+            user.LastName = request.LastName.Trim();
+
+            var displayName = string.IsNullOrWhiteSpace(request.DisplayName)
+                ? $"{user.FirstName} {user.LastName}".Trim()
+                : request.DisplayName.Trim();
+            user.DisplayName = displayName;
+
+            user.PhoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber) ? null : request.PhoneNumber.Trim();
+
+            await _context.SaveChangesAsync();
+
+            var roles = user.UserRoles
+                .Where(ur => ur.Role != null && ur.Role.IsActive)
+                .Select(ur => ur.Role!.Name)
+                .Distinct()
+                .ToList();
+
+            if (!roles.Any())
+            {
+                roles.Add("User");
+            }
+
+            return new UserInfoResponse
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                DisplayName = user.DisplayName,
+                Email = user.Email,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                Avatar = user.Avatar,
+                Roles = roles
+            };
+        }
     }
 }

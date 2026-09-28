@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
@@ -8,6 +8,8 @@ import {
   AttemptSummary,
   Category,
   CreateQuizRequest,
+  QuestionDetailResponse,
+  QuestionSummary,
   QuizDetail,
   QuizSummary,
   StartAttemptRequest,
@@ -120,6 +122,82 @@ export class QuizService {
 
   deleteQuiz(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/quizzes/${id}`);
+  }
+
+  // Question Bank
+  getExploreQuestions(search?: string, categoryId?: number): Observable<QuestionSummary[]> {
+    let params = new HttpParams();
+    if (search && search.trim().length > 0) {
+      params = params.set('search', search.trim());
+    }
+    if (categoryId !== undefined && categoryId !== null && categoryId > 0) {
+      params = params.set('categoryId', categoryId.toString());
+    }
+
+    return this.http.get<QuestionSummary[]>(`${this.baseUrl}/questions/explore`, { params }).pipe(
+      catchError(() => {
+        let list = this.getMockQuestionSummaries();
+        if (search && search.trim().length > 0) {
+          const s = search.trim().toLowerCase();
+          list = list.filter(q => q.content.toLowerCase().includes(s));
+        }
+        if (categoryId !== undefined && categoryId !== null && categoryId > 0) {
+          list = list.filter(q => q.categoryId === Number(categoryId));
+        }
+        return of(list);
+      })
+    );
+  }
+
+  getMyQuestions(): Observable<QuestionSummary[]> {
+    return this.http.get<QuestionSummary[]>(`${this.baseUrl}/questions/mine`).pipe(
+      catchError(() => {
+        return of(this.getMockQuestionSummaries().filter(q => q.ownerId === 1));
+      })
+    );
+  }
+
+  getQuestionDetail(id: number): Observable<QuestionDetailResponse> {
+    return this.http.get<QuestionDetailResponse>(`${this.baseUrl}/questions/${id}`).pipe(
+      catchError(() => {
+        const detail = this.getMockQuestionDetails().find(q => q.id === id);
+        if (detail) {
+          return of(detail);
+        }
+        const summary = this.getMockQuestionSummaries().find(q => q.id === id);
+        const fallback: QuestionDetailResponse = {
+          id: summary ? summary.id : id,
+          categoryId: summary ? summary.categoryId : 1,
+          categoryName: summary ? summary.categoryName : 'General Knowledge',
+          ownerId: summary ? summary.ownerId : 1,
+          authorName: summary ? summary.authorName : 'Dr. Stella Vance',
+          currentVersionId: summary ? summary.currentVersionId : 201,
+          versionNumber: summary ? summary.versionNumber : 1,
+          content: summary ? summary.content : 'Sample bank question statement...',
+          questionType: summary ? summary.questionType : 0,
+          publicQuizCount: summary ? summary.publicQuizCount : 1,
+          isActive: true,
+          createdAt: '2026-09-20T10:00:00Z',
+          versions: [
+            {
+              id: summary ? summary.currentVersionId : 201,
+              versionNumber: 1,
+              content: summary ? summary.content : 'Sample bank question statement...',
+              questionType: summary ? summary.questionType : 0,
+              createdAt: '2026-09-20T10:00:00Z',
+              isCurrent: true,
+              answers: summary?.answers || [
+                { id: 1, content: 'Option A (Correct)', isCorrect: true },
+                { id: 2, content: 'Option B', isCorrect: false },
+                { id: 3, content: 'Option C', isCorrect: false },
+                { id: 4, content: 'Option D', isCorrect: false }
+              ]
+            }
+          ]
+        };
+        return of(fallback);
+      })
+    );
   }
 
   // Attempts
@@ -422,5 +500,342 @@ export class QuizService {
         }
       ]
     };
+  }
+
+  private getMockQuestionDetails(): QuestionDetailResponse[] {
+    return [
+      {
+        id: 101,
+        categoryId: 1,
+        categoryName: 'Science & Physics',
+        ownerId: 1,
+        authorName: 'Dr. Stella Vance',
+        currentVersionId: 201,
+        versionNumber: 1,
+        content: 'What is the primary mechanism of heat transfer in the Sun’s convective zone?',
+        questionType: 0,
+        publicQuizCount: 4,
+        isActive: true,
+        createdAt: '2026-09-20T10:00:00Z',
+        answers: [
+          { id: 1, content: 'Bulk plasma circulation (rising hot gas, sinking cool gas)', isCorrect: true },
+          { id: 2, content: 'Electromagnetic radiation via photon diffusion', isCorrect: false },
+          { id: 3, content: 'Direct electron conduction across magnetic flux tubes', isCorrect: false },
+          { id: 4, content: 'Neutrino emission flux', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 201,
+            versionNumber: 1,
+            content: 'What is the primary mechanism of heat transfer in the Sun’s convective zone?',
+            questionType: 0,
+            createdAt: '2026-09-20T10:00:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 1, content: 'Bulk plasma circulation (rising hot gas, sinking cool gas)', isCorrect: true },
+              { id: 2, content: 'Electromagnetic radiation via photon diffusion', isCorrect: false },
+              { id: 3, content: 'Direct electron conduction across magnetic flux tubes', isCorrect: false },
+              { id: 4, content: 'Neutrino emission flux', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 102,
+        categoryId: 1,
+        categoryName: 'Science & Physics',
+        ownerId: 1,
+        authorName: 'Dr. Stella Vance',
+        currentVersionId: 202,
+        versionNumber: 1,
+        content: 'Which planetary body exhibits retrograde orbital motion around Neptune?',
+        questionType: 0,
+        publicQuizCount: 3,
+        isActive: true,
+        createdAt: '2026-09-21T11:00:00Z',
+        answers: [
+          { id: 5, content: 'Triton (Captured Kuiper Belt Object)', isCorrect: true },
+          { id: 6, content: 'Proteus', isCorrect: false },
+          { id: 7, content: 'Nereid', isCorrect: false },
+          { id: 8, content: 'Larissa', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 202,
+            versionNumber: 1,
+            content: 'Which planetary body exhibits retrograde orbital motion around Neptune?',
+            questionType: 0,
+            createdAt: '2026-09-21T11:00:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 5, content: 'Triton (Captured Kuiper Belt Object)', isCorrect: true },
+              { id: 6, content: 'Proteus', isCorrect: false },
+              { id: 7, content: 'Nereid', isCorrect: false },
+              { id: 8, content: 'Larissa', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 103,
+        categoryId: 1,
+        categoryName: 'Science & Physics',
+        ownerId: 1,
+        authorName: 'Dr. Stella Vance',
+        currentVersionId: 203,
+        versionNumber: 1,
+        content: 'Which of the following bodies are classified as Gas Giants in our solar system? (Select all)',
+        questionType: 1,
+        publicQuizCount: 2,
+        isActive: true,
+        createdAt: '2026-09-22T09:30:00Z',
+        answers: [
+          { id: 9, content: 'Jupiter', isCorrect: true },
+          { id: 10, content: 'Saturn', isCorrect: true },
+          { id: 11, content: 'Uranus (Ice Giant)', isCorrect: false },
+          { id: 12, content: 'Mars', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 203,
+            versionNumber: 1,
+            content: 'Which of the following bodies are classified as Gas Giants in our solar system? (Select all)',
+            questionType: 1,
+            createdAt: '2026-09-22T09:30:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 9, content: 'Jupiter', isCorrect: true },
+              { id: 10, content: 'Saturn', isCorrect: true },
+              { id: 11, content: 'Uranus (Ice Giant)', isCorrect: false },
+              { id: 12, content: 'Mars', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 104,
+        categoryId: 1,
+        categoryName: 'Science & Physics',
+        ownerId: 2,
+        authorName: 'Marcus Brody',
+        currentVersionId: 204,
+        versionNumber: 1,
+        content: 'The Kuiper Cliff marks the sudden drop in spatial density of Kuiper belt objects beyond 50 AU.',
+        questionType: 2,
+        publicQuizCount: 2,
+        isActive: true,
+        createdAt: '2026-09-23T14:15:00Z',
+        answers: [
+          { id: 13, content: 'True', isCorrect: true },
+          { id: 14, content: 'False', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 204,
+            versionNumber: 1,
+            content: 'The Kuiper Cliff marks the sudden drop in spatial density of Kuiper belt objects beyond 50 AU.',
+            questionType: 2,
+            createdAt: '2026-09-23T14:15:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 13, content: 'True', isCorrect: true },
+              { id: 14, content: 'False', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 201,
+        categoryId: 2,
+        categoryName: 'Technology & Web',
+        ownerId: 2,
+        authorName: 'Marcus Brody',
+        currentVersionId: 301,
+        versionNumber: 1,
+        content: 'In the V8 JavaScript engine, which tier is responsible for baseline bytecode interpretation?',
+        questionType: 0,
+        publicQuizCount: 5,
+        isActive: true,
+        createdAt: '2026-09-24T08:00:00Z',
+        answers: [
+          { id: 15, content: 'Ignition Interpreter', isCorrect: true },
+          { id: 16, content: 'TurboFan Compiler', isCorrect: false },
+          { id: 17, content: 'Sparkplug Baseline', isCorrect: false },
+          { id: 18, content: 'Maglev JIT', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 301,
+            versionNumber: 1,
+            content: 'In the V8 JavaScript engine, which tier is responsible for baseline bytecode interpretation?',
+            questionType: 0,
+            createdAt: '2026-09-24T08:00:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 15, content: 'Ignition Interpreter', isCorrect: true },
+              { id: 16, content: 'TurboFan Compiler', isCorrect: false },
+              { id: 17, content: 'Sparkplug Baseline', isCorrect: false },
+              { id: 18, content: 'Maglev JIT', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 202,
+        categoryId: 2,
+        categoryName: 'Technology & Web',
+        ownerId: 1,
+        authorName: 'Dr. Stella Vance',
+        currentVersionId: 302,
+        versionNumber: 1,
+        content: 'Which HTTP headers are essential for enabling Cross-Origin Resource Sharing (CORS) preflight? (Select all)',
+        questionType: 1,
+        publicQuizCount: 3,
+        isActive: true,
+        createdAt: '2026-09-24T10:30:00Z',
+        answers: [
+          { id: 19, content: 'Access-Control-Allow-Origin', isCorrect: true },
+          { id: 20, content: 'Access-Control-Allow-Methods', isCorrect: true },
+          { id: 21, content: 'X-Requested-With', isCorrect: false },
+          { id: 22, content: 'Host', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 302,
+            versionNumber: 1,
+            content: 'Which HTTP headers are essential for enabling Cross-Origin Resource Sharing (CORS) preflight? (Select all)',
+            questionType: 1,
+            createdAt: '2026-09-24T10:30:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 19, content: 'Access-Control-Allow-Origin', isCorrect: true },
+              { id: 20, content: 'Access-Control-Allow-Methods', isCorrect: true },
+              { id: 21, content: 'X-Requested-With', isCorrect: false },
+              { id: 22, content: 'Host', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 203,
+        categoryId: 2,
+        categoryName: 'Technology & Web',
+        ownerId: 2,
+        authorName: 'Marcus Brody',
+        currentVersionId: 303,
+        versionNumber: 1,
+        content: 'HTTP/3 uses QUIC over UDP to eliminate head-of-line blocking at the transport layer.',
+        questionType: 2,
+        publicQuizCount: 4,
+        isActive: true,
+        createdAt: '2026-09-25T12:00:00Z',
+        answers: [
+          { id: 23, content: 'True', isCorrect: true },
+          { id: 24, content: 'False', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 303,
+            versionNumber: 1,
+            content: 'HTTP/3 uses QUIC over UDP to eliminate head-of-line blocking at the transport layer.',
+            questionType: 2,
+            createdAt: '2026-09-25T12:00:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 23, content: 'True', isCorrect: true },
+              { id: 24, content: 'False', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 301,
+        categoryId: 3,
+        categoryName: 'Geography & World',
+        ownerId: 3,
+        authorName: 'Elena Rostova',
+        currentVersionId: 401,
+        versionNumber: 1,
+        content: 'What is the capital city of the European principality of Liechtenstein?',
+        questionType: 0,
+        publicQuizCount: 2,
+        isActive: true,
+        createdAt: '2026-09-25T15:20:00Z',
+        answers: [
+          { id: 25, content: 'Vaduz', isCorrect: true },
+          { id: 26, content: 'Schaan', isCorrect: false },
+          { id: 27, content: 'Balzers', isCorrect: false },
+          { id: 28, content: 'Triesen', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 401,
+            versionNumber: 1,
+            content: 'What is the capital city of the European principality of Liechtenstein?',
+            questionType: 0,
+            createdAt: '2026-09-25T15:20:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 25, content: 'Vaduz', isCorrect: true },
+              { id: 26, content: 'Schaan', isCorrect: false },
+              { id: 27, content: 'Balzers', isCorrect: false },
+              { id: 28, content: 'Triesen', isCorrect: false }
+            ]
+          }
+        ]
+      },
+      {
+        id: 401,
+        categoryId: 4,
+        categoryName: 'Biology & Genetics',
+        ownerId: 1,
+        authorName: 'Dr. Stella Vance',
+        currentVersionId: 501,
+        versionNumber: 1,
+        content: 'Which cellular organelle contains its own circular DNA and reproduces independently inside eukaryotic cells?',
+        questionType: 0,
+        publicQuizCount: 3,
+        isActive: true,
+        createdAt: '2026-09-26T09:10:00Z',
+        answers: [
+          { id: 29, content: 'Mitochondria', isCorrect: true },
+          { id: 30, content: 'Endoplasmic Reticulum', isCorrect: false },
+          { id: 31, content: 'Golgi Apparatus', isCorrect: false },
+          { id: 32, content: 'Lysosome', isCorrect: false }
+        ],
+        versions: [
+          {
+            id: 501,
+            versionNumber: 1,
+            content: 'Which cellular organelle contains its own circular DNA and reproduces independently inside eukaryotic cells?',
+            questionType: 0,
+            createdAt: '2026-09-26T09:10:00Z',
+            isCurrent: true,
+            answers: [
+              { id: 29, content: 'Mitochondria', isCorrect: true },
+              { id: 30, content: 'Endoplasmic Reticulum', isCorrect: false },
+              { id: 31, content: 'Golgi Apparatus', isCorrect: false },
+              { id: 32, content: 'Lysosome', isCorrect: false }
+            ]
+          }
+        ]
+      }
+    ];
+  }
+
+  private getMockQuestionSummaries(): QuestionSummary[] {
+    return this.getMockQuestionDetails().map(d => ({
+      id: d.id,
+      categoryId: d.categoryId,
+      categoryName: d.categoryName,
+      ownerId: d.ownerId,
+      authorName: d.authorName,
+      currentVersionId: d.currentVersionId,
+      versionNumber: d.versionNumber,
+      content: d.content,
+      questionType: d.questionType,
+      publicQuizCount: d.publicQuizCount,
+      answers: d.answers
+    }));
   }
 }

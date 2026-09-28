@@ -1,3 +1,15 @@
 :host {
   display: block;
 }
+
+.shadow-tactile {
+  box-shadow: 0 4px 0 #272421;
+}
+
+.shadow-tactile-sm {
+  box-shadow: 0 2.5px 0 #272421;
+}
+
+.shadow-tactile-hover {
+  box-shadow: 0 1.5px 0 #272421;
+}

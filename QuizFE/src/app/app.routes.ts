@@ -8,6 +8,7 @@ import { RecentQuizzesComponent } from './pages/recent-quizzes/recent-quizzes.co
 import { MyDecksComponent } from './pages/my-decks/my-decks.component';
 import { QuizPlayerComponent } from './pages/quiz-player/quiz-player.component';
 import { EditQuizComponent } from './pages/edit-quiz/edit-quiz.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminOverviewComponent } from './pages/admin/admin-overview.component';
 import { UserManagementComponent } from './pages/admin/user-management.component';
 import { AdminQuizManagementComponent } from './pages/admin/quiz-management.component';
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'explore', component: ExploreComponent },
   { path: 'recent-quizzes', component: RecentQuizzesComponent },
   { path: 'my-decks', component: MyDecksComponent },
+  { path: 'settings', component: SettingsComponent },
   { path: 'quiz/play/:id', component: QuizPlayerComponent },
   { path: 'quiz/play', component: QuizPlayerComponent },
   { path: 'quiz/edit/:id', component: EditQuizComponent },

@@ -111,6 +111,39 @@ export interface QuestionAnswerOption {
   isCorrect?: boolean;
 }
 
+export interface QuestionSummary {
+  id: number;
+  categoryId: number;
+  categoryName: string;
+  ownerId: number;
+  authorName: string;
+  currentVersionId: number;
+  versionNumber: number;
+  content: string;
+  questionType: QuestionType;
+  publicQuizCount: number;
+  answers?: QuestionAnswerOption[];
+}
+
+export type QuestionSummaryResponse = QuestionSummary;
+
+export interface QuestionVersionResponse {
+  id: number;
+  versionNumber: number;
+  content: string;
+  questionType: QuestionType;
+  createdAt: string;
+  isCurrent: boolean;
+  answers: QuestionAnswerOption[];
+}
+
+export interface QuestionDetailResponse extends QuestionSummary {
+  sourceQuestionId?: number | null;
+  isActive: boolean;
+  createdAt: string;
+  versions: QuestionVersionResponse[];
+}
+
 export interface CreateQuizQuestionInput {
   id?: number | null;
   order?: number;

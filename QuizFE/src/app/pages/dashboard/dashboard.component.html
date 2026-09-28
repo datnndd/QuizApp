@@ -84,12 +84,12 @@
                   </div>
                 </td>
                 <td class="py-4 px-6">
-                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-50 text-amber-900 border border-amber-200">
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
                     {{ att.categoryName }}
                   </span>
                 </td>
                 <td class="py-4 px-6">
-                  <span *ngIf="isAttemptCompleted(att.status)" class="font-black text-sm text-emerald-700">
+                  <span *ngIf="isAttemptCompleted(att.status)" class="font-black text-sm" [ngClass]="isPassed(att) ? 'text-emerald-700' : 'text-rose-700'">
                     {{ getAccuracy(att) }}% Accuracy
                   </span>
                   <span *ngIf="isAttemptInProgress(att.status)" class="text-amber-700 font-bold">
@@ -98,17 +98,22 @@
                 </td>
                 <td class="py-4 px-6">
                   <span
-                    class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider"
-                    [ngClass]="isAttemptCompleted(att.status) ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'">
-                    {{ isAttemptCompleted(att.status) ? 'Completed' : 'In Progress' }}
+                    *ngIf="isAttemptCompleted(att.status)"
+                    class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black border uppercase tracking-wider"
+                    [ngClass]="isPassed(att) ? 'bg-emerald-100 text-emerald-800 border-emerald-300' : 'bg-rose-100 text-rose-800 border-rose-300'">
+                    {{ isPassed(att) ? 'Passed' : 'Failed' }}
                   </span>
+                  <div *ngIf="isAttemptInProgress(att.status)" class="px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-400 text-amber-900 font-headline font-bold text-[10px] inline-flex items-center gap-1.5 uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
+                    <span>In Progress</span>
+                  </div>
                 </td>
                 <td class="py-4 px-6 text-right">
                   <button
                     (click)="resumeAttempt(att)"
-                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border-2 border-[#272421] bg-white text-[#1e1b18] font-bold text-xs shadow-tactile-sm hover:bg-[#faf8f5] transition-all">
+                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border-2 border-[#272421] bg-amber-600 text-white font-bold text-xs shadow-tactile-sm hover:bg-amber-700 transition-all">
                     <span>{{ isAttemptCompleted(att.status) ? 'Retake' : 'Resume' }}</span>
-                    <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                    <span class="material-symbols-outlined text-xs">{{ isAttemptCompleted(att.status) ? 'refresh' : 'arrow_forward' }}</span>
                   </button>
                 </td>
               </tr>

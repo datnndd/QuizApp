@@ -30,3 +30,14 @@ export interface RegisterRequest {
   password: string;
   phoneNumber?: string | null;
 }
+
+export interface UpdateProfileRequest {
+  firstName: string;
+  lastName: string;
+  displayName?: string | null;
+  email: string;
+  phoneNumber?: string | null;
+  currentPassword?: string | null;
+  newPassword?: string | null;
+}
+
