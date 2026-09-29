@@ -82,6 +82,12 @@ export class EditQuizComponent implements OnInit {
   readonly isBulkImporting = signal<boolean>(false);
   readonly importingSingleId = signal<number | null>(null);
 
+  // New Category Modal State
+  readonly isNewCategoryModalOpen = signal<boolean>(false);
+  readonly newCategoryName = signal<string>('');
+  readonly isCreatingCategory = signal<boolean>(false);
+  readonly newCategoryError = signal<string | null>(null);
+
   private readonly knownQuestionsById = new Map<number, QuestionSummary>();
   private activeBankRequestSub?: Subscription;
   private idCounter = 1;
@@ -340,6 +346,63 @@ export class EditQuizComponent implements OnInit {
 
   backToDecks(): void {
     this.router.navigate(['/my-decks']);
+  }
+
+  // Category Creation Modal Methods
+  openNewCategoryModal(): void {
+    this.newCategoryName.set('');
+    this.newCategoryError.set(null);
+    this.isNewCategoryModalOpen.set(true);
+  }
+
+  closeNewCategoryModal(): void {
+    this.isNewCategoryModalOpen.set(false);
+    this.newCategoryName.set('');
+    this.newCategoryError.set(null);
+    this.isCreatingCategory.set(false);
+  }
+
+  onCategorySelectChange(val: string | number): void {
+    if (val === 'NEW') {
+      this.openNewCategoryModal();
+    } else {
+      this.categoryId.set(Number(val));
+    }
+  }
+
+  createCategory(): void {
+    const name = this.newCategoryName().trim();
+    if (!name) {
+      this.newCategoryError.set('Category name is required.');
+      return;
+    }
+
+    if (name.length > 100) {
+      this.newCategoryError.set('Category name cannot exceed 100 characters.');
+      return;
+    }
+
+    this.isCreatingCategory.set(true);
+    this.newCategoryError.set(null);
+
+    this.quizService.createCategory(name).subscribe({
+      next: (created) => {
+        this.isCreatingCategory.set(false);
+        const existing = this.categories().find(
+          c => c.id === created.id || c.name.toLowerCase() === created.name.toLowerCase()
+        );
+        if (!existing) {
+          this.categories.update(list => [...list, created].sort((a, b) => a.name.localeCompare(b.name)));
+        }
+        this.categoryId.set(created.id);
+        this.closeNewCategoryModal();
+      },
+      error: (err) => {
+        this.isCreatingCategory.set(false);
+        const msg = err?.error?.message || 'Failed to create category. Please try again.';
+        this.newCategoryError.set(msg);
+      }
+    });
   }
 
   // Question Bank Modal Methods

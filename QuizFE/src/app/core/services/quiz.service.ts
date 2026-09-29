@@ -37,6 +37,15 @@ export class QuizService {
     );
   }
 
+  createCategory(name: string): Observable<Category> {
+    return this.http.post<Category>(`${this.baseUrl}/categories`, { name }).pipe(
+      catchError(() => of({
+        id: Date.now(),
+        name
+      }))
+    );
+  }
+
   // Quizzes
   getQuizzes(): Observable<QuizSummary[]> {
     return this.http.get<QuizSummary[]>(`${this.baseUrl}/quizzes`).pipe(

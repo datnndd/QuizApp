@@ -502,5 +502,72 @@ describe('EditQuizComponent', () => {
       expect(activeSubscribers).toBe(0);
     });
   });
+
+  describe('Category Creation Modal', () => {
+    it('should open and close the new category modal', () => {
+      const fixture = TestBed.createComponent(EditQuizComponent);
+      const component = fixture.componentInstance;
+      fixture.detectChanges();
+
+      expect(component.isNewCategoryModalOpen()).toBe(false);
+
+      component.openNewCategoryModal();
+      expect(component.isNewCategoryModalOpen()).toBe(true);
+      expect(component.newCategoryName()).toBe('');
+      expect(component.newCategoryError()).toBeNull();
+
+      component.closeNewCategoryModal();
+      expect(component.isNewCategoryModalOpen()).toBe(false);
+    });
+
+    it('should trigger openNewCategoryModal when onCategorySelectChange receives NEW', () => {
+      const fixture = TestBed.createComponent(EditQuizComponent);
+      const component = fixture.componentInstance;
+      fixture.detectChanges();
+
+      component.onCategorySelectChange('NEW');
+      expect(component.isNewCategoryModalOpen()).toBe(true);
+
+      component.onCategorySelectChange(3);
+      expect(component.categoryId()).toBe(3);
+    });
+
+    it('should validate category name before submission', () => {
+      const fixture = TestBed.createComponent(EditQuizComponent);
+      const component = fixture.componentInstance;
+      fixture.detectChanges();
+
+      component.openNewCategoryModal();
+      component.newCategoryName.set('   ');
+      component.createCategory();
+
+      expect(component.newCategoryError()).toBe('Category name is required.');
+      expect(component.isCreatingCategory()).toBe(false);
+
+      component.newCategoryName.set('a'.repeat(101));
+      component.createCategory();
+      expect(component.newCategoryError()).toBe('Category name cannot exceed 100 characters.');
+    });
+
+    it('should create new category, append to categories signal, and select it', () => {
+      const fixture = TestBed.createComponent(EditQuizComponent);
+      const component = fixture.componentInstance;
+      const quizService = TestBed.inject(QuizService);
+      fixture.detectChanges();
+
+      vi.spyOn(quizService, 'createCategory').mockReturnValue(
+        of({ id: 99, name: 'Astrophysics & Relativity' })
+      );
+
+      component.openNewCategoryModal();
+      component.newCategoryName.set('Astrophysics & Relativity');
+      component.createCategory();
+
+      expect(component.isNewCategoryModalOpen()).toBe(false);
+      expect(component.categoryId()).toBe(99);
+      expect(component.categories().some(c => c.id === 99 && c.name === 'Astrophysics & Relativity')).toBe(true);
+    });
+  });
 });
+
 
