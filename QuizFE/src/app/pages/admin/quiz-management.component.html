@@ -48,241 +48,704 @@
 
   <!-- 2. MAIN CONTAINER -->
   <div class="pl-72">
-    <!-- Top Bar -->
-    <header class="h-16 bg-[#faf8ff]/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] sticky top-0 z-40 flex items-center justify-between px-8 border-b border-[#eaedff]">
-      <div class="flex items-center gap-2">
-        <span class="font-bold text-base text-[#131b2e]">Academic Registry Console</span>
-      </div>
-      <div class="flex items-center gap-4">
-        <button
-          (click)="createQuiz()"
-          class="flex items-center gap-2 px-4 py-2 bg-[#3525cd] text-white text-xs font-semibold rounded-xl hover:bg-[#281ca8] shadow-sm transition-all">
-          <span class="material-symbols-outlined text-[18px]">add</span>
-          <span>Create New Quiz</span>
-        </button>
-      </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="p-8 max-w-[1440px] mx-auto flex flex-col gap-6">
-      <!-- Title & Metrics Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-xs uppercase tracking-wider text-[#3525cd] font-bold">Academic Curriculum</span>
-            <span class="w-1.5 h-1.5 rounded-full bg-[#464555]"></span>
-            <span class="text-xs text-[#767586]">Active Repository</span>
+    <!-- ========================================== -->
+    <!-- VIEW A: ALL QUIZZES LEDGER TABLE           -->
+    <!-- ========================================== -->
+    <div *ngIf="!selectedQuiz()">
+      <!-- Top Bar -->
+      <header class="h-16 bg-[#faf8ff]/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] sticky top-0 z-40 flex items-center justify-between px-8 border-b border-[#eaedff]">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-base text-[#131b2e]">Academic Registry Console</span>
+        </div>
+        <div class="flex items-center gap-3 text-xs text-[#767586]">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            System Online
+          </span>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="p-8 max-w-[1440px] mx-auto flex flex-col gap-6">
+        <!-- Title & Subtitle Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xs uppercase tracking-wider text-[#3525cd] font-bold">Academic Curriculum</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-[#464555]"></span>
+              <span class="text-xs text-[#767586]">Active Repository</span>
+            </div>
+            <h1 class="text-2xl font-extrabold text-[#131b2e] tracking-tight">Quiz Management</h1>
+            <p class="text-xs sm:text-sm text-[#767586] mt-0.5">Audit curriculum ledgers, inspect question syllabi with student results, and administer quiz availability.</p>
           </div>
-          <h1 class="text-2xl font-extrabold text-[#131b2e] tracking-tight">Quiz Management</h1>
-          <p class="text-xs sm:text-sm text-[#767586] mt-0.5">Audit, organize, and administer verified study decks and learning outcomes.</p>
         </div>
 
-        <!-- View Switcher (Table vs Accordion) -->
-        <div class="flex items-center gap-2 p-1 bg-[#eaedff] rounded-xl border border-[#dce1ff]">
-          <button
-            (click)="viewMode.set('table')"
-            [class]="viewMode() === 'table' ? 'bg-white text-[#3525cd] font-bold shadow-sm' : 'text-[#464555] font-medium'"
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all">
-            <span class="material-symbols-outlined text-sm">table_rows</span>
-            <span>Clean Table</span>
+        <!-- Search & Filter Controls -->
+        <div class="bg-white rounded-2xl border border-[#eaedff] p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <!-- Search -->
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+            <input
+              type="text"
+              [(ngModel)]="searchQuery"
+              placeholder="Search quizzes by title, category, or curator..."
+              class="w-full pl-10 pr-4 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none focus:ring-2 focus:ring-[#3525cd]/40" />
+          </div>
+
+          <!-- Category Dropdown -->
+          <div class="w-full md:w-52">
+            <select
+              [(ngModel)]="selectedCategoryId"
+              class="w-full px-3 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none">
+              <option [ngValue]="null">All Categories</option>
+              <option *ngFor="let cat of categories()" [ngValue]="cat.id">{{ cat.name }}</option>
+            </select>
+          </div>
+
+          <!-- Visibility Filter -->
+          <div class="flex items-center gap-1 shrink-0 bg-[#f2f3ff] p-1 rounded-xl">
+            <button
+              (click)="selectedVisibility.set('all')"
+              [class]="selectedVisibility() === 'all' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              All Vis
+            </button>
+            <button
+              (click)="selectedVisibility.set('public')"
+              [class]="selectedVisibility() === 'public' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              Public
+            </button>
+            <button
+              (click)="selectedVisibility.set('private')"
+              [class]="selectedVisibility() === 'private' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              Private
+            </button>
+          </div>
+
+          <!-- Status Filter (Active vs Disabled) -->
+          <div class="flex items-center gap-1 shrink-0 bg-[#f2f3ff] p-1 rounded-xl">
+            <button
+              (click)="selectedStatus.set('all')"
+              [class]="selectedStatus() === 'all' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              All Status
+            </button>
+            <button
+              (click)="selectedStatus.set('active')"
+              [class]="selectedStatus() === 'active' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              Active
+            </button>
+            <button
+              (click)="selectedStatus.set('disabled')"
+              [class]="selectedStatus() === 'disabled' ? 'bg-amber-600 text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              Disabled
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz List Data Table -->
+        <div class="bg-white rounded-2xl border border-[#eaedff] shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#f8f9ff] border-b border-[#eaedff] text-xs font-bold text-[#767586] uppercase tracking-wider">
+                  <th class="py-3.5 px-6">Quiz Title</th>
+                  <th class="py-3.5 px-6">Curriculum Domain</th>
+                  <th class="py-3.5 px-6">Questions</th>
+                  <th class="py-3.5 px-6">Duration</th>
+                  <th class="py-3.5 px-6">Access</th>
+                  <th class="py-3.5 px-6">Curator</th>
+                  <th class="py-3.5 px-6">Status</th>
+                  <th class="py-3.5 px-6 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#eaedff] text-xs font-medium">
+                <tr *ngIf="isLoading()" class="py-8 text-center text-[#767586]">
+                  <td colspan="8" class="py-8 text-center">Loading quizzes repository...</td>
+                </tr>
+
+                <tr *ngIf="!isLoading() && filteredQuizzes().length === 0" class="py-8 text-center text-[#767586]">
+                  <td colspan="8" class="py-8 text-center">No quizzes match the current criteria.</td>
+                </tr>
+
+                <tr *ngFor="let q of filteredQuizzes()" class="hover:bg-[#f8f9ff] transition-colors" [class.opacity-65]="q.isActive === false">
+                  <!-- Quiz Title -->
+                  <td class="py-4 px-6">
+                    <div class="flex flex-col">
+                      <span class="font-bold text-sm text-[#131b2e]">{{ q.title }}</span>
+                      <span class="text-[11px] text-[#767586] font-mono">#QZ-{{ q.id }}</span>
+                    </div>
+                  </td>
+
+                  <!-- Curriculum Category -->
+                  <td class="py-4 px-6">
+                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+                      {{ q.categoryName }}
+                    </span>
+                  </td>
+
+                  <!-- Questions -->
+                  <td class="py-4 px-6">
+                    <span class="font-bold text-[#131b2e]">{{ q.questionCount }}</span> items
+                  </td>
+
+                  <!-- Duration -->
+                  <td class="py-4 px-6">
+                    {{ q.duration > 0 ? q.duration + ' min' : 'Untimed' }}
+                  </td>
+
+                  <!-- Access -->
+                  <td class="py-4 px-6">
+                    <span
+                      class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider"
+                      [ngClass]="q.visibility === 1 || q.visibility === 'Public' ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-gray-100 text-gray-700 border border-gray-300'">
+                      {{ q.visibility === 1 || q.visibility === 'Public' ? 'Public' : 'Private' }}
+                    </span>
+                  </td>
+
+                  <!-- Curator -->
+                  <td class="py-4 px-6 text-[#767586]">
+                    {{ q.ownerDisplayName || q.ownerName || 'Faculty Staff' }}
+                  </td>
+
+                  <!-- Status (Active vs Disabled) -->
+                  <td class="py-4 px-6">
+                    <span
+                      *ngIf="q.isActive !== false"
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      Active
+                    </span>
+                    <span
+                      *ngIf="q.isActive === false"
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                      Disabled
+                    </span>
+                  </td>
+
+                  <!-- Strict Admin Actions: ONLY View Details and Disable / Restore -->
+                  <td class="py-4 px-6 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <button
+                        (click)="viewQuizDetails(q)"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#3525cd] text-white hover:bg-[#281ca8] text-xs font-semibold shadow-sm transition-all"
+                        title="View Quiz Details & Results">
+                        <span class="material-symbols-outlined text-[16px]">visibility</span>
+                        <span>View Details</span>
+                      </button>
+
+                      <!-- Disable Button (when active) -->
+                      <button
+                        *ngIf="q.isActive !== false"
+                        (click)="openStatusModal(q, false)"
+                        class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-amber-300 text-amber-800 bg-amber-50/70 hover:bg-amber-100 text-xs font-semibold transition-colors"
+                        title="Disable Quiz">
+                        <span class="material-symbols-outlined text-[16px]">pause_circle</span>
+                        <span>Disable</span>
+                      </button>
+
+                      <!-- Restore Button (when disabled) -->
+                      <button
+                        *ngIf="q.isActive === false"
+                        (click)="openStatusModal(q, true)"
+                        class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-emerald-300 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 text-xs font-semibold transition-colors"
+                        title="Restore Quiz">
+                        <span class="material-symbols-outlined text-[16px]">restore</span>
+                        <span>Restore</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- VIEW B: SCREEN 12 ACCORDION AUDIT VIEW     -->
+    <!-- ========================================== -->
+    <div *ngIf="selectedQuiz()" class="min-h-screen flex flex-col bg-[#faf8ff]">
+      <!-- Top Bar: Breadcrumb + Sync Status -->
+      <header class="h-14 border-b border-[#eaedff] bg-white px-8 flex items-center justify-between flex-shrink-0 sticky top-0 z-40">
+        <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs sm:text-sm">
+          <button (click)="backToList()" class="text-[#464555] hover:text-[#3525cd] font-medium transition-colors">
+            Quiz Management
           </button>
-          <button
-            (click)="viewMode.set('accordion')"
-            [class]="viewMode() === 'accordion' ? 'bg-white text-[#3525cd] font-bold shadow-sm' : 'text-[#464555] font-medium'"
-            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all">
-            <span class="material-symbols-outlined text-sm">account_tree</span>
-            <span>Curriculum Accordion</span>
-          </button>
-        </div>
-      </div>
+          <span class="text-gray-300">/</span>
+          <span class="text-[#131b2e] font-semibold truncate max-w-sm sm:max-w-md">
+            {{ selectedQuiz()?.title }} (#QZ-{{ selectedQuiz()?.id }})
+          </span>
+        </nav>
 
-      <!-- Search & Filters -->
-      <div class="bg-white rounded-2xl border border-[#eaedff] p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        <!-- Search -->
-        <div class="relative flex-1">
-          <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
-          <input
-            type="text"
-            [(ngModel)]="searchQuery"
-            placeholder="Search quizzes by title or curriculum category..."
-            class="w-full pl-10 pr-4 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none focus:ring-2 focus:ring-[#3525cd]/40" />
+        <div class="flex items-center gap-3">
+          <span
+            *ngIf="selectedQuiz()?.isActive !== false"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-xs font-medium text-emerald-700 border border-emerald-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Active Registry
+          </span>
+          <span
+            *ngIf="selectedQuiz()?.isActive === false"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-xs font-medium text-amber-800 border border-amber-300">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+            Disabled (Read-Only)
+          </span>
         </div>
+      </header>
 
-        <!-- Category Dropdown -->
-        <div class="w-full md:w-56">
-          <select
-            [(ngModel)]="selectedCategoryId"
-            class="w-full px-3 py-2 rounded-xl bg-[#f2f3ff] text-xs font-medium text-[#131b2e] focus:outline-none">
-            <option [ngValue]="null">All Categories</option>
-            <option *ngFor="let cat of categories()" [ngValue]="cat.id">{{ cat.name }}</option>
-          </select>
-        </div>
-
-        <!-- Visibility Filter -->
-        <div class="flex items-center gap-1.5 shrink-0">
-          <button
-            (click)="selectedVisibility.set('all')"
-            [class]="selectedVisibility() === 'all' ? 'bg-[#3525cd] text-white font-bold' : 'bg-[#f2f3ff] text-[#464555]'"
-            class="px-3 py-1.5 rounded-lg text-xs transition-all">
-            All
-          </button>
-          <button
-            (click)="selectedVisibility.set('public')"
-            [class]="selectedVisibility() === 'public' ? 'bg-[#3525cd] text-white font-bold' : 'bg-[#f2f3ff] text-[#464555]'"
-            class="px-3 py-1.5 rounded-lg text-xs transition-all">
-            Public
-          </button>
-          <button
-            (click)="selectedVisibility.set('private')"
-            [class]="selectedVisibility() === 'private' ? 'bg-[#3525cd] text-white font-bold' : 'bg-[#f2f3ff] text-[#464555]'"
-            class="px-3 py-1.5 rounded-lg text-xs transition-all">
-            Private
-          </button>
-        </div>
-      </div>
-
-      <!-- VIEW 1: CLEAN DATA TABLE (Screen 1) -->
-      <div *ngIf="viewMode() === 'table'" class="bg-white rounded-2xl border border-[#eaedff] shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-[#f8f9ff] border-b border-[#eaedff] text-xs font-bold text-[#767586] uppercase tracking-wider">
-                <th class="py-3.5 px-6">Quiz Title</th>
-                <th class="py-3.5 px-6">Curriculum Domain</th>
-                <th class="py-3.5 px-6">Questions</th>
-                <th class="py-3.5 px-6">Duration</th>
-                <th class="py-3.5 px-6">Access</th>
-                <th class="py-3.5 px-6">Curator</th>
-                <th class="py-3.5 px-6 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-[#eaedff] text-xs font-medium">
-              <tr *ngFor="let q of filteredQuizzes()" class="hover:bg-[#f8f9ff] transition-colors">
-                <td class="py-4 px-6">
-                  <div class="flex flex-col">
-                    <span class="font-bold text-sm text-[#131b2e]">{{ q.title }}</span>
-                  </div>
-                </td>
-                <td class="py-4 px-6">
-                  <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-headline font-extrabold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
-                    {{ q.categoryName }}
-                  </span>
-                </td>
-                <td class="py-4 px-6">
-                  <span class="font-bold text-[#131b2e]">{{ q.questionCount }}</span> items
-                </td>
-                <td class="py-4 px-6">
-                  {{ q.duration > 0 ? q.duration + ' min' : 'Untimed' }}
-                </td>
-                <td class="py-4 px-6">
-                  <span
-                    class="px-2.5 py-0.5 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider"
-                    [ngClass]="q.visibility === 1 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-gray-100 text-gray-700 border border-gray-300'">
-                    {{ q.visibility === 1 ? 'Public' : 'Private' }}
-                  </span>
-                </td>
-                <td class="py-4 px-6 text-[#767586]">
-                  {{ q.ownerDisplayName || q.ownerName || 'Faculty Staff' }}
-                </td>
-                <td class="py-4 px-6 text-right">
-                  <div class="flex items-center justify-end gap-1.5">
-                    <button
-                      (click)="playQuiz(q)"
-                      title="Preview Sprint"
-                      class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#3525cd] transition-colors">
-                      <span class="material-symbols-outlined text-base">visibility</span>
-                    </button>
-                    <button
-                      (click)="editQuiz(q)"
-                      title="Edit in Studio"
-                      class="p-1.5 rounded-lg text-[#464555] hover:bg-[#eaedff] hover:text-[#3525cd] transition-colors">
-                      <span class="material-symbols-outlined text-base">edit</span>
-                    </button>
-                    <button
-                      (click)="confirmDelete(q)"
-                      title="Delete Quiz"
-                      class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-50 transition-colors">
-                      <span class="material-symbols-outlined text-base">delete</span>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- VIEW 2: ACCORDION CURRICULUM LEDGER (Screen 4) -->
-      <div *ngIf="viewMode() === 'accordion'" class="flex flex-col gap-4">
-        <div
-          *ngFor="let group of curriculumGroups()"
-          class="bg-white rounded-2xl border border-[#eaedff] shadow-sm overflow-hidden">
-          <!-- Accordion Header -->
-          <button
-            (click)="toggleAccordionCat(group.category.id)"
-            class="w-full px-6 py-4 bg-[#f8f9ff] flex items-center justify-between hover:bg-[#f2f3ff] transition-colors text-left">
-            <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-[#3525cd] text-white flex items-center justify-center font-bold text-xs">
-                {{ group.category.name ? group.category.name.slice(0, 1) : 'C' }}
+      <!-- Sub-Header: Title & Admin Actions Toolbar -->
+      <div class="bg-white border-b border-[#eaedff] px-8 py-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center gap-2.5">
+              <button
+                (click)="backToList()"
+                class="inline-flex items-center gap-1 text-xs font-semibold text-[#464555] hover:text-[#3525cd] transition-colors">
+                <span class="material-symbols-outlined text-[15px]">arrow_back</span>
+                <span>All Quizzes</span>
+              </button>
+              <span class="text-gray-300">•</span>
+              <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-[#eaedff] text-[#3525cd]">
+                #QZ-{{ selectedQuiz()?.id }}
               </span>
+              <span
+                *ngIf="selectedQuiz()?.isActive !== false"
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Active
+              </span>
+              <span
+                *ngIf="selectedQuiz()?.isActive === false"
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                Disabled
+              </span>
+            </div>
+
+            <h1 class="text-2xl md:text-3xl font-['Plus_Jakarta_Sans'] text-[#131b2e] tracking-tight font-bold">
+              {{ selectedQuiz()?.title }}
+            </h1>
+            <p class="text-xs text-[#464555]">
+              {{ selectedQuiz()?.categoryName }} • Curator: {{ selectedQuiz()?.ownerDisplayName || selectedQuiz()?.ownerName || 'Faculty' }}
+            </p>
+          </div>
+
+          <!-- Direct Actions Toolbar: Disable / Restore -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <button
+              (click)="backToList()"
+              class="inline-flex items-center gap-1.5 px-3 py-2 border border-[#dce1ff] rounded-lg text-xs font-semibold text-[#131b2e] hover:bg-[#eaedff] transition-colors shadow-sm">
+              <span class="material-symbols-outlined text-[17px]">arrow_back</span>
+              <span>Back to Quizzes</span>
+            </button>
+
+            <!-- Disable Quiz Button -->
+            <button
+              *ngIf="selectedQuiz()?.isActive !== false"
+              (click)="openStatusModal(selectedQuiz()!, false)"
+              class="inline-flex items-center gap-1.5 px-3 py-2 border border-amber-300 text-amber-900 bg-amber-50 hover:bg-amber-100 rounded-lg text-xs font-semibold transition-colors shadow-sm">
+              <span class="material-symbols-outlined text-[17px] text-amber-700">pause_circle</span>
+              <span>Disable Quiz</span>
+            </button>
+
+            <!-- Restore Quiz Button -->
+            <button
+              *ngIf="selectedQuiz()?.isActive === false"
+              (click)="openStatusModal(selectedQuiz()!, true)"
+              class="inline-flex items-center gap-1.5 px-3 py-2 border border-emerald-300 text-emerald-900 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-xs font-semibold transition-colors shadow-sm">
+              <span class="material-symbols-outlined text-[17px] text-emerald-700">restore</span>
+              <span>Restore Quiz</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Scrollable Ledger Area -->
+      <main class="flex-1 overflow-y-auto px-8 py-6 bg-[#faf8ff]">
+        <div class="max-w-6xl mx-auto flex flex-col gap-6">
+
+          <!-- Bento Metric Grid (4 Clean Cards) -->
+          <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1: Title & Category -->
+            <div class="bg-white border border-[#eaedff] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+              <div class="flex items-center justify-between text-[#464555] mb-2">
+                <span class="text-[11px] font-semibold tracking-wider uppercase">Title & Category</span>
+                <span class="material-symbols-outlined text-[18px] text-[#3525cd]">category</span>
+              </div>
               <div>
-                <h3 class="font-bold text-sm text-[#131b2e]">{{ group.category.name }}</h3>
-                <span class="text-[11px] text-[#767586]">{{ group.quizzes.length }} Active Quizzes</span>
+                <div class="text-sm font-bold text-[#131b2e] truncate">{{ selectedQuiz()?.title }}</div>
+                <div class="text-xs text-[#464555] mt-0.5">{{ selectedQuiz()?.categoryName }}</div>
               </div>
             </div>
-            <span class="material-symbols-outlined text-gray-500 transition-transform" [class.rotate-180]="expandedAccordionCats().has(group.category.id)">
-              expand_more
-            </span>
-          </button>
 
-          <!-- Accordion Content -->
-          <div *ngIf="expandedAccordionCats().has(group.category.id)" class="p-4 divide-y divide-[#eaedff]">
-            <div *ngFor="let q of group.quizzes" class="py-3 flex items-center justify-between gap-4">
+            <!-- Card 2: Owner & Access -->
+            <div class="bg-white border border-[#eaedff] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+              <div class="flex items-center justify-between text-[#464555] mb-2">
+                <span class="text-[11px] font-semibold tracking-wider uppercase">Owner & Access</span>
+                <span class="material-symbols-outlined text-[18px] text-[#0058be]">person_check</span>
+              </div>
               <div>
-                <h4 class="font-bold text-xs text-[#131b2e]">{{ q.title }}</h4>
-                <div class="flex items-center gap-3 text-[11px] text-[#767586] mt-0.5">
-                  <span>{{ q.questionCount }} Questions</span>
-                  <span>{{ q.duration }} min</span>
+                <div class="text-sm font-bold text-[#131b2e] truncate">{{ selectedQuiz()?.ownerDisplayName || selectedQuiz()?.ownerName || 'Staff' }}</div>
+                <div class="text-xs text-[#464555] mt-0.5">
+                  {{ selectedQuiz()?.visibility === 1 || selectedQuiz()?.visibility === 'Public' ? 'Public Institutional Access' : 'Private Access' }}
                 </div>
               </div>
+            </div>
+
+            <!-- Card 3: Assessment Parameters -->
+            <div class="bg-white border border-[#eaedff] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+              <div class="flex items-center justify-between text-[#464555] mb-2">
+                <span class="text-[11px] font-semibold tracking-wider uppercase">Assessment Parameters</span>
+                <span class="material-symbols-outlined text-[18px] text-[#3525cd]">timer</span>
+              </div>
+              <div>
+                <div class="text-sm font-bold text-[#131b2e]">
+                  {{ selectedQuiz()?.duration ? selectedQuiz()?.duration + ' Minutes Allowed' : 'Untimed Assessment' }}
+                </div>
+                <div class="text-xs text-[#464555] mt-0.5">
+                  {{ selectedQuiz()?.maxAttempts ? 'Max ' + selectedQuiz()?.maxAttempts + ' Attempts Allowed' : 'Unlimited Attempts' }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Submission Performance & Results -->
+            <div class="bg-white border border-[#eaedff] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+              <div class="flex items-center justify-between text-[#464555] mb-2">
+                <span class="text-[11px] font-semibold tracking-wider uppercase">Submission Performance</span>
+                <span class="material-symbols-outlined text-[18px] text-emerald-600">monitoring</span>
+              </div>
+              <div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-sm font-bold text-[#131b2e]">
+                    {{ selectedQuizResults()?.totalAttempts ?? 0 }} Attempts
+                  </span>
+                  <span class="text-xs font-semibold text-emerald-600">
+                    {{ selectedQuizResults()?.averageScore ?? 0 }}% Avg
+                  </span>
+                </div>
+                <div class="text-xs text-[#464555] mt-0.5">
+                  {{ selectedQuiz()?.questionCount ?? 0 }} Questions Configured • {{ selectedQuizResults()?.passRate ?? 0 }}% Pass
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- SECTION 1: EMBEDDED QUIZ RESULTS LEDGER    -->
+          <!-- ========================================== -->
+          <section class="bg-white border border-[#eaedff] rounded-xl p-5 shadow-sm flex flex-col gap-4">
+            <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
+                  <span class="material-symbols-outlined text-[16px]">grade</span>
+                </span>
+                <div>
+                  <h2 class="text-sm font-bold text-[#131b2e]">Quiz Submission Results Ledger</h2>
+                  <p class="text-xs text-[#464555]">Directly records learner submissions, telemetry snapshots, and score outcomes.</p>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-[#eaedff] text-[#3525cd]">
+                {{ selectedQuizResults()?.attempts?.length ?? 0 }} Records
+              </span>
+            </div>
+
+            <!-- No Results Found -->
+            <div
+              *ngIf="!selectedQuizResults() || selectedQuizResults()!.attempts.length === 0"
+              class="py-6 text-center text-xs text-[#767586] bg-[#faf8ff] rounded-lg border border-dashed border-[#eaedff]">
+              No student attempts recorded for this quiz yet.
+            </div>
+
+            <!-- Results Table -->
+            <div *ngIf="selectedQuizResults() && selectedQuizResults()!.attempts.length > 0" class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-[#f8f9ff] border-b border-[#eaedff] text-[11px] font-bold text-[#767586] uppercase tracking-wider">
+                    <th class="py-2.5 px-4">Student</th>
+                    <th class="py-2.5 px-4">Score</th>
+                    <th class="py-2.5 px-4">Correct / Total</th>
+                    <th class="py-2.5 px-4">Time Spent</th>
+                    <th class="py-2.5 px-4">Submitted At</th>
+                    <th class="py-2.5 px-4 text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#eaedff]">
+                  <tr *ngFor="let attempt of selectedQuizResults()!.attempts" class="hover:bg-[#f8f9ff] transition-colors">
+                    <td class="py-3 px-4">
+                      <div class="flex flex-col">
+                        <span class="font-bold text-[#131b2e]">{{ attempt.studentName }}</span>
+                        <span class="text-[11px] text-[#767586]">{{ attempt.studentEmail }}</span>
+                      </div>
+                    </td>
+                    <td class="py-3 px-4">
+                      <span
+                        class="font-bold text-xs px-2 py-0.5 rounded-full"
+                        [ngClass]="attempt.score >= 50 ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'">
+                        {{ attempt.score }}%
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-[#464555]">
+                      {{ attempt.correctAnswers }} / {{ attempt.totalQuestions }}
+                    </td>
+                    <td class="py-3 px-4 text-[#464555]">
+                      {{ attempt.timeSpentSeconds > 0 ? (attempt.timeSpentSeconds + 's') : 'N/A' }}
+                    </td>
+                    <td class="py-3 px-4 text-[#464555]">
+                      {{ attempt.submittedAt ? (attempt.submittedAt | date:'medium') : 'In Progress' }}
+                    </td>
+                    <td class="py-3 px-4 text-right">
+                      <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-gray-100 text-gray-700 uppercase">
+                        {{ attempt.status }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- SECTION 2: QUESTION CURRICULUM LEDGER      -->
+          <!-- ========================================== -->
+          <section class="flex flex-col gap-4">
+            <!-- Filter Bar & Expand/Collapse Controls -->
+            <div class="bg-white border border-[#eaedff] rounded-xl p-3 flex flex-col lg:flex-row items-center justify-between gap-3 shadow-sm">
+              <div class="flex items-center gap-3 w-full lg:w-auto flex-1">
+                <!-- Search Input -->
+                <div class="relative w-full max-w-sm">
+                  <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#767586] text-[18px]">search</span>
+                  <input
+                    type="text"
+                    [(ngModel)]="questionSearchQuery"
+                    placeholder="Search prompts, options, answers..."
+                    class="w-full bg-[#f2f3ff] border border-[#eaedff] rounded-lg pl-9 pr-3 py-1.5 text-xs text-[#131b2e] placeholder:text-[#767586] focus:outline-none focus:ring-1 focus:ring-[#3525cd]" />
+                </div>
+
+                <!-- Filter Pills -->
+                <div class="hidden sm:flex items-center gap-1.5 overflow-x-auto">
+                  <button
+                    (click)="questionFilterType.set('all')"
+                    [class]="questionFilterType() === 'all' ? 'bg-[#3525cd] text-white font-semibold' : 'text-[#464555] hover:bg-[#eaedff]'"
+                    class="px-2.5 py-1 rounded-md text-xs transition-colors">
+                    All
+                  </button>
+                  <button
+                    (click)="questionFilterType.set('single')"
+                    [class]="questionFilterType() === 'single' ? 'bg-[#3525cd] text-white font-semibold' : 'text-[#464555] hover:bg-[#eaedff]'"
+                    class="px-2.5 py-1 rounded-md text-xs transition-colors">
+                    Single Choice
+                  </button>
+                  <button
+                    (click)="questionFilterType.set('multiple')"
+                    [class]="questionFilterType() === 'multiple' ? 'bg-[#3525cd] text-white font-semibold' : 'text-[#464555] hover:bg-[#eaedff]'"
+                    class="px-2.5 py-1 rounded-md text-xs transition-colors">
+                    Multiple Choice
+                  </button>
+                  <button
+                    (click)="questionFilterType.set('truefalse')"
+                    [class]="questionFilterType() === 'truefalse' ? 'bg-[#3525cd] text-white font-semibold' : 'text-[#464555] hover:bg-[#eaedff]'"
+                    class="px-2.5 py-1 rounded-md text-xs transition-colors">
+                    True / False
+                  </button>
+                </div>
+              </div>
+
+              <!-- Expand / Collapse All -->
+              <div class="flex items-center gap-2 shrink-0">
                 <button
-                  (click)="playQuiz(q)"
-                  class="px-2.5 py-1 rounded-md bg-[#eaedff] text-[#3525cd] font-semibold text-xs hover:bg-[#dce1ff]">
-                  Preview
+                  (click)="expandAllQuestions()"
+                  class="px-2.5 py-1 text-xs font-semibold rounded border border-[#eaedff] text-[#464555] hover:bg-[#eaedff] transition-colors">
+                  Expand All
                 </button>
                 <button
-                  (click)="editQuiz(q)"
-                  class="px-2.5 py-1 rounded-md bg-[#3525cd] text-white font-semibold text-xs hover:bg-[#281ca8]">
-                  Edit
+                  (click)="collapseAllQuestions()"
+                  class="px-2.5 py-1 text-xs font-semibold rounded border border-[#eaedff] text-[#464555] hover:bg-[#eaedff] transition-colors">
+                  Collapse All
                 </button>
               </div>
             </div>
-          </div>
+
+            <!-- Loading State -->
+            <div *ngIf="isDetailLoading()" class="py-12 text-center text-xs text-[#767586] bg-white rounded-xl border border-[#eaedff]">
+              Loading syllabus question breakdown...
+            </div>
+
+            <!-- Accordion Question List -->
+            <div *ngIf="!isDetailLoading()" class="flex flex-col gap-3">
+              <div
+                *ngFor="let q of filteredQuestions(); let i = index"
+                class="bg-white border border-[#eaedff] rounded-xl overflow-hidden shadow-sm transition-all">
+                <!-- Header / Clickable Bar -->
+                <div
+                  (click)="toggleQuestion(i)"
+                  class="p-4 bg-white flex items-center justify-between gap-4 cursor-pointer hover:bg-[#f8f9ff] transition-colors border-b border-[#eaedff]">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="w-7 h-7 rounded-md bg-[#eaedff] flex items-center justify-center font-bold text-xs text-[#3525cd] flex-shrink-0">
+                      Q{{ q.order || (i + 1) }}
+                    </span>
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#eaedff] text-[#131b2e]">
+                        {{ getQuestionTypeLabel(q.questionType) }}
+                      </span>
+                      <span class="text-xs text-[#767586]">•</span>
+                      <span class="text-xs text-[#767586]">v1.{{ (q.questionVersionId % 5) + 1 }}</span>
+                      <span class="text-xs text-[#767586]">•</span>
+                      <span class="text-xs text-[#131b2e] font-medium truncate max-w-md hidden md:inline">
+                        "{{ q.content }}"
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 flex-shrink-0">
+                    <span
+                      class="material-symbols-outlined text-[20px] text-[#767586] transition-transform duration-200"
+                      [class.rotate-180]="expandedQuestions().has(i)">
+                      expand_more
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Expanded Body -->
+                <div *ngIf="expandedQuestions().has(i)" class="p-5 flex flex-col gap-4 bg-white animate-in fade-in duration-150">
+                  <div>
+                    <h3 class="text-sm font-semibold text-[#131b2e] leading-snug">
+                      {{ q.content }}
+                    </h3>
+                  </div>
+
+                  <!-- Options Grid -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div
+                      *ngFor="let ans of q.answers; let optIdx = index"
+                      class="flex items-center justify-between p-3 rounded-lg border transition-all"
+                      [ngClass]="ans.isCorrect ? 'border-2 border-emerald-400 bg-emerald-50/60 shadow-sm' : 'border-gray-200 bg-white opacity-85'">
+                      <div class="flex items-center gap-3">
+                        <span
+                          class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                          [ngClass]="ans.isCorrect ? 'bg-emerald-600 text-white' : 'border border-gray-300 text-gray-600'">
+                          {{ getOptionLetter(optIdx) }}
+                        </span>
+                        <span class="text-xs font-semibold" [ngClass]="ans.isCorrect ? 'text-emerald-950' : 'text-[#131b2e]'">
+                          {{ ans.content }}
+                        </span>
+                      </div>
+
+                      <span
+                        *ngIf="ans.isCorrect"
+                        class="text-[11px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[14px]">check</span>
+                        Correct Answer
+                      </span>
+                      <span
+                        *ngIf="!ans.isCorrect"
+                        class="text-[11px] text-[#767586]">
+                        Distractor
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Audit Rationale Box -->
+                  <div class="flex items-start gap-2.5 p-3 rounded-lg bg-[#f2f3ff] border border-[#eaedff] text-xs text-[#464555]">
+                    <span class="material-symbols-outlined text-[#3525cd] text-[18px] flex-shrink-0 mt-0.5">info</span>
+                    <div class="leading-relaxed">
+                      <strong class="text-[#131b2e] font-semibold">Audit Rationale:</strong>
+                      Verified academic curriculum item. Evaluated and approved by departmental faculty curators.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer & Navigation Dock -->
+          <footer class="mt-2 mb-8 bg-white border border-[#eaedff] rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div class="flex items-center gap-3">
+              <button
+                (click)="backToList()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-[#eaedff] hover:bg-[#eaedff] transition-colors text-[#131b2e]">
+                <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                <span>Back to Quizzes</span>
+              </button>
+              <span class="text-xs text-[#767586] hidden sm:inline">
+                {{ filteredQuestions().length }} Total Curriculum Questions
+              </span>
+            </div>
+
+            <button
+              (click)="backToList()"
+              class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#3525cd] text-white text-xs font-semibold hover:bg-[#281ca8] shadow-sm transition-all">
+              <span>Finished Audit</span>
+            </button>
+          </footer>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </div>
 
-<!-- DELETE MODAL -->
-<div *ngIf="deleteModalQuiz()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150">
+<!-- ========================================== -->
+<!-- DISABLE / RESTORE CONFIRMATION MODAL       -->
+<!-- ========================================== -->
+<div *ngIf="statusModalData()" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-150">
   <div class="w-full max-w-md bg-white rounded-2xl border border-[#eaedff] shadow-xl p-6">
-    <h3 class="font-bold text-base text-[#131b2e] mb-2">Delete Quiz?</h3>
-    <p class="text-xs text-[#767586] mb-6">
-      Are you sure you want to delete <strong>{{ deleteModalQuiz()?.title }}</strong>? Past student attempt snapshots will be preserved.
+    <div class="flex items-center gap-3 mb-4">
+      <div
+        class="w-10 h-10 rounded-xl flex items-center justify-center"
+        [ngClass]="statusModalData()?.targetActive === false ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'">
+        <span class="material-symbols-outlined text-2xl">
+          {{ statusModalData()?.targetActive === false ? 'pause_circle' : 'restore' }}
+        </span>
+      </div>
+      <div>
+        <h3 class="font-bold text-base text-[#131b2e]">
+          {{ statusModalData()?.targetActive === false ? 'Disable Quiz?' : 'Restore Quiz?' }}
+        </h3>
+        <span class="text-xs text-[#767586] font-mono">#QZ-{{ statusModalData()?.quiz?.id }}</span>
+      </div>
+    </div>
+
+    <!-- Explanatory text preserving data -->
+    <p class="text-xs text-[#464555] mb-6 leading-relaxed">
+      <ng-container *ngIf="statusModalData()?.targetActive === false">
+        Are you sure you want to disable <strong>{{ statusModalData()?.quiz?.title }}</strong>?
+        Standard learners will no longer see or attempt this quiz. The quiz owner will retain read-only reference access in their workspace, and historical student results are preserved.
+      </ng-container>
+      <ng-container *ngIf="statusModalData()?.targetActive === true">
+        Are you sure you want to restore <strong>{{ statusModalData()?.quiz?.title }}</strong>?
+        This quiz will become active again and available for student exploration and attempts according to its visibility settings.
+      </ng-container>
     </p>
 
     <div class="flex items-center justify-end gap-3">
       <button
-        (click)="cancelDelete()"
+        (click)="cancelStatusModal()"
+        type="button"
         class="px-4 py-2 rounded-xl border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50">
         Cancel
       </button>
+
       <button
-        (click)="deleteConfirmed()"
-        class="px-4 py-2 rounded-xl bg-rose-600 text-xs font-bold text-white hover:bg-rose-700">
-        Delete Quiz
+        *ngIf="statusModalData()?.targetActive === false"
+        (click)="confirmStatusChange()"
+        type="button"
+        class="px-4 py-2 rounded-xl bg-amber-600 text-xs font-bold text-white hover:bg-amber-700 shadow-sm transition-all">
+        Disable Quiz
+      </button>
+
+      <button
+        *ngIf="statusModalData()?.targetActive === true"
+        (click)="confirmStatusChange()"
+        type="button"
+        class="px-4 py-2 rounded-xl bg-emerald-600 text-xs font-bold text-white hover:bg-emerald-700 shadow-sm transition-all">
+        Restore Quiz
       </button>
     </div>
   </div>

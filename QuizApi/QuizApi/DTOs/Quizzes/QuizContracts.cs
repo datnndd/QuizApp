@@ -113,3 +113,32 @@ public class QuizPreviewAnswerResponse
     public string Content { get; set; } = string.Empty;
     public bool IsCorrect { get; set; }
 }
+
+public class UpdateQuizStatusRequest
+{
+    public bool IsActive { get; set; }
+}
+
+public class QuizResultsSummaryResponse
+{
+    public int QuizId { get; set; }
+    public int TotalAttempts { get; set; }
+    public double AverageScore { get; set; }
+    public double PassRate { get; set; }
+    public List<QuizAttemptResultItem> Attempts { get; set; } = [];
+}
+
+public class QuizAttemptResultItem
+{
+    public int AttemptId { get; set; }
+    public int UserId { get; set; }
+    public string StudentName { get; set; } = string.Empty;
+    public string StudentEmail { get; set; } = string.Empty;
+    public double Score { get; set; }
+    public int TotalQuestions { get; set; }
+    public int CorrectAnswers { get; set; }
+    public int TimeSpentSeconds { get; set; }
+    public DateTime? SubmittedAt { get; set; }
+    public string Status { get; set; } = string.Empty;
+}
+

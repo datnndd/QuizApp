@@ -31,12 +31,18 @@
 
           <button
             (click)="saveQuiz()"
-            [disabled]="isSaving()"
+            [disabled]="isSaving() || isQuizDisabled()"
             class="px-5 py-2.5 rounded-2xl bg-amber-600 text-white font-headline font-black text-xs sm:text-sm border-2 border-[#272421] shadow-tactile hover:bg-amber-700 hover:translate-y-0.5 active:translate-y-1 transition-all flex items-center gap-1.5 disabled:opacity-50">
             <span class="material-symbols-outlined text-base">save</span>
             <span>{{ isSaving() ? 'Saving...' : 'Save Deck' }}</span>
           </button>
         </div>
+      </div>
+
+      <!-- Disabled Read-Only Warning Banner -->
+      <div *ngIf="isQuizDisabled()" class="mb-4 p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-900 flex items-center gap-2.5 font-headline font-bold text-xs">
+        <span class="material-symbols-outlined text-lg text-amber-700">lock</span>
+        <span>This quiz deck has been disabled by the system administrator. It is in read-only mode and cannot be modified or published.</span>
       </div>
 
       <!-- Taxonomy Inputs Grid -->

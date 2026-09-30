@@ -18,8 +18,13 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     public async Task<ActionResult<IEnumerable<QuizResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
-        var quizzes = await SummaryQuery(context.Quizzes.AsNoTracking()
-                .Where(q => q.IsActive && (q.Visibility == QuizVisibility.Public || q.OwnerId == userId)))
+        var isAdmin = User.IsInRole("Admin");
+        var query = context.Quizzes.AsNoTracking();
+        if (!isAdmin)
+        {
+            query = query.Where(q => q.IsActive && (q.Visibility == QuizVisibility.Public || q.OwnerId == userId));
+        }
+        var quizzes = await SummaryQuery(query)
             .OrderByDescending(q => q.Id)
             .ToListAsync(cancellationToken);
         return Ok(quizzes);
@@ -30,7 +35,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     {
         var userId = User.GetUserId();
         var quizzes = await SummaryQuery(context.Quizzes.AsNoTracking()
-                .Where(q => q.OwnerId == userId && q.IsActive))
+                .Where(q => q.OwnerId == userId))
             .OrderByDescending(q => q.Id)
             .ToListAsync(cancellationToken);
         return Ok(quizzes);
@@ -39,8 +44,51 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<QuizResponse>> GetById(int id, CancellationToken cancellationToken)
     {
-        var quiz = await LoadAccessibleQuiz(id, User.GetUserId(), cancellationToken);
+        var quiz = await LoadAccessibleQuiz(id, User.GetUserId(), User.IsInRole("Admin"), cancellationToken);
         return quiz is null ? NotFound(new { message = "Quiz not found." }) : Ok(quiz);
+    }
+
+    [HttpGet("{id:int}/results")]
+    public async Task<ActionResult<QuizResultsSummaryResponse>> GetQuizResults(int id, CancellationToken cancellationToken)
+    {
+        var quiz = await context.Quizzes.AsNoTracking().FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
+        if (quiz is null) return NotFound(new { message = "Quiz not found." });
+
+        var userId = User.GetUserId();
+        var isAdmin = User.IsInRole("Admin");
+        if (!isAdmin && quiz.OwnerId != userId) return Forbid();
+
+        var attempts = await context.QuizAttempts.AsNoTracking()
+            .Where(a => a.QuizId == id && a.SubmittedAt != null)
+            .OrderByDescending(a => a.SubmittedAt)
+            .Select(a => new QuizAttemptResultItem
+            {
+                AttemptId = a.Id,
+                UserId = a.UserId,
+                StudentName = string.IsNullOrEmpty(a.User.DisplayName) ? a.User.UserName : a.User.DisplayName,
+                StudentEmail = a.User.Email,
+                Score = a.Score ?? 0,
+                TotalQuestions = a.TotalQuestions,
+                CorrectAnswers = a.CorrectAnswers ?? 0,
+                TimeSpentSeconds = a.TimeSpentSeconds ?? 0,
+                SubmittedAt = a.SubmittedAt,
+                Status = a.Status.ToString()
+            })
+            .ToListAsync(cancellationToken);
+
+        var totalAttempts = attempts.Count;
+        var avgScore = totalAttempts > 0 ? Math.Round(attempts.Average(a => a.Score), 1) : 0;
+        var passCount = attempts.Count(a => a.Score >= 50);
+        var passRate = totalAttempts > 0 ? Math.Round((double)passCount / totalAttempts * 100, 1) : 0;
+
+        return Ok(new QuizResultsSummaryResponse
+        {
+            QuizId = quiz.Id,
+            TotalAttempts = totalAttempts,
+            AverageScore = avgScore,
+            PassRate = passRate,
+            Attempts = attempts
+        });
     }
 
     [HttpPost]
@@ -67,15 +115,17 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         await SyncQuizQuestions(quiz, request, cancellationToken);
 
         return CreatedAtAction(nameof(GetById), new { id = quiz.Id },
-            await LoadAccessibleQuiz(quiz.Id, quiz.OwnerId, cancellationToken));
+            await LoadAccessibleQuiz(quiz.Id, quiz.OwnerId, false, cancellationToken));
     }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, UpdateQuizRequest request, CancellationToken cancellationToken)
     {
-        var quiz = await context.Quizzes.FirstOrDefaultAsync(q => q.Id == id && q.IsActive, cancellationToken);
+        var quiz = await context.Quizzes.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
         if (quiz is null) return NotFound(new { message = "Quiz not found." });
-        if (quiz.OwnerId != User.GetUserId()) return Forbid();
+        if (quiz.OwnerId != User.GetUserId() && !User.IsInRole("Admin")) return Forbid();
+        if (!quiz.IsActive)
+            return BadRequest(new { message = "Cannot modify a disabled quiz." });
         if (!await CategoryExists(request.CategoryId, cancellationToken))
             return BadRequest(new { message = "Category not found." });
 
@@ -101,12 +151,28 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("{id:int}/status")]
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateQuizStatusRequest request, CancellationToken cancellationToken)
+    {
+        var quiz = await context.Quizzes.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
+        if (quiz is null) return NotFound(new { message = "Quiz not found." });
+        var userId = User.GetUserId();
+        var isAdmin = User.IsInRole("Admin");
+        if (!isAdmin && quiz.OwnerId != userId) return Forbid();
+
+        quiz.IsActive = request.IsActive;
+        await context.SaveChangesAsync(cancellationToken);
+        return Ok(new { id = quiz.Id, isActive = quiz.IsActive });
+    }
+
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         var quiz = await context.Quizzes.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
         if (quiz is null) return NotFound(new { message = "Quiz not found." });
-        if (quiz.OwnerId != User.GetUserId()) return Forbid();
+        var userId = User.GetUserId();
+        var isAdmin = User.IsInRole("Admin");
+        if (!isAdmin && quiz.OwnerId != userId) return Forbid();
 
         quiz.IsActive = false;
         await context.SaveChangesAsync(cancellationToken);
@@ -257,9 +323,9 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     private Task<bool> CategoryExists(int categoryId, CancellationToken cancellationToken) =>
         context.Categories.AnyAsync(c => c.Id == categoryId && c.IsActive, cancellationToken);
 
-    private async Task<QuizResponse?> LoadAccessibleQuiz(int id, int userId, CancellationToken cancellationToken) =>
+    private async Task<QuizResponse?> LoadAccessibleQuiz(int id, int userId, bool isAdmin, CancellationToken cancellationToken) =>
         await DetailQuery(context.Quizzes.AsNoTracking().Where(q =>
-                q.Id == id && q.IsActive && (q.Visibility == QuizVisibility.Public || q.OwnerId == userId)))
+                q.Id == id && (isAdmin || (q.IsActive ? (q.Visibility == QuizVisibility.Public || q.OwnerId == userId) : q.OwnerId == userId))))
             .SingleOrDefaultAsync(cancellationToken);
 
     private static IQueryable<QuizResponse> SummaryQuery(IQueryable<Quiz> query) =>

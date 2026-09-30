@@ -88,8 +88,30 @@ export interface QuizSummary {
   ownerName?: string;
   ownerDisplayName?: string;
   questionCount: number;
+  isActive?: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface QuizAttemptResultItem {
+  attemptId: number;
+  userId: number;
+  studentName: string;
+  studentEmail: string;
+  score: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  timeSpentSeconds: number;
+  submittedAt?: string;
+  status: string;
+}
+
+export interface QuizResultsSummary {
+  quizId: number;
+  totalAttempts: number;
+  averageScore: number;
+  passRate: number;
+  attempts: QuizAttemptResultItem[];
 }
 
 export interface QuizDetail extends QuizSummary {

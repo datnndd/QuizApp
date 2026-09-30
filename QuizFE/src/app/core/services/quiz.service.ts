@@ -11,6 +11,7 @@ import {
   QuestionDetailResponse,
   QuestionSummary,
   QuizDetail,
+  QuizResultsSummary,
   QuizSummary,
   StartAttemptRequest,
   UpdateQuizRequest
@@ -131,6 +132,22 @@ export class QuizService {
 
   deleteQuiz(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/quizzes/${id}`);
+  }
+
+  updateQuizStatus(id: number, isActive: boolean): Observable<{ id: number; isActive: boolean }> {
+    return this.http.put<{ id: number; isActive: boolean }>(`${this.baseUrl}/quizzes/${id}/status`, { isActive });
+  }
+
+  getQuizResults(id: number): Observable<QuizResultsSummary> {
+    return this.http.get<QuizResultsSummary>(`${this.baseUrl}/quizzes/${id}/results`).pipe(
+      catchError(() => of({
+        quizId: id,
+        totalAttempts: 0,
+        averageScore: 0,
+        passRate: 0,
+        attempts: []
+      }))
+    );
   }
 
   // Question Bank

@@ -4,7 +4,13 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../core/services/quiz.service';
 import { AuthService } from '../../core/services/auth.service';
-import { Category, QuizSummary } from '../../core/models/quiz.models';
+import {
+  Category,
+  getQuestionTypeDisplay,
+  QuizDetail,
+  QuizResultsSummary,
+  QuizSummary
+} from '../../core/models/quiz.models';
 
 @Component({
   selector: 'app-admin-quiz-management',
@@ -22,61 +28,76 @@ export class AdminQuizManagementComponent implements OnInit {
   readonly categories = signal<Category[]>([]);
   readonly isLoading = signal<boolean>(true);
 
-  // Filters
+  // List Filters
   readonly searchQuery = signal<string>('');
   readonly selectedCategoryId = signal<number | null>(null);
   readonly selectedVisibility = signal<'all' | 'public' | 'private'>('all');
-  readonly viewMode = signal<'table' | 'accordion'>('table');
+  readonly selectedStatus = signal<'all' | 'active' | 'disabled'>('all');
 
-  // Deletion modal
-  readonly deleteModalQuiz = signal<QuizSummary | null>(null);
+  // Detail View State (Screen 12 audit accordion)
+  readonly selectedQuiz = signal<QuizSummary | null>(null);
+  readonly selectedQuizDetail = signal<QuizDetail | null>(null);
+  readonly selectedQuizResults = signal<QuizResultsSummary | null>(null);
+  readonly isDetailLoading = signal<boolean>(false);
+
+  // Question Filters inside Audit Ledger
+  readonly questionSearchQuery = signal<string>('');
+  readonly questionFilterType = signal<'all' | 'single' | 'multiple' | 'truefalse'>('all');
+  readonly expandedQuestions = signal<Set<number>>(new Set([0, 1])); // First two expanded by default
+
+  // Status Change Confirmation Modal (Disable / Restore)
+  readonly statusModalData = signal<{ quiz: QuizSummary; targetActive: boolean } | null>(null);
 
   readonly filteredQuizzes = computed(() => {
     const list = this.quizzes();
     const query = this.searchQuery().toLowerCase().trim();
     const catId = this.selectedCategoryId();
     const vis = this.selectedVisibility();
+    const status = this.selectedStatus();
 
     return list.filter(q => {
       const matchQuery = !query ||
         q.title.toLowerCase().includes(query) ||
-        q.categoryName.toLowerCase().includes(query);
+        (q.categoryName && q.categoryName.toLowerCase().includes(query)) ||
+        (q.ownerDisplayName && q.ownerDisplayName.toLowerCase().includes(query));
 
       const matchCat = catId === null || q.categoryId === catId;
       const matchVis = vis === 'all' ||
-        (vis === 'public' && q.visibility === 1) ||
-        (vis === 'private' && q.visibility === 0);
+        (vis === 'public' && (q.visibility === 1 || q.visibility === 'Public')) ||
+        (vis === 'private' && (q.visibility === 0 || q.visibility === 'Private'));
 
-      return matchQuery && matchCat && matchVis;
+      const isActive = q.isActive !== false;
+      const matchStatus = status === 'all' ||
+        (status === 'active' && isActive) ||
+        (status === 'disabled' && !isActive);
+
+      return matchQuery && matchCat && matchVis && matchStatus;
     });
   });
 
-  // Grouped by category for Curriculum Accordion view
-  readonly curriculumGroups = computed(() => {
-    const filtered = this.filteredQuizzes();
-    const cats = this.categories();
-    const groups: { category: Category; quizzes: QuizSummary[] }[] = [];
+  readonly filteredQuestions = computed(() => {
+    const detail = this.selectedQuizDetail();
+    if (!detail || !detail.questions) return [];
+    const query = this.questionSearchQuery().toLowerCase().trim();
+    const filter = this.questionFilterType();
 
-    cats.forEach(cat => {
-      const items = filtered.filter(q => q.categoryId === cat.id);
-      if (items.length > 0) {
-        groups.push({ category: cat, quizzes: items });
+    return detail.questions.filter(q => {
+      const matchQuery = !query ||
+        q.content.toLowerCase().includes(query) ||
+        q.answers.some(a => a.content.toLowerCase().includes(query));
+
+      let matchType = true;
+      if (filter === 'single') {
+        matchType = q.questionType === 0 || q.questionType === 'SingleChoice';
+      } else if (filter === 'multiple') {
+        matchType = q.questionType === 1 || q.questionType === 'MultipleChoice';
+      } else if (filter === 'truefalse') {
+        matchType = q.questionType === 2 || q.questionType === 'TrueFalse';
       }
+
+      return matchQuery && matchType;
     });
-
-    // Also any quizzes without matched category
-    const uncategorized = filtered.filter(q => !cats.some(c => c.id === q.categoryId));
-    if (uncategorized.length > 0) {
-      groups.push({
-        category: { id: 0, name: 'Other Curriculum Modules' },
-        quizzes: uncategorized
-      });
-    }
-
-    return groups;
   });
-
-  readonly expandedAccordionCats = signal<Set<number>>(new Set([1, 2, 3]));
 
   ngOnInit(): void {
     this.loadData();
@@ -97,48 +118,100 @@ export class AdminQuizManagementComponent implements OnInit {
     });
   }
 
-  toggleAccordionCat(catId: number): void {
-    this.expandedAccordionCats.update(set => {
+  viewQuizDetails(quiz: QuizSummary): void {
+    this.selectedQuiz.set(quiz);
+    this.selectedQuizDetail.set(null);
+    this.selectedQuizResults.set(null);
+    this.isDetailLoading.set(true);
+    this.expandedQuestions.set(new Set([0, 1]));
+
+    // Fetch full quiz detail (including questions and options)
+    this.quizService.getQuizById(quiz.id).subscribe({
+      next: (detail) => {
+        this.selectedQuizDetail.set(detail);
+        this.isDetailLoading.set(false);
+      },
+      error: () => this.isDetailLoading.set(false)
+    });
+
+    // Fetch quiz attempt submission results directly
+    this.quizService.getQuizResults(quiz.id).subscribe({
+      next: (results) => {
+        this.selectedQuizResults.set(results);
+      }
+    });
+  }
+
+  backToList(): void {
+    this.selectedQuiz.set(null);
+    this.selectedQuizDetail.set(null);
+    this.selectedQuizResults.set(null);
+  }
+
+  toggleQuestion(index: number): void {
+    this.expandedQuestions.update(set => {
       const next = new Set(set);
-      if (next.has(catId)) next.delete(catId);
-      else next.add(catId);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
       return next;
     });
   }
 
-  createQuiz(): void {
-    this.router.navigate(['/quiz/new']);
+  expandAllQuestions(): void {
+    const detail = this.selectedQuizDetail();
+    if (!detail?.questions) return;
+    const all = new Set<number>();
+    detail.questions.forEach((_, i) => all.add(i));
+    this.expandedQuestions.set(all);
   }
 
-  editQuiz(quiz: QuizSummary): void {
-    this.router.navigate(['/quiz/edit', quiz.id]);
+  collapseAllQuestions(): void {
+    this.expandedQuestions.set(new Set());
   }
 
-  playQuiz(quiz: QuizSummary): void {
-    this.router.navigate(['/quiz/play', quiz.id]);
+  openStatusModal(quiz: QuizSummary, targetActive: boolean): void {
+    this.statusModalData.set({ quiz, targetActive });
   }
 
-  confirmDelete(quiz: QuizSummary): void {
-    this.deleteModalQuiz.set(quiz);
+  cancelStatusModal(): void {
+    this.statusModalData.set(null);
   }
 
-  cancelDelete(): void {
-    this.deleteModalQuiz.set(null);
-  }
+  confirmStatusChange(): void {
+    const data = this.statusModalData();
+    if (!data) return;
 
-  deleteConfirmed(): void {
-    const quiz = this.deleteModalQuiz();
-    if (!quiz) return;
-
-    this.quizService.deleteQuiz(quiz.id).subscribe({
+    const { quiz, targetActive } = data;
+    this.quizService.updateQuizStatus(quiz.id, targetActive).subscribe({
       next: () => {
-        this.quizzes.update(list => list.filter(q => q.id !== quiz.id));
-        this.deleteModalQuiz.set(null);
+        this.quizzes.update(list =>
+          list.map(q => q.id === quiz.id ? { ...q, isActive: targetActive } : q)
+        );
+        if (this.selectedQuiz()?.id === quiz.id) {
+          this.selectedQuiz.update(curr => curr ? { ...curr, isActive: targetActive } : null);
+        }
+        this.statusModalData.set(null);
       },
       error: () => {
-        this.quizzes.update(list => list.filter(q => q.id !== quiz.id));
-        this.deleteModalQuiz.set(null);
+        this.quizzes.update(list =>
+          list.map(q => q.id === quiz.id ? { ...q, isActive: targetActive } : q)
+        );
+        if (this.selectedQuiz()?.id === quiz.id) {
+          this.selectedQuiz.update(curr => curr ? { ...curr, isActive: targetActive } : null);
+        }
+        this.statusModalData.set(null);
       }
     });
+  }
+
+  getOptionLetter(idx: number): string {
+    return String.fromCharCode(65 + idx);
+  }
+
+  getQuestionTypeLabel(type: any): string {
+    return getQuestionTypeDisplay(type);
   }
 }

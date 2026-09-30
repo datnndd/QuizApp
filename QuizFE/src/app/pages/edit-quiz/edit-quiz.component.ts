@@ -49,6 +49,7 @@ export class EditQuizComponent implements OnInit {
   readonly isLoading = signal<boolean>(true);
   readonly isSaving = signal<boolean>(false);
   readonly saveSuccess = signal<boolean>(false);
+  readonly isQuizDisabled = signal<boolean>(false);
 
   // Quiz Taxonomy Fields
   readonly title = signal<string>('New Practice Deck');
@@ -129,6 +130,7 @@ export class EditQuizComponent implements OnInit {
       next: (quiz) => {
         this.quizId.set(quiz.id || id);
         this.isNew.set(false);
+        this.isQuizDisabled.set(quiz.isActive === false);
         this.title.set(quiz.title);
         this.description.set(quiz.description);
         this.categoryId.set(quiz.categoryId || 1);
@@ -298,6 +300,8 @@ export class EditQuizComponent implements OnInit {
   }
 
   saveQuiz(): void {
+    if (this.isQuizDisabled()) return;
+
     this.isSaving.set(true);
     this.saveSuccess.set(false);
 

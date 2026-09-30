@@ -100,9 +100,14 @@ namespace QuizApi.Services
                 .ThenInclude(ur => ur.Role)
                 .FirstOrDefaultAsync(u => u.Email.ToLower() == identifier || u.UserName.ToLower() == identifier);
 
-            if (user == null || !user.IsActive || user.IsDeleted)
+            if (user == null)
             {
                 throw new UnauthorizedAccessException("Invalid email/username or password.");
+            }
+
+            if (!user.IsActive || user.IsDeleted)
+            {
+                throw new UnauthorizedAccessException("This account has been disabled. Please contact the system administrator.");
             }
 
             var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);

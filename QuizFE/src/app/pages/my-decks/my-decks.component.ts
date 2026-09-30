@@ -72,14 +72,17 @@ export class MyDecksComponent implements OnInit {
   }
 
   editDeck(quiz: QuizSummary): void {
+    if (quiz.isActive === false) return;
     this.router.navigate(['/quiz/edit', quiz.id]);
   }
 
   playDeck(quiz: QuizSummary): void {
+    if (quiz.isActive === false) return;
     this.router.navigate(['/quiz/play', quiz.id]);
   }
 
   confirmDelete(quiz: QuizSummary): void {
+    if (quiz.isActive === false) return;
     this.deleteModalQuiz.set(quiz);
   }
 
