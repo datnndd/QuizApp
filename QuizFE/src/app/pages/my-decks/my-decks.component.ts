@@ -19,23 +19,43 @@ export class MyDecksComponent implements OnInit {
 
   readonly myQuizzes = signal<QuizSummary[]>([]);
   readonly searchQuery = signal<string>('');
+  readonly selectedStatusFilter = signal<'all' | 'normal' | 'disabled'>('all');
   readonly expandedDeckId = signal<number | null>(null);
   readonly expandedDeckDetails = signal<Record<number, QuizDetail>>({});
   readonly isLoading = signal<boolean>(true);
   readonly isDeletingId = signal<number | null>(null);
   readonly deleteModalQuiz = signal<QuizSummary | null>(null);
 
+  readonly normalCount = computed(() =>
+    this.myQuizzes().filter(q => q.isActive !== false).length
+  );
+
+  readonly disabledCount = computed(() =>
+    this.myQuizzes().filter(q => q.isActive === false).length
+  );
+
   readonly filteredQuizzes = computed(() => {
     const list = this.myQuizzes();
     const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return list;
+    const status = this.selectedStatusFilter();
 
-    return list.filter(q =>
-      q.title.toLowerCase().includes(query) ||
-      q.description.toLowerCase().includes(query) ||
-      q.categoryName.toLowerCase().includes(query)
-    );
+    return list.filter(q => {
+      if (status === 'normal' && q.isActive === false) return false;
+      if (status === 'disabled' && q.isActive !== false) return false;
+
+      if (!query) return true;
+      return (
+        q.title.toLowerCase().includes(query) ||
+        q.description.toLowerCase().includes(query) ||
+        q.categoryName.toLowerCase().includes(query)
+      );
+    });
   });
+
+  setStatusFilter(filter: 'all' | 'normal' | 'disabled'): void {
+    this.selectedStatusFilter.set(filter);
+    this.currentPage.set(1);
+  }
 
   // Pagination
   readonly currentPage = signal<number>(1);

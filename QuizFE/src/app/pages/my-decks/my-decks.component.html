@@ -33,21 +33,52 @@
 
     <!-- Filter Bar -->
     <div class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-4 sm:p-5 mb-8">
-      <div class="relative">
-        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-        <input
-          type="text"
-          [(ngModel)]="searchQuery"
-          (ngModelChange)="currentPage.set(1)"
-          placeholder="Filter decks by title or topic..."
-          class="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="currentPage.set(1)"
+            placeholder="Filter decks by title or topic..."
+            class="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
+        </div>
+
+        <!-- Status Filter Tabs (Normal vs Disabled) -->
+        <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-[#faf8f5] border-2 border-[#272421] shadow-tactile-sm shrink-0">
+          <button
+            (click)="setStatusFilter('all')"
+            [class]="selectedStatusFilter() === 'all'
+              ? 'bg-amber-600 text-white font-black'
+              : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
+            class="px-3 py-1.5 rounded-xl font-headline text-xs transition-colors">
+            All ({{ myQuizzes().length }})
+          </button>
+          <button
+            (click)="setStatusFilter('normal')"
+            [class]="selectedStatusFilter() === 'normal'
+              ? 'bg-amber-600 text-white font-black'
+              : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
+            class="px-3 py-1.5 rounded-xl font-headline text-xs transition-colors">
+            Normal ({{ normalCount() }})
+          </button>
+          <button
+            (click)="setStatusFilter('disabled')"
+            [class]="selectedStatusFilter() === 'disabled'
+              ? 'bg-amber-600 text-white font-black'
+              : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
+            class="px-3 py-1.5 rounded-xl font-headline text-xs transition-colors">
+            Disabled ({{ disabledCount() }})
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Inline-Expandable Deck Ledger -->
     <div class="flex flex-col gap-5">
-      <!-- Empty State -->
-      <div *ngIf="filteredQuizzes().length === 0" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-12 text-center">
+      <!-- Empty State: No decks created yet -->
+      <div *ngIf="myQuizzes().length === 0" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-12 text-center">
         <div class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-[#272421] shadow-tactile-sm flex items-center justify-center mx-auto mb-4">
           <span class="material-symbols-outlined text-3xl text-amber-700">style</span>
         </div>
@@ -58,6 +89,20 @@
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-amber-600 text-white font-headline font-bold text-xs border-2 border-[#272421] shadow-tactile hover:bg-amber-700 transition-all">
           <span class="material-symbols-outlined text-base">add</span>
           <span>Create First Deck</span>
+        </button>
+      </div>
+
+      <!-- Empty State: Filter matched nothing -->
+      <div *ngIf="myQuizzes().length > 0 && filteredQuizzes().length === 0" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-12 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-[#272421] shadow-tactile-sm flex items-center justify-center mx-auto mb-4">
+          <span class="material-symbols-outlined text-3xl text-amber-700">search_off</span>
+        </div>
+        <h3 class="font-headline font-black text-xl text-[#1e1b18] mb-1">No decks match your filter</h3>
+        <p class="font-headline text-xs text-[#6b665f] mb-4">Try clearing the search query or switching your status filter.</p>
+        <button
+          (click)="setStatusFilter('all'); searchQuery.set('')"
+          class="px-4 py-2 rounded-xl bg-amber-600 text-white font-headline font-bold text-xs border-2 border-[#272421] shadow-tactile-sm hover:bg-amber-700 transition-all">
+          Reset Filters
         </button>
       </div>
 

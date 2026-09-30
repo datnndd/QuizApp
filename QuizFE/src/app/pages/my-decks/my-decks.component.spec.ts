@@ -91,5 +91,86 @@ describe('MyDecksComponent', () => {
     component.prevPage();
     expect(component.currentPage()).toBe(2);
   });
+
+  it('should filter decks by status (all, normal, disabled) and reset pagination page', () => {
+    const fixture = TestBed.createComponent(MyDecksComponent);
+    const component = fixture.componentInstance;
+
+    component.myQuizzes.set([
+      {
+        id: 1,
+        title: 'Algorithms 101',
+        description: 'Basics of CS',
+        categoryId: 1,
+        categoryName: 'CS',
+        duration: 15,
+        maxAttempts: 1,
+        visibility: 1,
+        questionCount: 5,
+        isActive: true,
+        createdAt: '',
+        updatedAt: ''
+      },
+      {
+        id: 2,
+        title: 'Legacy Python Quiz',
+        description: 'Old curriculum',
+        categoryId: 1,
+        categoryName: 'CS',
+        duration: 20,
+        maxAttempts: 2,
+        visibility: 0,
+        questionCount: 8,
+        isActive: false,
+        createdAt: '',
+        updatedAt: ''
+      },
+      {
+        id: 3,
+        title: 'Data Structures',
+        description: 'Trees and graphs',
+        categoryId: 1,
+        categoryName: 'CS',
+        duration: 25,
+        maxAttempts: 3,
+        visibility: 1,
+        questionCount: 10,
+        isActive: true,
+        createdAt: '',
+        updatedAt: ''
+      }
+    ]);
+    fixture.detectChanges();
+
+    expect(component.normalCount()).toBe(2);
+    expect(component.disabledCount()).toBe(1);
+    expect(component.filteredQuizzes().length).toBe(3);
+
+    // Filter by normal
+    component.setStatusFilter('normal');
+    expect(component.filteredQuizzes().length).toBe(2);
+    expect(component.filteredQuizzes().every(q => q.isActive !== false)).toBe(true);
+
+    // Filter by disabled
+    component.setStatusFilter('disabled');
+    expect(component.filteredQuizzes().length).toBe(1);
+    expect(component.filteredQuizzes()[0].id).toBe(2);
+    expect(component.filteredQuizzes()[0].isActive).toBe(false);
+
+    // Back to all
+    component.setStatusFilter('all');
+    expect(component.filteredQuizzes().length).toBe(3);
+
+    // Search combined with status filter
+    component.setStatusFilter('normal');
+    component.searchQuery.set('Data');
+    expect(component.filteredQuizzes().length).toBe(1);
+    expect(component.filteredQuizzes()[0].title).toBe('Data Structures');
+
+    // Reset filters
+    component.setStatusFilter('all');
+    component.searchQuery.set('');
+    expect(component.filteredQuizzes().length).toBe(3);
+  });
 });
 
