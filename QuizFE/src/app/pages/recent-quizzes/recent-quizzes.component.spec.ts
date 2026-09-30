@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { vi } from 'vitest';
 import { RecentQuizzesComponent } from './recent-quizzes.component';
 
 describe('RecentQuizzesComponent', () => {
@@ -159,5 +160,38 @@ describe('RecentQuizzesComponent', () => {
     // Filter change resets to page 1
     component.setStatusFilter('in_progress');
     expect(component.currentPage()).toBe(1);
+  });
+
+  it('should not allow retaking a soft-deleted or inactive quiz', () => {
+    const fixture = TestBed.createComponent(RecentQuizzesComponent);
+    const component = fixture.componentInstance;
+    const router = TestBed.inject(Router);
+    const navigateSpy = vi.spyOn(router, 'navigate');
+
+    const deletedAttempt: any = {
+      id: 99,
+      quizId: 50,
+      quizTitle: 'Deleted Quiz',
+      categoryName: 'Tech',
+      status: 'Submitted',
+      isQuizDeleted: true,
+      isQuizActive: false
+    };
+
+    component.retakeQuiz(deletedAttempt);
+    expect(navigateSpy).not.toHaveBeenCalled();
+
+    const normalAttempt: any = {
+      id: 100,
+      quizId: 51,
+      quizTitle: 'Active Quiz',
+      categoryName: 'Tech',
+      status: 'Submitted',
+      isQuizDeleted: false,
+      isQuizActive: true
+    };
+
+    component.retakeQuiz(normalAttempt);
+    expect(navigateSpy).toHaveBeenCalledWith(['/quiz/play', 51]);
   });
 });

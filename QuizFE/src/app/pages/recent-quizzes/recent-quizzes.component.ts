@@ -164,6 +164,9 @@ export class RecentQuizzesComponent implements OnInit {
   }
 
   retakeQuiz(attempt: AttemptSummary): void {
+    if (attempt.isQuizDeleted || attempt.isQuizActive === false) {
+      return;
+    }
     this.router.navigate(['/quiz/play', attempt.quizId]);
   }
 

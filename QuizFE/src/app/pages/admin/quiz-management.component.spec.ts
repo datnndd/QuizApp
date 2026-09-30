@@ -117,4 +117,69 @@ describe('AdminQuizManagementComponent', () => {
     component.cancelStatusModal();
     expect(component.statusModalData()).toBeNull();
   });
+
+  it('should filter quizzes by deleted status and compute counts correctly', () => {
+    const fixture = TestBed.createComponent(AdminQuizManagementComponent);
+    const component = fixture.componentInstance;
+
+    component.quizzes.set([
+      {
+        id: 1,
+        title: 'Active Quiz',
+        description: 'Test',
+        duration: 10,
+        maxAttempts: 1,
+        visibility: 1,
+        categoryId: 1,
+        categoryName: 'Math',
+        questionCount: 5,
+        isActive: true,
+        isDeleted: false,
+        createdAt: '2026-09-01',
+        updatedAt: '2026-09-02'
+      },
+      {
+        id: 2,
+        title: 'Disabled Quiz',
+        description: 'Test',
+        duration: 15,
+        maxAttempts: 2,
+        visibility: 1,
+        categoryId: 1,
+        categoryName: 'Math',
+        questionCount: 8,
+        isActive: false,
+        isDeleted: false,
+        createdAt: '2026-09-01',
+        updatedAt: '2026-09-02'
+      },
+      {
+        id: 3,
+        title: 'Soft-Deleted Quiz',
+        description: 'Archived',
+        duration: 20,
+        maxAttempts: 1,
+        visibility: 1,
+        categoryId: 1,
+        categoryName: 'Math',
+        questionCount: 4,
+        isActive: false,
+        isDeleted: true,
+        createdAt: '2026-09-01',
+        updatedAt: '2026-09-02'
+      }
+    ]);
+
+    expect(component.activeCount()).toBe(1);
+    expect(component.disabledCount()).toBe(1);
+    expect(component.deletedCount()).toBe(1);
+
+    component.selectedStatus.set('deleted');
+    expect(component.filteredQuizzes().length).toBe(1);
+    expect(component.filteredQuizzes()[0].id).toBe(3);
+
+    // openStatusModal should do nothing for soft-deleted quiz
+    component.openStatusModal(component.quizzes()[2], true);
+    expect(component.statusModalData()).toBeNull();
+  });
 });

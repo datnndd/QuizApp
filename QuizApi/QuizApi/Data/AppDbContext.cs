@@ -106,6 +106,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Title).HasMaxLength(255).IsRequired();
             entity.Property(x => x.Visibility).HasConversion<string>().HasMaxLength(20).IsRequired();
+            entity.Property(x => x.IsDeleted).HasDefaultValue(false);
             entity.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
             entity.HasOne(x => x.Owner).WithMany(x => x.Quizzes)
                 .HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.Restrict);

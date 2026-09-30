@@ -89,6 +89,8 @@ export interface QuizSummary {
   ownerDisplayName?: string;
   questionCount: number;
   isActive?: boolean;
+  isDeleted?: boolean;
+  deletedAt?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -220,6 +222,8 @@ export interface AttemptSummary {
   score?: number;
   timeSpentSeconds?: number;
   isAutoSubmitted: boolean;
+  isQuizDeleted?: boolean;
+  isQuizActive?: boolean;
 }
 
 export interface AttemptDetail {

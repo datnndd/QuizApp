@@ -90,4 +90,6 @@ public class UserAttemptSummaryResponse
     public int? Score { get; set; }
     public int? TimeSpentSeconds { get; set; }
     public bool IsAutoSubmitted { get; set; }
+    public bool IsQuizDeleted { get; set; }
+    public bool IsQuizActive { get; set; }
 }

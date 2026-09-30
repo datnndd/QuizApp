@@ -40,6 +40,7 @@ export class MyDecksComponent implements OnInit {
     const status = this.selectedStatusFilter();
 
     return list.filter(q => {
+      if (q.isDeleted) return false;
       if (status === 'normal' && q.isActive === false) return false;
       if (status === 'disabled' && q.isActive !== false) return false;
 

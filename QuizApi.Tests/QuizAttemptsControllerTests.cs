@@ -108,6 +108,61 @@ public class QuizAttemptsControllerTests
         Assert.True(attemptInDb.IsAutoSubmitted);
     }
 
+    [Fact]
+    public async Task Start_RejectsSoftDeletedQuiz()
+    {
+        await using var context = CreateContext();
+        await SeedQuiz(context, QuizVisibility.Public);
+        var quiz = await context.Quizzes.SingleAsync(q => q.Id == 20);
+        quiz.IsDeleted = true;
+        quiz.DeletedAt = DateTime.UtcNow;
+        quiz.IsActive = false;
+        await context.SaveChangesAsync(CancellationToken.None);
+
+        var controller = Controller(context, userId: 2);
+        var action = await controller.Start(new StartAttemptRequest { QuizId = 20 }, CancellationToken.None);
+
+        Assert.IsType<NotFoundObjectResult>(action.Result);
+    }
+
+    [Fact]
+    public async Task Mine_ReturnsPastAttemptsWithIsQuizDeletedFlag()
+    {
+        await using var context = CreateContext();
+        await SeedQuiz(context, QuizVisibility.Public);
+        var quiz = await context.Quizzes.SingleAsync(q => q.Id == 20);
+
+        context.QuizAttempts.Add(new QuizAttempt
+        {
+            Id = 88,
+            QuizId = 20,
+            UserId = 2,
+            StartedAt = DateTime.UtcNow.AddHours(-1),
+            SubmittedAt = DateTime.UtcNow.AddMinutes(-45),
+            Status = QuizAttemptStatus.Submitted,
+            TotalQuestions = 1,
+            CorrectAnswers = 1,
+            Score = 100
+        });
+        await context.SaveChangesAsync(CancellationToken.None);
+
+        // Soft delete the quiz
+        quiz.IsDeleted = true;
+        quiz.DeletedAt = DateTime.UtcNow;
+        quiz.IsActive = false;
+        await context.SaveChangesAsync(CancellationToken.None);
+
+        var controller = Controller(context, userId: 2);
+        var action = await controller.Mine(CancellationToken.None);
+        var ok = Assert.IsType<OkObjectResult>(action.Result);
+        var attempts = Assert.IsAssignableFrom<IEnumerable<UserAttemptSummaryResponse>>(ok.Value);
+        var attempt = Assert.Single(attempts);
+
+        Assert.Equal(88, attempt.Id);
+        Assert.True(attempt.IsQuizDeleted);
+        Assert.False(attempt.IsQuizActive);
+    }
+
     private static QuizAttemptsController Controller(AppDbContext context, int userId)
     {
         var timeProvider = new FixedTimeProvider(new DateTime(2026, 9, 22, 10, 0, 0, DateTimeKind.Utc));

@@ -52,7 +52,7 @@ public class QuestionsController(AppDbContext context) : ControllerBase
         var canView = await context.Questions.AnyAsync(q =>
             q.Id == id &&
             (q.OwnerId == userId ||
-             q.IsActive && q.QuizQuestions.Any(qq => qq.Quiz.IsActive && qq.Quiz.Visibility == QuizVisibility.Public)),
+             q.IsActive && q.QuizQuestions.Any(qq => !qq.Quiz.IsDeleted && qq.Quiz.IsActive && qq.Quiz.Visibility == QuizVisibility.Public)),
             cancellationToken);
 
         if (!canView)
@@ -181,7 +181,7 @@ public class QuestionsController(AppDbContext context) : ControllerBase
     private IQueryable<QuestionSummaryResponse> QueryPublicQuestions(string? search, int? categoryId, int? authorId)
     {
         var query = context.Questions.AsNoTracking().Where(q =>
-            q.IsActive && q.QuizQuestions.Any(qq => qq.Quiz.IsActive && qq.Quiz.Visibility == QuizVisibility.Public));
+            q.IsActive && q.QuizQuestions.Any(qq => !qq.Quiz.IsDeleted && qq.Quiz.IsActive && qq.Quiz.Visibility == QuizVisibility.Public));
 
         if (!string.IsNullOrWhiteSpace(search))
         {

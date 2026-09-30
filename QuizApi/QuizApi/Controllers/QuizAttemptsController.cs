@@ -38,7 +38,9 @@ public class QuizAttemptsController(
                 CorrectAnswers = a.CorrectAnswers,
                 Score = a.Score,
                 TimeSpentSeconds = a.TimeSpentSeconds,
-                IsAutoSubmitted = a.IsAutoSubmitted
+                IsAutoSubmitted = a.IsAutoSubmitted,
+                IsQuizDeleted = a.Quiz.IsDeleted,
+                IsQuizActive = a.Quiz.IsActive
             })
             .ToListAsync(cancellationToken);
 
@@ -53,7 +55,7 @@ public class QuizAttemptsController(
         var userId = User.GetUserId();
         var quiz = await context.Quizzes
             .Include(q => q.QuizQuestions)
-            .SingleOrDefaultAsync(q => q.Id == request.QuizId && q.IsActive, cancellationToken);
+            .SingleOrDefaultAsync(q => q.Id == request.QuizId && q.IsActive && !q.IsDeleted, cancellationToken);
 
         if (quiz is null) return NotFound(new { message = "Invalid quiz." });
         if (quiz.Visibility != QuizVisibility.Public && quiz.OwnerId != userId) return Forbid();
@@ -105,16 +107,16 @@ public class QuizAttemptsController(
     public async Task<ActionResult<AttemptResponse>> Resume(int quizId, CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
-        var attemptId = await context.QuizAttempts
+        var attempt = await context.QuizAttempts
+            .Include(a => a.Quiz)
             .Where(a => a.UserId == userId && a.QuizId == quizId && a.Status == QuizAttemptStatus.InProgress)
             .OrderByDescending(a => a.StartedAt)
-            .Select(a => (int?)a.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (attemptId is null) return NotFound(new { message = "No unfinished attempt was found." });
-        if (await attemptService.SubmitIfExpired(attemptId.Value, cancellationToken))
+        if (attempt is null || attempt.Quiz.IsDeleted) return NotFound(new { message = "No unfinished attempt was found." });
+        if (await attemptService.SubmitIfExpired(attempt.Id, cancellationToken))
             return NotFound(new { message = "No unfinished attempt was found." });
-        return Ok(await LoadAttempt(attemptId.Value, userId, cancellationToken));
+        return Ok(await LoadAttempt(attempt.Id, userId, cancellationToken));
     }
 
     [HttpPut("{id:int}/answers/{attemptQuestionId:int}")]

@@ -229,6 +229,66 @@ public class QuizzesControllerTests
         Assert.IsType<OkObjectResult>(user2GetAfterRestore.Result);
     }
 
+    [Fact]
+    public async Task Delete_SoftDeletesQuiz_AndExcludesFromMineAndExplore()
+    {
+        await using var context = CreateContext();
+        await SeedBaseData(context);
+        var ownerController = Controller(context, userId: 1);
+        var user2Controller = Controller(context, userId: 2);
+        var adminController = Controller(context, userId: 99, role: "Admin");
+
+        // 1. Create Quiz
+        var createAction = await ownerController.Create(new CreateQuizRequest
+        {
+            Title = "Biology Sprint",
+            CategoryId = 1,
+            Visibility = QuizVisibility.Public,
+            Duration = 10,
+            MaxAttempts = 2
+        }, CancellationToken.None);
+        var createdResult = Assert.IsType<CreatedAtActionResult>(createAction.Result);
+        var quizResponse = Assert.IsType<QuizResponse>(createdResult.Value);
+
+        // 2. Owner deletes the quiz
+        var deleteAction = await ownerController.Delete(quizResponse.Id, CancellationToken.None);
+        Assert.IsType<NoContentResult>(deleteAction);
+
+        // 3. Verify database state
+        var dbQuiz = await context.Quizzes.IgnoreQueryFilters().FirstAsync(q => q.Id == quizResponse.Id);
+        Assert.True(dbQuiz.IsDeleted);
+        Assert.NotNull(dbQuiz.DeletedAt);
+        Assert.False(dbQuiz.IsActive);
+
+        // 4. Owner Mine() should exclude it
+        var mineAction = await ownerController.Mine(CancellationToken.None);
+        var mineOk = Assert.IsType<OkObjectResult>(mineAction.Result);
+        var mineList = Assert.IsAssignableFrom<IEnumerable<QuizResponse>>(mineOk.Value);
+        Assert.Empty(mineList);
+
+        // 5. User 2 GetAll() (Explore) should exclude it
+        var exploreAction = await user2Controller.GetAll(CancellationToken.None);
+        var exploreOk = Assert.IsType<OkObjectResult>(exploreAction.Result);
+        var exploreList = Assert.IsAssignableFrom<IEnumerable<QuizResponse>>(exploreOk.Value);
+        Assert.Empty(exploreList);
+
+        // 6. Admin GetAll() can still inspect it for audits
+        var adminAction = await adminController.GetAll(CancellationToken.None);
+        var adminOk = Assert.IsType<OkObjectResult>(adminAction.Result);
+        var adminList = Assert.IsAssignableFrom<IEnumerable<QuizResponse>>(adminOk.Value);
+        Assert.Single(adminList);
+        Assert.True(adminList.First().IsDeleted);
+
+        // 7. Modifying a deleted quiz returns BadRequest
+        var updateAction = await ownerController.Update(quizResponse.Id, new UpdateQuizRequest
+        {
+            Title = "Updated Title",
+            CategoryId = 1,
+            Visibility = QuizVisibility.Public
+        }, CancellationToken.None);
+        Assert.IsType<BadRequestObjectResult>(updateAction);
+    }
+
     private static QuizzesController Controller(AppDbContext context, int userId, string role = "User")
     {
         var claims = new List<Claim>

@@ -172,5 +172,47 @@ describe('MyDecksComponent', () => {
     component.searchQuery.set('');
     expect(component.filteredQuizzes().length).toBe(3);
   });
+
+  it('should exclude soft-deleted quizzes from My Decks list', () => {
+    const fixture = TestBed.createComponent(MyDecksComponent);
+    const component = fixture.componentInstance;
+
+    component.myQuizzes.set([
+      {
+        id: 1,
+        title: 'Active Deck',
+        description: 'Active',
+        categoryId: 1,
+        categoryName: 'CS',
+        duration: 15,
+        maxAttempts: 1,
+        visibility: 1,
+        questionCount: 5,
+        isActive: true,
+        isDeleted: false,
+        createdAt: '',
+        updatedAt: ''
+      },
+      {
+        id: 2,
+        title: 'Deleted Deck',
+        description: 'Should not show',
+        categoryId: 1,
+        categoryName: 'CS',
+        duration: 15,
+        maxAttempts: 1,
+        visibility: 1,
+        questionCount: 5,
+        isActive: false,
+        isDeleted: true,
+        createdAt: '',
+        updatedAt: ''
+      }
+    ]);
+    fixture.detectChanges();
+
+    expect(component.filteredQuizzes().length).toBe(1);
+    expect(component.filteredQuizzes()[0].id).toBe(1);
+  });
 });
 

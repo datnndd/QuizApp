@@ -62,6 +62,8 @@ public class QuizResponse
     public int Duration { get; set; }
     public int MaxAttempts { get; set; }
     public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
     public int OwnerId { get; set; }
     public string OwnerName { get; set; } = string.Empty;
     public string OwnerDisplayName { get; set; } = string.Empty;

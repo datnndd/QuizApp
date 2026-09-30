@@ -125,25 +125,31 @@
             </button>
           </div>
 
-          <!-- Status Filter (Active vs Disabled) -->
+          <!-- Status Filter (Active vs Disabled vs Deleted) -->
           <div class="flex items-center gap-1 shrink-0 bg-[#f2f3ff] p-1 rounded-xl">
             <button
               (click)="selectedStatus.set('all')"
               [class]="selectedStatus() === 'all' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
               class="px-2.5 py-1 rounded-lg text-xs transition-all">
-              All Status
+              All Status ({{ quizzes().length }})
             </button>
             <button
               (click)="selectedStatus.set('active')"
               [class]="selectedStatus() === 'active' ? 'bg-[#3525cd] text-white font-bold' : 'text-[#464555]'"
               class="px-2.5 py-1 rounded-lg text-xs transition-all">
-              Active
+              Active ({{ activeCount() }})
             </button>
             <button
               (click)="selectedStatus.set('disabled')"
               [class]="selectedStatus() === 'disabled' ? 'bg-amber-600 text-white font-bold' : 'text-[#464555]'"
               class="px-2.5 py-1 rounded-lg text-xs transition-all">
-              Disabled
+              Disabled ({{ disabledCount() }})
+            </button>
+            <button
+              (click)="selectedStatus.set('deleted')"
+              [class]="selectedStatus() === 'deleted' ? 'bg-rose-600 text-white font-bold' : 'text-[#464555]'"
+              class="px-2.5 py-1 rounded-lg text-xs transition-all">
+              Deleted ({{ deletedCount() }})
             </button>
           </div>
         </div>
@@ -173,7 +179,7 @@
                   <td colspan="8" class="py-8 text-center">No quizzes match the current criteria.</td>
                 </tr>
 
-                <tr *ngFor="let q of filteredQuizzes()" class="hover:bg-[#f8f9ff] transition-colors" [class.opacity-65]="q.isActive === false">
+                <tr *ngFor="let q of filteredQuizzes()" class="hover:bg-[#f8f9ff] transition-colors" [class.opacity-65]="q.isActive === false || q.isDeleted">
                   <!-- Quiz Title -->
                   <td class="py-4 px-6">
                     <div class="flex flex-col">
@@ -213,23 +219,29 @@
                     {{ q.ownerDisplayName || q.ownerName || 'Faculty Staff' }}
                   </td>
 
-                  <!-- Status (Active vs Disabled) -->
+                  <!-- Status (Active vs Disabled vs Deleted) -->
                   <td class="py-4 px-6">
                     <span
-                      *ngIf="q.isActive !== false"
+                      *ngIf="q.isDeleted"
+                      class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                      <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                      Deleted
+                    </span>
+                    <span
+                      *ngIf="!q.isDeleted && q.isActive !== false"
                       class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                       <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                       Active
                     </span>
                     <span
-                      *ngIf="q.isActive === false"
+                      *ngIf="!q.isDeleted && q.isActive === false"
                       class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-300">
                       <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
                       Disabled
                     </span>
                   </td>
 
-                  <!-- Strict Admin Actions: ONLY View Details and Disable / Restore -->
+                  <!-- Strict Admin Actions: View Details and Disable / Restore (or Archived) -->
                   <td class="py-4 px-6 text-right">
                     <div class="flex items-center justify-end gap-2">
                       <button
@@ -240,9 +252,18 @@
                         <span>View Details</span>
                       </button>
 
-                      <!-- Disable Button (when active) -->
+                      <!-- If Deleted, show immutable archive badge -->
+                      <span
+                        *ngIf="q.isDeleted"
+                        class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-500 bg-gray-50 text-xs font-medium cursor-not-allowed select-none"
+                        title="Deleted Quiz (Immutable Archive)">
+                        <span class="material-symbols-outlined text-[16px]">archive</span>
+                        <span>Archived</span>
+                      </span>
+
+                      <!-- Disable Button (when active and not deleted) -->
                       <button
-                        *ngIf="q.isActive !== false"
+                        *ngIf="!q.isDeleted && q.isActive !== false"
                         (click)="openStatusModal(q, false)"
                         class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-amber-300 text-amber-800 bg-amber-50/70 hover:bg-amber-100 text-xs font-semibold transition-colors"
                         title="Disable Quiz">
@@ -250,9 +271,9 @@
                         <span>Disable</span>
                       </button>
 
-                      <!-- Restore Button (when disabled) -->
+                      <!-- Restore Button (when disabled and not deleted) -->
                       <button
-                        *ngIf="q.isActive === false"
+                        *ngIf="!q.isDeleted && q.isActive === false"
                         (click)="openStatusModal(q, true)"
                         class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-emerald-300 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 text-xs font-semibold transition-colors"
                         title="Restore Quiz">
@@ -288,13 +309,19 @@
 
         <div class="flex items-center gap-3">
           <span
-            *ngIf="selectedQuiz()?.isActive !== false"
+            *ngIf="selectedQuiz()?.isDeleted"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 text-xs font-medium text-rose-700 border border-rose-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+            Deleted Archive
+          </span>
+          <span
+            *ngIf="!selectedQuiz()?.isDeleted && selectedQuiz()?.isActive !== false"
             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-xs font-medium text-emerald-700 border border-emerald-200">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
             Active Registry
           </span>
           <span
-            *ngIf="selectedQuiz()?.isActive === false"
+            *ngIf="!selectedQuiz()?.isDeleted && selectedQuiz()?.isActive === false"
             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-xs font-medium text-amber-800 border border-amber-300">
             <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
             Disabled (Read-Only)
@@ -318,13 +345,19 @@
                 #QZ-{{ selectedQuiz()?.id }}
               </span>
               <span
-                *ngIf="selectedQuiz()?.isActive !== false"
+                *ngIf="selectedQuiz()?.isDeleted"
+                class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                Deleted
+              </span>
+              <span
+                *ngIf="!selectedQuiz()?.isDeleted && selectedQuiz()?.isActive !== false"
                 class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 Active
               </span>
               <span
-                *ngIf="selectedQuiz()?.isActive === false"
+                *ngIf="!selectedQuiz()?.isDeleted && selectedQuiz()?.isActive === false"
                 class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
                 Disabled
@@ -348,9 +381,17 @@
               <span>Back to Quizzes</span>
             </button>
 
+            <!-- If Deleted, show immutable archive badge -->
+            <span
+              *ngIf="selectedQuiz()?.isDeleted"
+              class="inline-flex items-center gap-1.5 px-3 py-2 border border-gray-200 text-gray-500 bg-gray-50 rounded-lg text-xs font-medium cursor-not-allowed select-none">
+              <span class="material-symbols-outlined text-[17px]">archive</span>
+              <span>Deleted (Immutable Archive)</span>
+            </span>
+
             <!-- Disable Quiz Button -->
             <button
-              *ngIf="selectedQuiz()?.isActive !== false"
+              *ngIf="!selectedQuiz()?.isDeleted && selectedQuiz()?.isActive !== false"
               (click)="openStatusModal(selectedQuiz()!, false)"
               class="inline-flex items-center gap-1.5 px-3 py-2 border border-amber-300 text-amber-900 bg-amber-50 hover:bg-amber-100 rounded-lg text-xs font-semibold transition-colors shadow-sm">
               <span class="material-symbols-outlined text-[17px] text-amber-700">pause_circle</span>
@@ -359,7 +400,7 @@
 
             <!-- Restore Quiz Button -->
             <button
-              *ngIf="selectedQuiz()?.isActive === false"
+              *ngIf="!selectedQuiz()?.isDeleted && selectedQuiz()?.isActive === false"
               (click)="openStatusModal(selectedQuiz()!, true)"
               class="inline-flex items-center gap-1.5 px-3 py-2 border border-emerald-300 text-emerald-900 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-xs font-semibold transition-colors shadow-sm">
               <span class="material-symbols-outlined text-[17px] text-emerald-700">restore</span>

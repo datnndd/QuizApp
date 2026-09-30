@@ -22,7 +22,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         var query = context.Quizzes.AsNoTracking();
         if (!isAdmin)
         {
-            query = query.Where(q => q.IsActive && (q.Visibility == QuizVisibility.Public || q.OwnerId == userId));
+            query = query.Where(q => !q.IsDeleted && q.IsActive && (q.Visibility == QuizVisibility.Public || q.OwnerId == userId));
         }
         var quizzes = await SummaryQuery(query)
             .OrderByDescending(q => q.Id)
@@ -35,7 +35,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     {
         var userId = User.GetUserId();
         var quizzes = await SummaryQuery(context.Quizzes.AsNoTracking()
-                .Where(q => q.OwnerId == userId))
+                .Where(q => q.OwnerId == userId && !q.IsDeleted))
             .OrderByDescending(q => q.Id)
             .ToListAsync(cancellationToken);
         return Ok(quizzes);
@@ -124,6 +124,8 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         var quiz = await context.Quizzes.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
         if (quiz is null) return NotFound(new { message = "Quiz not found." });
         if (quiz.OwnerId != User.GetUserId() && !User.IsInRole("Admin")) return Forbid();
+        if (quiz.IsDeleted)
+            return BadRequest(new { message = "Cannot modify a deleted quiz." });
         if (!quiz.IsActive)
             return BadRequest(new { message = "Cannot modify a disabled quiz." });
         if (!await CategoryExists(request.CategoryId, cancellationToken))
@@ -156,6 +158,8 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     {
         var quiz = await context.Quizzes.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
         if (quiz is null) return NotFound(new { message = "Quiz not found." });
+        if (quiz.IsDeleted)
+            return BadRequest(new { message = "Cannot change status of a deleted quiz." });
         var userId = User.GetUserId();
         var isAdmin = User.IsInRole("Admin");
         if (!isAdmin && quiz.OwnerId != userId) return Forbid();
@@ -174,6 +178,8 @@ public class QuizzesController(AppDbContext context) : ControllerBase
         var isAdmin = User.IsInRole("Admin");
         if (!isAdmin && quiz.OwnerId != userId) return Forbid();
 
+        quiz.IsDeleted = true;
+        quiz.DeletedAt = DateTime.UtcNow;
         quiz.IsActive = false;
         await context.SaveChangesAsync(cancellationToken);
         return NoContent();
@@ -317,7 +323,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
     private Task<Quiz?> OwnedQuiz(int id, CancellationToken cancellationToken)
     {
         var userId = User.GetUserId();
-        return context.Quizzes.FirstOrDefaultAsync(q => q.Id == id && q.IsActive && q.OwnerId == userId, cancellationToken);
+        return context.Quizzes.FirstOrDefaultAsync(q => q.Id == id && !q.IsDeleted && q.IsActive && q.OwnerId == userId, cancellationToken);
     }
 
     private Task<bool> CategoryExists(int categoryId, CancellationToken cancellationToken) =>
@@ -325,7 +331,7 @@ public class QuizzesController(AppDbContext context) : ControllerBase
 
     private async Task<QuizResponse?> LoadAccessibleQuiz(int id, int userId, bool isAdmin, CancellationToken cancellationToken) =>
         await DetailQuery(context.Quizzes.AsNoTracking().Where(q =>
-                q.Id == id && (isAdmin || (q.IsActive ? (q.Visibility == QuizVisibility.Public || q.OwnerId == userId) : q.OwnerId == userId))))
+                q.Id == id && (isAdmin || (!q.IsDeleted && (q.IsActive ? (q.Visibility == QuizVisibility.Public || q.OwnerId == userId) : q.OwnerId == userId)))))
             .SingleOrDefaultAsync(cancellationToken);
 
     private static IQueryable<QuizResponse> SummaryQuery(IQueryable<Quiz> query) =>
@@ -340,6 +346,8 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             Duration = q.Duration,
             MaxAttempts = q.MaxAttempts,
             IsActive = q.IsActive,
+            IsDeleted = q.IsDeleted,
+            DeletedAt = q.DeletedAt,
             OwnerId = q.OwnerId,
             OwnerName = q.Owner.DisplayName,
             OwnerDisplayName = q.Owner.DisplayName,
@@ -358,6 +366,8 @@ public class QuizzesController(AppDbContext context) : ControllerBase
             Duration = q.Duration,
             MaxAttempts = q.MaxAttempts,
             IsActive = q.IsActive,
+            IsDeleted = q.IsDeleted,
+            DeletedAt = q.DeletedAt,
             OwnerId = q.OwnerId,
             OwnerName = q.Owner.DisplayName,
             OwnerDisplayName = q.Owner.DisplayName,

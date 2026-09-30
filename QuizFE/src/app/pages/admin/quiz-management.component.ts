@@ -32,7 +32,11 @@ export class AdminQuizManagementComponent implements OnInit {
   readonly searchQuery = signal<string>('');
   readonly selectedCategoryId = signal<number | null>(null);
   readonly selectedVisibility = signal<'all' | 'public' | 'private'>('all');
-  readonly selectedStatus = signal<'all' | 'active' | 'disabled'>('all');
+  readonly selectedStatus = signal<'all' | 'active' | 'disabled' | 'deleted'>('all');
+
+  readonly activeCount = computed(() => this.quizzes().filter(q => !q.isDeleted && q.isActive !== false).length);
+  readonly disabledCount = computed(() => this.quizzes().filter(q => !q.isDeleted && q.isActive === false).length);
+  readonly deletedCount = computed(() => this.quizzes().filter(q => q.isDeleted === true).length);
 
   // Detail View State (Screen 12 audit accordion)
   readonly selectedQuiz = signal<QuizSummary | null>(null);
@@ -66,10 +70,14 @@ export class AdminQuizManagementComponent implements OnInit {
         (vis === 'public' && (q.visibility === 1 || q.visibility === 'Public')) ||
         (vis === 'private' && (q.visibility === 0 || q.visibility === 'Private'));
 
-      const isActive = q.isActive !== false;
+      const isDeleted = q.isDeleted === true;
+      const isActive = !isDeleted && q.isActive !== false;
+      const isDisabled = !isDeleted && q.isActive === false;
+
       const matchStatus = status === 'all' ||
         (status === 'active' && isActive) ||
-        (status === 'disabled' && !isActive);
+        (status === 'disabled' && isDisabled) ||
+        (status === 'deleted' && isDeleted);
 
       return matchQuery && matchCat && matchVis && matchStatus;
     });
@@ -173,6 +181,7 @@ export class AdminQuizManagementComponent implements OnInit {
   }
 
   openStatusModal(quiz: QuizSummary, targetActive: boolean): void {
+    if (quiz.isDeleted) return;
     this.statusModalData.set({ quiz, targetActive });
   }
 
