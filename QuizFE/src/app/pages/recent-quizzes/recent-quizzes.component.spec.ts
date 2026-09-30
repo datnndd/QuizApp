@@ -118,4 +118,46 @@ describe('RecentQuizzesComponent', () => {
     component.searchQuery.set('ASTRO1');
     expect(component.filteredAttempts().length).toBe(0);
   });
+
+  it('should paginate attempts correctly with pageSize 5 and reset page on filter change', () => {
+    const fixture = TestBed.createComponent(RecentQuizzesComponent);
+    const component = fixture.componentInstance;
+
+    const sampleAttempts: any[] = Array.from({ length: 12 }, (_, i) => ({
+      id: i + 1,
+      quizId: i + 100,
+      quizTitle: `Quiz Attempt ${i + 1}`,
+      categoryName: 'Tech',
+      status: 'Submitted',
+      startedAt: new Date().toISOString(),
+      totalQuestions: 5,
+      correctAnswers: 4,
+      score: 4,
+      isAutoSubmitted: false
+    }));
+
+    component.attempts.set(sampleAttempts);
+    fixture.detectChanges();
+
+    expect(component.pageSize()).toBe(5);
+    expect(component.totalPages()).toBe(3); // 12 / 5 = 3
+    expect(component.paginatedAttempts().length).toBe(5);
+    expect(component.paginatedAttempts()[0].id).toBe(1);
+
+    component.nextPage();
+    expect(component.currentPage()).toBe(2);
+    expect(component.paginatedAttempts()[0].id).toBe(6);
+
+    component.goToPage(3);
+    expect(component.currentPage()).toBe(3);
+    expect(component.paginatedAttempts().length).toBe(2);
+
+    // prevPage
+    component.prevPage();
+    expect(component.currentPage()).toBe(2);
+
+    // Filter change resets to page 1
+    component.setStatusFilter('in_progress');
+    expect(component.currentPage()).toBe(1);
+  });
 });

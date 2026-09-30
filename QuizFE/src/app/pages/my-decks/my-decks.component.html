@@ -38,6 +38,7 @@
         <input
           type="text"
           [(ngModel)]="searchQuery"
+          (ngModelChange)="currentPage.set(1)"
           placeholder="Filter decks by title or topic..."
           class="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
       </div>
@@ -62,7 +63,7 @@
 
       <!-- Deck Cards -->
       <div
-        *ngFor="let quiz of filteredQuizzes()"
+        *ngFor="let quiz of paginatedQuizzes()"
         class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile overflow-hidden transition-all">
         <!-- Deck Header Row -->
         <div class="p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -201,6 +202,46 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Pagination Controls Dock -->
+      <div *ngIf="filteredQuizzes().length > pageSize()" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+        <div class="text-xs font-headline font-bold text-[#6b665f]">
+          Showing Page <span class="text-[#1e1b18] font-black">{{ currentPage() }}</span> of <span class="text-[#1e1b18] font-black">{{ totalPages() }}</span> ({{ filteredQuizzes().length }} Total Decks)
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Previous Page Button -->
+          <button
+            (click)="prevPage()"
+            [disabled]="currentPage() === 1"
+            class="px-3.5 py-1.5 rounded-xl border-2 border-[#272421] bg-white font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">chevron_left</span>
+            <span>Prev</span>
+          </button>
+
+          <!-- Page Number Buttons -->
+          <div class="flex items-center gap-1">
+            <button
+              *ngFor="let p of pageNumbers()"
+              (click)="goToPage(p)"
+              [class]="p === currentPage()
+                ? 'bg-amber-600 text-white font-black border-amber-600'
+                : 'bg-white text-[#1e1b18] font-bold border-[#272421] hover:bg-amber-50'"
+              class="w-8 h-8 rounded-xl border-2 font-headline text-xs shadow-tactile-sm transition-all flex items-center justify-center">
+              {{ p }}
+            </button>
+          </div>
+
+          <!-- Next Page Button -->
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage() === totalPages()"
+            class="px-3.5 py-1.5 rounded-xl border-2 border-[#272421] bg-white font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1">
+            <span>Next</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </button>
         </div>
       </div>
     </div>

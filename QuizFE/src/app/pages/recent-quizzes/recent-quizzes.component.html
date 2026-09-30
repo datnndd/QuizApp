@@ -29,6 +29,7 @@
           <input
             type="text"
             [(ngModel)]="searchQuery"
+            (ngModelChange)="currentPage.set(1)"
             placeholder="Search attempts by title or category..."
             class="w-full pl-11 pr-4 py-2.5 rounded-2xl border-2 border-[#272421] bg-[#faf8f5] font-headline text-sm text-[#1e1b18] focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm" />
         </div>
@@ -36,7 +37,7 @@
         <!-- Status Filter Tabs -->
         <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-[#faf8f5] border-2 border-[#272421] shadow-tactile-sm shrink-0">
           <button
-            (click)="selectedStatusFilter.set('all')"
+            (click)="setStatusFilter('all')"
             [class]="selectedStatusFilter() === 'all'
               ? 'bg-amber-600 text-white font-black'
               : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
@@ -44,7 +45,7 @@
             All ({{ attempts().length }})
           </button>
           <button
-            (click)="selectedStatusFilter.set('completed')"
+            (click)="setStatusFilter('completed')"
             [class]="selectedStatusFilter() === 'completed'
               ? 'bg-amber-600 text-white font-black'
               : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
@@ -52,7 +53,7 @@
             Completed
           </button>
           <button
-            (click)="selectedStatusFilter.set('in_progress')"
+            (click)="setStatusFilter('in_progress')"
             [class]="selectedStatusFilter() === 'in_progress'
               ? 'bg-amber-600 text-white font-black'
               : 'text-[#6b665f] hover:text-[#1e1b18] font-bold'"
@@ -82,7 +83,7 @@
 
       <!-- Attempt Cards / Ledger Rows -->
       <div
-        *ngFor="let item of filteredAttempts()"
+        *ngFor="let item of paginatedAttempts()"
         class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-5 sm:p-6 transition-all hover:translate-y-[-2px]">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
           <!-- Quiz Info -->
@@ -157,6 +158,46 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Pagination Controls Dock -->
+      <div *ngIf="filteredAttempts().length > pageSize()" class="bg-white rounded-3xl border-2 border-[#272421] shadow-tactile p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+        <div class="text-xs font-headline font-bold text-[#6b665f]">
+          Showing Page <span class="text-[#1e1b18] font-black">{{ currentPage() }}</span> of <span class="text-[#1e1b18] font-black">{{ totalPages() }}</span> ({{ filteredAttempts().length }} Total Attempts)
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Previous Page Button -->
+          <button
+            (click)="prevPage()"
+            [disabled]="currentPage() === 1"
+            class="px-3.5 py-1.5 rounded-xl border-2 border-[#272421] bg-white font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">chevron_left</span>
+            <span>Prev</span>
+          </button>
+
+          <!-- Page Number Buttons -->
+          <div class="flex items-center gap-1">
+            <button
+              *ngFor="let p of pageNumbers()"
+              (click)="goToPage(p)"
+              [class]="p === currentPage()
+                ? 'bg-amber-600 text-white font-black border-amber-600'
+                : 'bg-white text-[#1e1b18] font-bold border-[#272421] hover:bg-amber-50'"
+              class="w-8 h-8 rounded-xl border-2 font-headline text-xs shadow-tactile-sm transition-all flex items-center justify-center">
+              {{ p }}
+            </button>
+          </div>
+
+          <!-- Next Page Button -->
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage() === totalPages()"
+            class="px-3.5 py-1.5 rounded-xl border-2 border-[#272421] bg-white font-headline font-bold text-xs shadow-tactile-sm hover:bg-amber-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1">
+            <span>Next</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </button>
         </div>
       </div>
     </div>

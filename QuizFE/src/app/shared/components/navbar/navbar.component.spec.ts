@@ -37,4 +37,12 @@ describe('NavbarComponent', () => {
     component.toggleUserMenu();
     expect(component.userMenuOpen()).toBe(false);
   });
+
+  it('should render primary navigation links in exact order: Dashboard -> Explore -> My Decks -> Recent Quizzes', () => {
+    const fixture = TestBed.createComponent(NavbarComponent);
+    fixture.detectChanges();
+    const navLinks = fixture.nativeElement.querySelectorAll('nav.hidden.md\\:flex a');
+    const linkTexts = Array.from(navLinks).map((a: any) => a.textContent.trim());
+    expect(linkTexts).toEqual(['Dashboard', 'Explore', 'My Decks', 'Recent Quizzes']);
+  });
 });

@@ -34,6 +34,60 @@ export class RecentQuizzesComponent implements OnInit {
   readonly reviewQuizTitle = signal<string>('');
   readonly isLoadingResult = signal<boolean>(false);
 
+  // Pagination
+  readonly currentPage = signal<number>(1);
+  readonly pageSize = signal<number>(5);
+
+  readonly totalPages = computed(() => {
+    const total = Math.ceil(this.filteredAttempts().length / this.pageSize());
+    return total > 0 ? total : 1;
+  });
+
+  readonly paginatedAttempts = computed(() => {
+    const page = Math.min(this.currentPage(), this.totalPages());
+    const start = (page - 1) * this.pageSize();
+    return this.filteredAttempts().slice(start, start + this.pageSize());
+  });
+
+  readonly pageNumbers = computed(() => {
+    const total = this.totalPages();
+    const current = this.currentPage();
+    const pages: number[] = [];
+    const maxVisible = 5;
+    let startPage = Math.max(1, current - 2);
+    let endPage = Math.min(total, startPage + maxVisible - 1);
+    if (endPage - startPage + 1 < maxVisible) {
+      startPage = Math.max(1, endPage - maxVisible + 1);
+    }
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
+  });
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage() > 1) {
+      this.goToPage(this.currentPage() - 1);
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.goToPage(this.currentPage() + 1);
+    }
+  }
+
+  setStatusFilter(filter: 'all' | 'completed' | 'in_progress'): void {
+    this.selectedStatusFilter.set(filter);
+    this.currentPage.set(1);
+  }
+
   readonly filteredAttempts = computed(() => {
     const list = this.attempts();
     const query = this.searchQuery().toLowerCase().trim();

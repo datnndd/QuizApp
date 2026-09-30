@@ -89,4 +89,42 @@ describe('ExploreComponent', () => {
     expect(component.getAuthorName({} as any)).toBe('Staff Curator');
     expect(component.getAuthorInitial({} as any)).toBe('S');
   });
+
+  it('should paginate explore quizzes and reset page on category or search change', () => {
+    const fixture = TestBed.createComponent(ExploreComponent);
+    const component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    // Generate 14 sample quizzes
+    const sampleQuizzes: any[] = Array.from({ length: 14 }, (_, i) => ({
+      id: i + 1,
+      title: `Quiz ${i + 1}`,
+      description: `Description ${i + 1}`,
+      categoryId: i % 2 === 0 ? 1 : 2,
+      categoryName: i % 2 === 0 ? 'Science' : 'Art',
+      duration: 10,
+      questionCount: 5,
+      visibility: 1
+    }));
+    component.quizzes.set(sampleQuizzes);
+
+    expect(component.pageSize()).toBe(6);
+    expect(component.totalPages()).toBe(3); // 14 items / 6 = 3 pages
+    expect(component.paginatedQuizzes().length).toBe(6);
+    expect(component.paginatedQuizzes()[0].id).toBe(1);
+
+    // Go to next page
+    component.nextPage();
+    expect(component.currentPage()).toBe(2);
+    expect(component.paginatedQuizzes()[0].id).toBe(7);
+
+    // Go to last page
+    component.goToPage(3);
+    expect(component.currentPage()).toBe(3);
+    expect(component.paginatedQuizzes().length).toBe(2);
+
+    // Filtering category resets to page 1
+    component.selectCategory(1);
+    expect(component.currentPage()).toBe(1);
+  });
 });

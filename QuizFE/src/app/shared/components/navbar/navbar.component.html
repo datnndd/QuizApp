@@ -30,12 +30,6 @@
         Dashboard
       </a>
       <a
-        routerLink="/recent-quizzes"
-        routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
-        class="text-[#6b665f] hover:text-[#1e1b18] px-3.5 py-1.5 rounded-xl transition-all">
-        Recent Quizzes
-      </a>
-      <a
         routerLink="/explore"
         routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
         class="text-[#6b665f] hover:text-[#1e1b18] px-3.5 py-1.5 rounded-xl transition-all">
@@ -46,6 +40,12 @@
         routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
         class="text-[#6b665f] hover:text-[#1e1b18] px-3.5 py-1.5 rounded-xl transition-all">
         My Decks
+      </a>
+      <a
+        routerLink="/recent-quizzes"
+        routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
+        class="text-[#6b665f] hover:text-[#1e1b18] px-3.5 py-1.5 rounded-xl transition-all">
+        Recent Quizzes
       </a>
     </nav>
 
@@ -153,13 +153,6 @@
       Dashboard
     </a>
     <a
-      routerLink="/recent-quizzes"
-      (click)="mobileMenuOpen.set(false)"
-      routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
-      class="px-4 py-2 rounded-xl text-[#6b665f] hover:text-[#1e1b18]">
-      Recent Quizzes
-    </a>
-    <a
       routerLink="/explore"
       (click)="mobileMenuOpen.set(false)"
       routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
@@ -172,6 +165,13 @@
       routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
       class="px-4 py-2 rounded-xl text-[#6b665f] hover:text-[#1e1b18]">
       My Decks
+    </a>
+    <a
+      routerLink="/recent-quizzes"
+      (click)="mobileMenuOpen.set(false)"
+      routerLinkActive="bg-white border-2 border-[#272421] shadow-tactile-sm text-[#1e1b18]"
+      class="px-4 py-2 rounded-xl text-[#6b665f] hover:text-[#1e1b18]">
+      Recent Quizzes
     </a>
     <a
       routerLink="/settings"
