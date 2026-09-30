@@ -27,12 +27,12 @@ export class QuizService {
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.baseUrl}/categories`).pipe(
       catchError(() => of([
-        { id: 1, name: 'Science & Physics', description: 'Cosmology, mechanics, and physical laws' },
-        { id: 2, name: 'Technology & Web', description: 'Web runtimes, frameworks, and architecture' },
-        { id: 3, name: 'Geography & World', description: 'Capitals, flags, and geopolitical insights' },
-        { id: 4, name: 'Biology & Genetics', description: 'Cellular systems, RNA, and microbiology' },
-        { id: 5, name: 'Mathematics', description: 'Linear algebra, calculus, and discrete math' },
-        { id: 6, name: 'General Knowledge', description: 'Trivia, history, and active recall sprints' }
+        { id: 1, name: 'Mathematics', description: 'Algebra, calculus, and discrete mathematics' },
+        { id: 2, name: 'Science', description: 'Physics, chemistry, biology, and natural science' },
+        { id: 3, name: 'AI', description: 'Machine learning, deep learning, and neural networks' },
+        { id: 4, name: 'Programming', description: 'Modern C#, TypeScript, web runtimes, and engineering' },
+        { id: 5, name: 'English', description: 'Grammar, vocabulary, and linguistic analysis' },
+        { id: 6, name: 'History', description: 'Ancient civilizations, world milestones, and trade routes' }
       ]))
     );
   }

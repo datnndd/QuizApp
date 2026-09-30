@@ -9,7 +9,6 @@ import { MyDecksComponent } from './pages/my-decks/my-decks.component';
 import { QuizPlayerComponent } from './pages/quiz-player/quiz-player.component';
 import { EditQuizComponent } from './pages/edit-quiz/edit-quiz.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { AdminOverviewComponent } from './pages/admin/admin-overview.component';
 import { UserManagementComponent } from './pages/admin/user-management.component';
 import { AdminQuizManagementComponent } from './pages/admin/quiz-management.component';
 import { adminGuard } from './core/guards/admin.guard';
@@ -31,8 +30,8 @@ export const routes: Routes = [
     path: 'admin',
     canActivate: [adminGuard],
     children: [
-      { path: '', component: AdminOverviewComponent, pathMatch: 'full' },
-      { path: 'overview', redirectTo: '', pathMatch: 'full' },
+      { path: '', redirectTo: 'user-management', pathMatch: 'full' },
+      { path: 'overview', redirectTo: 'user-management', pathMatch: 'full' },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'quiz-management', component: AdminQuizManagementComponent },
       { path: 'quiz-and-deck-studio', redirectTo: 'quiz-management', pathMatch: 'full' }
