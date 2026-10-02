@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using QuizApi.Models;
@@ -21,7 +22,7 @@ namespace QuizApi.Services
                 ?? throw new InvalidOperationException("Jwt:Key is not configured.");
             var issuer = _configuration["Jwt:Issuer"] ?? "QuizApi";
             var audience = _configuration["Jwt:Audience"] ?? "QuizFE";
-            var expiryMinutes = int.TryParse(_configuration["Jwt:ExpiryMinutes"], out var mins) ? mins : 120;
+            var expiryMinutes = int.TryParse(_configuration["Jwt:ExpiryMinutes"], out var mins) ? mins : 15;
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -54,6 +55,24 @@ namespace QuizApi.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken(int userId)
+        {
+            var randomNumber = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            var tokenString = Convert.ToBase64String(randomNumber);
+
+            var expiryDays = int.TryParse(_configuration["Jwt:RefreshTokenExpiryDays"], out var days) ? days : 7;
+
+            return new RefreshToken
+            {
+                UserId = userId,
+                Token = tokenString,
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(expiryDays)
+            };
         }
     }
 }

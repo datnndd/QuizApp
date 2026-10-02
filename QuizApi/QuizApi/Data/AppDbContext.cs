@@ -17,6 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<QuizAttempt> QuizAttempts => Set<QuizAttempt>();
     public DbSet<QuizAttemptQuestion> QuizAttemptQuestions => Set<QuizAttemptQuestion>();
     public DbSet<UserAnswer> UserAnswers => Set<UserAnswer>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -165,6 +166,16 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .HasForeignKey(x => x.QuizAttemptQuestionId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(x => x.Answer).WithMany(x => x.UserAnswers)
                 .HasForeignKey(x => x.AnswerId).OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<RefreshToken>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Token).HasMaxLength(256).IsRequired();
+            entity.HasIndex(x => x.Token).IsUnique();
+            entity.HasIndex(x => x.UserId);
+            entity.HasOne(x => x.User).WithMany(x => x.RefreshTokens)
+                .HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

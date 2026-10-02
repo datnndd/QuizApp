@@ -70,10 +70,14 @@ namespace QuizApi.Services
 
             var roles = new List<string> { userRole.Name };
             var token = _jwtService.GenerateToken(user, roles, out var expiresIn);
+            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            _context.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync();
 
             return new AuthResponse
             {
                 AccessToken = token,
+                RefreshToken = refreshToken.Token,
                 TokenType = "Bearer",
                 ExpiresIn = expiresIn,
                 User = new UserInfoResponse
@@ -128,10 +132,14 @@ namespace QuizApi.Services
             }
 
             var token = _jwtService.GenerateToken(user, roles, out var expiresIn);
+            var refreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            _context.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync();
 
             return new AuthResponse
             {
                 AccessToken = token,
+                RefreshToken = refreshToken.Token,
                 TokenType = "Bearer",
                 ExpiresIn = expiresIn,
                 User = new UserInfoResponse
@@ -147,6 +155,100 @@ namespace QuizApi.Services
                     Roles = roles
                 }
             };
+        }
+
+        public async Task<AuthResponse> RefreshTokenAsync(string refreshToken)
+        {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                throw new UnauthorizedAccessException("Refresh token is required.");
+            }
+
+            var tokenEntity = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                    .ThenInclude(u => u.UserRoles)
+                        .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (tokenEntity == null)
+            {
+                throw new UnauthorizedAccessException("Invalid refresh token.");
+            }
+
+            if (tokenEntity.IsRevoked)
+            {
+                throw new UnauthorizedAccessException("Refresh token has been revoked.");
+            }
+
+            if (tokenEntity.IsExpired)
+            {
+                throw new UnauthorizedAccessException("Refresh token has expired.");
+            }
+
+            var user = tokenEntity.User;
+            if (user == null || !user.IsActive || user.IsDeleted)
+            {
+                throw new UnauthorizedAccessException("This account has been disabled. Please contact the system administrator.");
+            }
+
+            // Rotate: revoke the old token and create a new one
+            var newRefreshToken = _jwtService.GenerateRefreshToken(user.Id);
+            tokenEntity.RevokedAt = DateTime.UtcNow;
+            tokenEntity.ReplacedByToken = newRefreshToken.Token;
+
+            _context.RefreshTokens.Add(newRefreshToken);
+
+            var roles = user.UserRoles
+                .Where(ur => ur.Role != null && ur.Role.IsActive)
+                .Select(ur => ur.Role!.Name)
+                .Distinct()
+                .ToList();
+
+            if (!roles.Any())
+            {
+                roles.Add("User");
+            }
+
+            var accessToken = _jwtService.GenerateToken(user, roles, out var expiresIn);
+
+            await _context.SaveChangesAsync();
+
+            return new AuthResponse
+            {
+                AccessToken = accessToken,
+                RefreshToken = newRefreshToken.Token,
+                TokenType = "Bearer",
+                ExpiresIn = expiresIn,
+                User = new UserInfoResponse
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    DisplayName = user.DisplayName,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    PhoneNumber = user.PhoneNumber,
+                    Avatar = user.Avatar,
+                    Roles = roles
+                }
+            };
+        }
+
+        public async Task RevokeTokenAsync(string refreshToken)
+        {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                return;
+            }
+
+            var tokenEntity = await _context.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+
+            if (tokenEntity != null && tokenEntity.IsActive)
+            {
+                tokenEntity.RevokedAt = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<UserInfoResponse?> GetUserInfoAsync(int userId)

@@ -41,5 +41,8 @@ namespace QuizApi.Models
 
         public ICollection<QuizAttempt> QuizAttempts { get; set; }
             = new List<QuizAttempt>();
+
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
+            = new List<RefreshToken>();
     }
 }

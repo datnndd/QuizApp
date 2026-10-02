@@ -10,18 +10,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   let authReq = req;
   if (token && req.url.startsWith(environment.apiUrl)) {
-    authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    authReq = authService.addTokenHeader(req, token);
   }
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && !req.url.includes('/auth/login') && !req.url.includes('/auth/register')) {
-        authService.logout();
+      const isAuthEndpoint =
+        req.url.includes('/auth/login') ||
+        req.url.includes('/auth/register') ||
+        req.url.includes('/auth/refresh') ||
+        req.url.includes('/auth/revoke');
+
+      if (error.status === 401 && !isAuthEndpoint) {
+        return authService.handle401(req, next);
       }
+
       return throwError(() => error);
     })
   );

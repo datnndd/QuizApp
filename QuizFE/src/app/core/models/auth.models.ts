@@ -12,6 +12,7 @@ export interface UserInfo {
 
 export interface AuthResponse {
   accessToken: string;
+  refreshToken: string;
   tokenType: string;
   expiresIn: number;
   user: UserInfo;
@@ -31,6 +32,14 @@ export interface RegisterRequest {
   phoneNumber?: string | null;
 }
 
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+export interface RevokeTokenRequest {
+  refreshToken: string;
+}
+
 export interface UpdateProfileRequest {
   firstName: string;
   lastName: string;
@@ -40,4 +49,3 @@ export interface UpdateProfileRequest {
   currentPassword?: string | null;
   newPassword?: string | null;
 }
-

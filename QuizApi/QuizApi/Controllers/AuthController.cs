@@ -55,6 +55,37 @@ namespace QuizApi.Controllers
             }
         }
 
+        [HttpPost("refresh")]
+        public async Task<ActionResult<AuthResponse>> Refresh([FromBody] RefreshTokenRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var response = await _authService.RefreshTokenAsync(request.RefreshToken);
+                return Ok(response);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("revoke")]
+        public async Task<IActionResult> Revoke([FromBody] RevokeTokenRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await _authService.RevokeTokenAsync(request.RefreshToken);
+            return Ok(new { message = "Token revoked successfully." });
+        }
+
         [Authorize]
         [HttpGet("me")]
         public async Task<ActionResult<UserInfoResponse>> GetCurrentUser()
